@@ -150,7 +150,7 @@ Ext.define ('WebRTC.data.proxy.SocketIO', {
         //make sure we're connected
         if(!this.socket){
             //this is a namespaced socket
-            me.socket = io.connect(location.origin + me.url);
+            me.socket = io.connect(me.url);
             me.setupSocketPush(operation);
         }
 

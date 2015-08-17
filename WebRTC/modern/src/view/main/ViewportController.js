@@ -139,7 +139,7 @@ Ext.define('WebRTC.view.main.ViewportController', {
         var me=this;
         //get the global TokBox session
          Ext.Ajax.request({
-            url: '/data/global/',
+            url: 'http://senchartcdemo.herokuapp.com/data/global/',
             params: {
                 role: 'publisher',
                 name: me.getViewModel().get('name')
@@ -150,7 +150,7 @@ Ext.define('WebRTC.view.main.ViewportController', {
             }
         });
         Ext.Ajax.request({
-            url: '/data/token/1_MX40NTI1NDI2Mn5-MTQzMzk1NTY3NDMyMn5Xd0FpdUFYSEdFaVUwaVY4M3ZTS3RyT2p-UH4',
+            url: 'http://senchartcdemo.herokuapp.com/data/token/1_MX40NTI1NDI2Mn5-MTQzMzk1NTY3NDMyMn5Xd0FpdUFYSEdFaVUwaVY4M3ZTS3RyT2p-UH4',
             params: {
                 role: 'publisher',
                 name: me.getViewModel().get('name')

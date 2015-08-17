@@ -117,7 +117,7 @@ Ext.define('WebRTC.controller.OpenTok', {
 
     getConnectionToken: function(session, sessionId, name){
         Ext.Ajax.request({
-            url: '/data/token/' + sessionId,
+            url: 'http://senchartcdemo.herokuapp.com/data/token/' + sessionId,
             params: {
                 role: 'publisher',
                 name: name
@@ -397,7 +397,7 @@ Ext.define('WebRTC.controller.OpenTok', {
 
         //get the global TokBox session
         Ext.Ajax.request({
-            url: '/data/global/',
+            url: 'http://senchartcdemo.herokuapp.com/data/global/',
             params: {
                 role: 'publisher',
                 name: controller.getViewModel().get('name')
@@ -409,7 +409,7 @@ Ext.define('WebRTC.controller.OpenTok', {
         });
 
         Ext.Ajax.request({
-            url: '/data/token/1_MX40NTI1NDI2Mn5-MTQzMzk1NTY3NDMyMn5Xd0FpdUFYSEdFaVUwaVY4M3ZTS3RyT2p-UH4',
+            url: 'http://senchartcdemo.herokuapp.com/data/token/1_MX40NTI1NDI2Mn5-MTQzMzk1NTY3NDMyMn5Xd0FpdUFYSEdFaVUwaVY4M3ZTS3RyT2p-UH4',
             params: {
                 role: 'publisher',
                 name: controller.getViewModel().get('name')

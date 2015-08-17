@@ -67,15 +67,16 @@ Ext.define('WebRTC.view.chat.RoomModel', {
             }
         },
         isWebRTCSupported: function(get){
-            if (Ext.browser.is.Safari  || Ext.browser.is.IE ) {
-                return false;
-            }else{
-                if ( !!window.webkitRTCPeerConnection || !!window.mozRTCPeerConnection ) {
-                    return true;
-                }else{
-                    return false;
-                }
-            }
+            return true;
+            // if (Ext.browser.is.Safari  || Ext.browser.is.IE ) {
+            //     return false;
+            // }else{
+            //     if ( !!window.webkitRTCPeerConnection || !!window.mozRTCPeerConnection ) {
+            //         return true;
+            //     }else{
+            //         return false;
+            //     }
+            // }
 
         }
     }

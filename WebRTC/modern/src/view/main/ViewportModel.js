@@ -15,7 +15,7 @@ Ext.define('WebRTC.view.main.ViewportModel', {
             sorters: 'name',
             proxy: {
                 type: 'socketio',
-                url : '/rooms',
+                url : 'http://senchartcdemo.herokuapp.com/rooms',
                 extraParams: '{getAuthToken}',
                 apiEvents: {
                     read: 'child_added',

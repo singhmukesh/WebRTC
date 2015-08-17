@@ -32,7 +32,7 @@ Ext.define('WebRTC.model.chat.Room', {
     ],
     proxy: {
         type: 'socketio',
-        url : '/rooms',
+        url : 'http://senchartcdemo.herokuapp.com/rooms',
         apiEvents: {
             read: 'child_added',
             update: 'child_changed',

@@ -57,7 +57,7 @@ Ext.define('WebRTC.model.chat.Message', {
     proxy: {
         // type: 'memory',
         type: 'socketio',
-        url : '/messages',
+        url : 'http://senchartcdemo.herokuapp.com/messages',
         extraParams: {
             room: null
         },

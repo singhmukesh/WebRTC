@@ -23,7 +23,7 @@ Ext.define('WebRTC.model.AdminSettings', {
 
     proxy: {
         type: 'rest',
-        url : '/config',
+        url : 'http://senchartcdemo.herokuapp.com/config',
         reader: {
             type: 'json',
             rootProperty: 'data'
