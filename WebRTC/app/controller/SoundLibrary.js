@@ -13,6 +13,12 @@ Ext.define('WebRTC.controller.SoundLibrary', {
     },
 
     listen: {
+        store: {
+            '#Settings': {
+                load: 'onSettingsLoad'
+            }
+        },
+
         controller: {
             '*': {
                    playsound: 'onPlaysound'
@@ -25,15 +31,22 @@ Ext.define('WebRTC.controller.SoundLibrary', {
         }
     },
 
-    init: function(){
-        var sound = this._getSoundById('chat-sound');
+    onSettingsLoad: function(){
+        var sounds = Ext.getStore('Sounds'),
+            sound;
 
-        Ext.onReady(function(){
+        if(sounds.isLoaded()) {
+            sound = this._getSoundById('chat-sound');
+            
             Ext.create('WebRTC.SoundLibrary', {
                 itemId: 'soundlibrary',
-                data: sound
-            });
-        });
+                data: sound ? sound.data : undefined,
+                renderTo: Ext.getBody()
+            });            
+        } else {
+            sounds.on('load', this.onSettingsLoad, this, {single: true});
+        }
+
 
     },
 
