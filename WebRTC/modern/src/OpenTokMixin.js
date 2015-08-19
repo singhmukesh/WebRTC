@@ -43,6 +43,8 @@ Ext.define('WebRTC.OpenTokMixin', {
 
 
     onOTStreamCreated: function (event) {
+console.log(event, arguments)
+
         var OT = WebRTC.app.getController('WebRTC.controller.OpenTok'),
             session = OT.getSessionById(event.target.sessionId),
             room = this.getRoomBySessionId(event.target.sessionId),
