@@ -540,7 +540,7 @@
             "packager": "cordova",
             "cordova": {
                 "config": {
-                   "platforms": "ios",
+                   "platforms": "ios android",
                    "id": "com.sencha.WebRTC"
                 }
             }
