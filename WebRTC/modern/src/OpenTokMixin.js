@@ -7,6 +7,7 @@ Ext.define('WebRTC.OpenTokMixin', {
         }
     },
 
+
     getRoomBySessionId: function(sessionId){
         var room = this.getView().child('chatroom[sessionId="' + sessionId + '"]');
         return room;
@@ -16,9 +17,9 @@ Ext.define('WebRTC.OpenTokMixin', {
         return 'stream' + streamId.replace(/-/g,'');
     },
 
-    onOTConnectionCreated: function(event){
+    onOTConnectionCreated: function(event, session){
         var data = event.connection.data,
-            sessionId = event.target.sessionId,
+            sessionId = session.sessionId,
             room = this.getRoomBySessionId(sessionId),
             chunks = data.split('='),
             name = chunks[1];
@@ -33,21 +34,21 @@ Ext.define('WebRTC.OpenTokMixin', {
         }
     },
 
-    onOTConnectionDestroyed: function(event){
+    onOTConnectionDestroyed: function(event, session){      
         var id = event.connection.connectionId,
-            room = this.getRoomBySessionId(event.target.sessionId);
+            sessionId = session.sessionId,
+            room = this.getRoomBySessionId(sessionId);
 
         room.getController().roomMemberRemove(id);
     },
 
 
 
-    onOTStreamCreated: function (event) {
-console.log(event, arguments)
-
+    onOTStreamCreated: function (event, session) {
         var OT = WebRTC.app.getController('WebRTC.controller.OpenTok'),
-            session = OT.getSessionById(event.target.sessionId),
-            room = this.getRoomBySessionId(event.target.sessionId),
+            sessionId = session.sessionId,
+            session = OT.getSessionById(sessionId),
+            room = this.getRoomBySessionId(sessionId),
             remotestreams = room.down('#remotestreams'),
             them = room.down('#them');
 
@@ -58,14 +59,14 @@ console.log(event, arguments)
         var newly = remotestreams.add({
             xtype: 'panel',
             bodyPadding: 3,
-            itemId: this.getSafeStreamCmpId(event.stream.id),
-            html:'<div id="' + event.stream.id + '"></div>',
+            itemId: this.getSafeStreamCmpId(event.stream.streamId),
+            html:'<div id="' + event.stream.streamId + '"></div>',
             flex: 1,
             minHeight: 250,
             maxWidth: 400
         });
 
-        var subscription = session.subscribe(event.stream, event.stream.id , {
+        var subscription = session.subscribe(event.stream, event.stream.streamId , {
             /// insertMode: 'append',
             style: {
                 audioLevelDisplayMode: 'auto'
@@ -84,11 +85,12 @@ console.log(event, arguments)
 
     },
 
-    onOTStreamDestroyed: function (event) {
+    onOTStreamDestroyed: function (event, session) {
         var OT = WebRTC.app.getController('WebRTC.controller.OpenTok'),
-            session = OT.getSessionById(event.target.sessionId),
-            deadCmp = this.getView().down('#' + this.getSafeStreamCmpId(event.stream.id)),
-            room = this.getRoomBySessionId(event.target.sessionId),
+            sessionId = session.sessionId,
+            session = OT.getSessionById(sessionId),
+            deadCmp = this.getView().down('#' + this.getSafeStreamCmpId(event.stream.streamId)),
+            room = this.getRoomBySessionId(sessionId),
             remotestreams =  this.getView().down('#remotestreams');
 
         if(deadCmp){
@@ -99,7 +101,7 @@ console.log(event, arguments)
         }
 
         // find the subscription and remove it.
-        var index = session.localSubscriptions.map(function(e) { return e.id; }).indexOf(event.stream.id);
+        var index = session.localSubscriptions.map(function(e) { return e.id; }).indexOf(event.stream.streamId);
         if(index || index == 0 ){
             session.localSubscriptions.splice(index, 1);
         }
@@ -108,11 +110,12 @@ console.log(event, arguments)
 
     onOTSessionConnected: function(event){},
 
-    onOTSessionDestroyed: function(event){
-        var type = event.type;
+    onOTSessionDestroyed: function(event, session){
+        var type = event.type,
+            sessionId = session.sessionId;
 
         if(type == 'sessionDisconnected'){
-            var room = this.getRoomBySessionId(event.target.sessionId);
+            var room = this.getRoomBySessionId(sessionId);
 
             if(room){
                 room.getController().roomMemberRemove(id);
@@ -130,8 +133,9 @@ console.log(event, arguments)
 
     },
 
-    onOTChatReceived: function(event){
-        var room = this.getRoomBySessionId(event.target.sessionId);
+    onOTChatReceived: function(event, session){
+        var sessionId = session.sessionId,
+            room = this.getRoomBySessionId(sessionId);
         room.getController().chatReceived(event.data.chat);
     }
 

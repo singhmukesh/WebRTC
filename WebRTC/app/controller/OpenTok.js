@@ -54,15 +54,15 @@ Ext.define('WebRTC.controller.OpenTok', {
             'signal:chat': Ext.bind(me.onChatReceived,me),
             archiveStarted: Ext.bind(me.onArchiveStarted,me),
             archiveStopped: Ext.bind(me.onArchiveStopped,me),
-            connectionCreated: Ext.bind(me.onConnectionCreated,me),
+            connectionCreated: Ext.bind(me.onConnectionCreated,me, [session], true),
             connectionDestroyed: function connectionDestroyedHandler (event) {
-                me.fireEvent('connectiondestroyed',event);
+                me.fireEvent('connectiondestroyed',event, session);
             },
-            streamCreated: Ext.bind(me.onStreamCreated,me),
-            streamDestroyed: Ext.bind(me.onStreamDestroyed,me),
-            sessionConnected: Ext.bind(me.onSessionConnected,me),
+            streamCreated: Ext.bind(me.onStreamCreated,me, [session], true),
+            streamDestroyed: Ext.bind(me.onStreamDestroyed,me, [session], true),
+            sessionConnected: Ext.bind(me.onSessionConnected,me, [session], true),
             sessionDisconnected: function sessionDisconnectHandler(event) {
-                me.fireEvent('sessiondisconnect',event);
+                me.fireEvent('sessiondisconnect',event, session);
             }
         });
     },
@@ -109,8 +109,8 @@ Ext.define('WebRTC.controller.OpenTok', {
 
     },
 
-    onSessionConnected: function(event) {
-        this.fireEvent('sessionconnected',event);
+    onSessionConnected: function(event, session) {
+        this.fireEvent('sessionconnected',event, session);
     },
 
 
@@ -134,18 +134,16 @@ Ext.define('WebRTC.controller.OpenTok', {
         });
     },
 
-    onConnectionCreated: function(event) {
-       this.fireEvent('connectioncreated',event);
+    onConnectionCreated: function(event, session) {
+        this.fireEvent('connectioncreated', event, session);
     },
 
-
-
-    onStreamCreated: function(event) {
-        this.fireEvent('streamcreated',event);
+    onStreamCreated: function(event, session) {
+        this.fireEvent('streamcreated', event, session);
     },
 
-    onStreamDestroyed: function(event) {
-        this.fireEvent('streamdestroyed',event);
+    onStreamDestroyed: function(event, session) {
+        this.fireEvent('streamdestroyed', event, session);
     },
 
 
@@ -181,13 +179,13 @@ Ext.define('WebRTC.controller.OpenTok', {
         }
     },
 
-    onChatReceived: function (event) {
+    onChatReceived: function (event, session) {
         var from = event.from.connectionId,
-            session = this.getSessionById(event.target.sessionId),
+            // session = this.getSessionById(session.sessionId),
             myself = session.connection.connectionId;
 
         if(from != myself){
-            this.fireEvent('chatreceived',event);
+            this.fireEvent('chatreceived',event, session);
         }
     },
 
