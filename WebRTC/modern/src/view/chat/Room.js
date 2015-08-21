@@ -116,7 +116,10 @@ Ext.define('WebRTC.view.chat.Room', {
                             collapsable: true,
                             xtype: 'chatmembers',
                             iconCls: 'x-fa fa-group fa-lg',
-                            flex: 1
+                            flex: 1,
+                            bind:{
+                                store: '{members}'
+                            }
                         }, {
                             title: 'Files',
                             hidden: true,
