@@ -51,7 +51,7 @@ Ext.define('WebRTC.controller.OpenTok', {
     bindSessionEvents: function(session){
         var me = this;
         session.on({
-            'signal:chat': Ext.bind(me.onChatReceived,me),
+            'signal:chat': Ext.bind(me.onChatReceived,me, [session], true),
             archiveStarted: Ext.bind(me.onArchiveStarted,me),
             archiveStopped: Ext.bind(me.onArchiveStopped,me),
             connectionCreated: Ext.bind(me.onConnectionCreated,me, [session], true),
