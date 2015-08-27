@@ -52,75 +52,77 @@ Ext.define('WebRTC.view.chat.Room', {
                     items: [
                         {
                             items:[
-                            {
-                                style: 'display: block; background-color:#eeeeee; background-image: url(https://static.opentok.com/webrtc/v2.6.0/images/rtc/audioonly-silhouette.svg); background-position: center bottom; background-repeat: no-repeat; background-size: auto 76%;',
-                                xtype: 'container',
-                                layout: 'fit',
-                                minHeight: 180,
-                                bind:{
-                                    hidden: '{!isWebRTCSupported}'
+                                {
+                                    style: 'display: block; background-color:#eeeeee; background-image: url(https://static.opentok.com/webrtc/v2.6.0/images/rtc/audioonly-silhouette.svg); background-position: center bottom; background-repeat: no-repeat; background-size: auto 76%;',
+                                    xtype: 'container',
+                                    layout: 'fit',
+                                    minHeight: 180,
+                                    bind:{
+                                        hidden: '{!isWebRTCSupported}'
+                                    },
+                                    reference: 'you'
                                 },
-                                reference: 'you'
-                            },{
-                                xtype: 'toolbar',
-                                docked: 'bottom',
-                                bind:{
-                                    hidden: '{!isWebRTCSupported}'
-                                },
-                                items: [
-                                    {
-                                        bind: {
-                                            disabled: '{inVideoCall}',
-                                            iconCls: '{audioCallIcon}'
-                                        },
-                                        listeners: {
-                                            tap: 'onAudioCallRoom'
-                                        }
+                                {
+                                    xtype: 'toolbar',
+                                    docked: 'bottom',
+                                    bind:{
+                                        hidden: '{!isWebRTCSupported}'
                                     },
-                                    {
-                                        bind: {
-                                            disabled: '{inAudioCall}',
-                                            iconCls: '{videoCallIcon}'
+                                    items: [
+                                        {
+                                            bind: {
+                                                disabled: '{inVideoCall}',
+                                                iconCls: '{audioCallIcon}'
+                                            },
+                                            listeners: {
+                                                tap: 'onAudioCallRoom'
+                                            }
                                         },
-                                        listeners: {
-                                            tap: 'onVideoCallRoom'
-                                        }
-                                    },
-                                    {
-                                        xtype: 'spacer'
-                                    },
-                                    {
-                                        iconCls: 'x-fa fa-eye',
-                                        bind: {
-                                            disabled: '{!inVideoCall}',
-                                            iconCls: '{videoToggleIcon}'
+                                        {
+                                            bind: {
+                                                disabled: '{inAudioCall}',
+                                                iconCls: '{videoCallIcon}'
+                                            },
+                                            listeners: {
+                                                tap: 'onVideoCallRoom'
+                                            }
                                         },
-                                        listeners: {
-                                            tap: 'onPublishVideoToggle'
-                                        }
-                                    }, {
-                                        iconCls: 'x-fa fa-microphone',
-                                        bind: {
-                                            disabled: '{isMicDisabled}',
-                                            iconCls: '{audioToggleIcon}'
+                                        {
+                                            xtype: 'spacer'
                                         },
-                                        listeners: {
-                                            tap: 'onPublishAudioToggle'
+                                        {
+                                            iconCls: 'x-fa fa-eye',
+                                            bind: {
+                                                disabled: '{!inVideoCall}',
+                                                iconCls: '{videoToggleIcon}'
+                                            },
+                                            listeners: {
+                                                tap: 'onPublishVideoToggle'
+                                            }
+                                        }, {
+                                            iconCls: 'x-fa fa-microphone',
+                                            bind: {
+                                                disabled: '{isMicDisabled}',
+                                                iconCls: '{audioToggleIcon}'
+                                            },
+                                            listeners: {
+                                                tap: 'onPublishAudioToggle'
+                                            }
                                         }
-                                    }
-                                ]
-                            }],
+                                    ]
+                                }
+                            ],
                             bodyPadding: 6
-                        }, {
-                            title: 'Members',
-                            collapsable: true,
+                        },
+                        {
                             xtype: 'chatmembers',
                             iconCls: 'x-fa fa-group fa-lg',
                             flex: 1,
                             bind:{
                                 store: '{members}'
                             }
-                        }, {
+                        },
+                        {
                             title: 'Files',
                             hidden: true,
                             reference: 'chatfiles',

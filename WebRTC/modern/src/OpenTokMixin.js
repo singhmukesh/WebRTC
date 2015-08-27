@@ -62,8 +62,10 @@ Ext.define('WebRTC.OpenTokMixin', {
             itemId: this.getSafeStreamCmpId(event.stream.streamId),
             html:'<div id="' + event.stream.streamId + '"></div>',
             flex: 1,
-            minHeight: 250,
-            maxWidth: 400
+            height: 250,
+            width: 400
+            // minHeight: 250,
+            // maxWidth: 400
         });
 
         var subscription = session.subscribe(event.stream, event.stream.streamId , {
@@ -72,7 +74,7 @@ Ext.define('WebRTC.OpenTokMixin', {
                 audioLevelDisplayMode: 'auto'
                 //   backgroundImageURI : '/resources/images/BlankAvatar.png'
             },
-            // fitMode:'contain',
+            fitMode:'contain',
             width: '100%',
             height: 250,
             showControls: true

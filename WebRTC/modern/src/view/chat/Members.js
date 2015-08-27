@@ -11,5 +11,13 @@ Ext.define('WebRTC.view.chat.Members', {
         '<br/>',
         '</div>',
         '</tpl>'
+    ],
+
+    items: [
+        {
+            xtype: 'titlebar',
+            title: 'Members',
+            docked: 'top'
+        }
     ]
 });
