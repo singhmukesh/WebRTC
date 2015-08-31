@@ -178,10 +178,10 @@
         {
             "path": "app.js",
             "bundle": true
-        },{
-            //this is a remotely grabbed, locally cached tokbox WebRTC session management client library
-            "path": "opentok.js",
-            "remote": true
+        // },{
+        //     //this is a remotely grabbed, locally cached tokbox WebRTC session management client library
+        //     "path": "opentok.js",
+        //     "remote": true
         },{
             //this is a remotely grabbed, locally cached socket.io client library - fallback for chat if no webRTC Support
             "path": "http://cdn.socket.io/socket.io-1.3.6.js",

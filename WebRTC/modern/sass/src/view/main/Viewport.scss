@@ -1,0 +1,15 @@
+.rtc-opentok-logo {
+    &.x-button-icon {
+        text-align: center;
+        &:before {
+            content: ' ';
+            background: url(./images/TokBoxIcon.png) no-repeat;
+            background-size: 40px 40px;
+            height: 40px;
+            width: 40px;
+            position: absolute;
+            top: -8px;
+            left: -8px;
+        }    
+    }    
+}

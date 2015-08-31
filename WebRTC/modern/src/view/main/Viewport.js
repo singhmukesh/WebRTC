@@ -79,8 +79,8 @@ Ext.define('WebRTC.view.main.Viewport', {
                         hidden: '{isAdmin}'
                     },
                     handler: 'onSettingsAdminSelect'
-                },{
-                    style:'background-image: url(/static/images/TokBoxIcon.png) !important; background-size: 29px 29px; background-repeat: no-repeat; ',
+                },{                    
+                    iconCls: 'rtc-opentok-logo',
                     xtype: 'button',
                     plain: true,
                     listeners: {

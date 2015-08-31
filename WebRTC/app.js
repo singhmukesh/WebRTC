@@ -10,5 +10,5 @@ Ext.application({
     extend: 'WebRTC.Application',
     requires: ['WebRTC.*'],
     mainView: 'WebRTC.view.main.Viewport'
-});
 
+});
