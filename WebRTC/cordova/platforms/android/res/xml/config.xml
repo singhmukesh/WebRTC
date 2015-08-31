@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.sencha.WebRTC" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="webView" value="org.crosswalk.engine.XWalkWebViewEngine" />
+    <feature name="OpenTokPlugin">
+        <param name="android-package" value="me.aoberoi.cordova.opentokjs.OpenTokPlugin" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <allow-intent href="market:*" />
+    <name>WebRTC</name>
+    <description>
+        WebRTC modern native Example
+    </description>
+    <author email="mfierro@sencha.com" href="http://senchartcdemo.herokuapp.com">
+        Maximiliano Fierro
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <preference name="deployment-target" value="8.0" />
+    <preference name="orientation" value="landscape" />
+    <preference name="OpentokClientVersion" value="v2" />
+</widget>
