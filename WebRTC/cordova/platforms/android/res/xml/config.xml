@@ -12,6 +12,7 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
+    <preference name="Orientation" value="sensorLandscape" />
     <allow-intent href="market:*" />
     <name>WebRTC</name>
     <description>
@@ -28,7 +29,5 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <preference name="deployment-target" value="8.0" />
-    <preference name="orientation" value="landscape" />
     <preference name="OpentokClientVersion" value="v2.6.5" />
 </widget>
