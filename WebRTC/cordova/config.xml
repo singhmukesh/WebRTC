@@ -18,7 +18,7 @@
     <allow-intent href="geo:*" />
     <preference name="deployment-target" value="8.0" />
     <preference name="orientation" value="landscape" />
-    <preference name="OpentokClientVersion" value="v2" />
+    <preference name="OpentokClientVersion" value="v2.6.5" />
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
