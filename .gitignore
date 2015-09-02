@@ -3,3 +3,6 @@
 /build
 node_modules/
 local-*
+
+# Remote packages
+WebRTC/packages/local/theme-material

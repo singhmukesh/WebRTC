@@ -522,7 +522,7 @@
         },
         "material-classic": {
             "toolkit": "classic",
-            "theme": "theme-material-classic"
+            "theme": "theme-material"
         },
 
         "modern": {
