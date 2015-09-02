@@ -3,6 +3,9 @@
 node_modules/
 local-*
 
+# config
+server-config.json
+
 # sencha
 /build
 bootstrap.*
