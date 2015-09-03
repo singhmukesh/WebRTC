@@ -55,9 +55,7 @@
      *      ]
      */
     "requires": [
-        "font-awesome",
-        "ux",
-        "classic-media"
+        "font-awesome"
     ],
 
     /**
@@ -536,7 +534,8 @@
 
         "modern": {
             "toolkit": "modern",
-            "theme": "theme-triton",
+            // "theme": "theme-material-modern",
+            "theme": "theme-neptune",
             "packager": "cordova",
             "cordova": {
                 "config": {

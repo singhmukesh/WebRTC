@@ -430,21 +430,21 @@ Ext.define('WebRTC.view.main.ViewportController', {
     },
 
     onLogoClick: function(record){
-        var me = this,
-            navView = me.getView(),
-            form = {
-                title: 'About',
-                iconCls: 'x-fa fa-info-circle fa-lg',
-                layout: 'fit',
-                items: {
-                    xtype: 'panel',
-                    html: '<a href="http://www.sencha.com/services/" target="_blank" ><img src="/resources/images/About.png" border=0 ></a> ',
-                    border: false
+        // var me = this,
+        //     navView = me.getView(),
+        //     form = {
+        //         title: 'About',
+        //         iconCls: 'x-fa fa-info-circle fa-lg',
+        //         layout: 'fit',
+        //         items: {
+        //             xtype: 'panel',
+        //             html: '<a href="http://www.sencha.com/services/" target="_blank" ><img src="/resources/images/About.png" border=0 ></a> ',
+        //             border: false
 
-                }
-            };
+        //         }
+        //     };
 
-        navView.push(form);
+        // navView.push(form);
     }
 
 });

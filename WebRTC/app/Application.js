@@ -36,18 +36,11 @@ Ext.define('WebRTC.Application', {
     }
 }, function() {
     function registerGlobals() {
-        console.log('registerGlobals')
         if (window.device.platform === 'iOS') {
-            console.log(window.device.platform);
            cordova.plugins.iosrtc.registerGlobals();
            window.OT = cordova.require('cordova-plugin-opentokjs.OpenTokClient');
-           console.log(window.OT);
-         }        
+        }
     }
     document.addEventListener('deviceready', registerGlobals, false);
 
 });
-
-
-
-

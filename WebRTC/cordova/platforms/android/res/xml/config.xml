@@ -12,7 +12,6 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
-    <preference name="Orientation" value="sensorLandscape" />
     <allow-intent href="market:*" />
     <name>WebRTC</name>
     <description>
