@@ -430,21 +430,27 @@ Ext.define('WebRTC.view.main.ViewportController', {
     },
 
     onLogoClick: function(record){
-        // var me = this,
-        //     navView = me.getView(),
-        //     form = {
-        //         title: 'About',
-        //         iconCls: 'x-fa fa-info-circle fa-lg',
-        //         layout: 'fit',
-        //         items: {
-        //             xtype: 'panel',
-        //             html: '<a href="http://www.sencha.com/services/" target="_blank" ><img src="/resources/images/About.png" border=0 ></a> ',
-        //             border: false
+        var me = this,
+            navView = me.getView(),
+            form = {
+                    xtype: 'panel',
+                    title: 'About',
+                    items: [
+                        {
+                            xtype: 'image',
+                            src: './resources/images/About.png',
+                            height: '100%',
+                            width: '100%',
+                            listeners: {
+                                tap: function () {
+                                    cordova.InAppBrowser.open('http://www.sencha.com/services/', '_blank');
+                                }
+                            }
+                        }
+                    ]
+            };
 
-        //         }
-        //     };
-
-        // navView.push(form);
+        navView.push(form);
     }
 
 });

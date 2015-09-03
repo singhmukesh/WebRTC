@@ -24,6 +24,9 @@
     <feature name="Device">
         <param name="ios-package" value="CDVDevice" />
     </feature>
+    <feature name="InAppBrowser">
+        <param name="ios-package" value="CDVInAppBrowser" />
+    </feature>
     <preference name="Orientation" value="all" />
     <preference name="deployment-target" value="8.0" />
     <allow-intent href="itms:*" />

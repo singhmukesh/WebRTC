@@ -66,6 +66,7 @@
 		F1F2816334094B16A36A15E2 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44BF835A2FC7429797268C40 /* CoreVideo.framework */; };
 		F928ACC2B400457580705CE2 /* libWebRTC-LATEST-Universal-Release.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6DE89C467248A880893F38 /* libWebRTC-LATEST-Universal-Release.a */; };
 		D9ED68BD1ADF4DEBA8A9789C /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFA993D0304618891A30A3 /* CDVDevice.m */; };
+		B9DEC328E05C478D8D6D4796 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6E0ABBA6574919AAAA023D /* CDVInAppBrowser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,6 +185,8 @@
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = WebRTC/config.xml; sourceTree = "<group>"; };
 		94EFA993D0304618891A30A3 /* CDVDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVDevice.m"; path = "cordova-plugin-device/CDVDevice.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		5C9C930BB1454718B6F96866 /* CDVDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVDevice.h"; path = "cordova-plugin-device/CDVDevice.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		6A6E0ABBA6574919AAAA023D /* CDVInAppBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVInAppBrowser.m"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		C9C4F89A142346EB947F20D4 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVInAppBrowser.h"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -350,6 +353,8 @@
 				547E618323D74882931F5F9A /* OpenTokPlugin.m */,
 				94EFA993D0304618891A30A3 /* CDVDevice.m */,
 				5C9C930BB1454718B6F96866 /* CDVDevice.h */,
+				6A6E0ABBA6574919AAAA023D /* CDVInAppBrowser.m */,
+				C9C4F89A142346EB947F20D4 /* CDVInAppBrowser.h */,
 			);
 			name = Plugins;
 			path = WebRTC/Plugins;
@@ -548,6 +553,7 @@
 				31C93DBF89ED42E5A889E365 /* PluginMediaStreamRenderer.swift in Sources */,
 				BAE906FEA6A841EFBA221A42 /* OpenTokPlugin.m in Sources */,
 				D9ED68BD1ADF4DEBA8A9789C /* CDVDevice.m in Sources */,
+				B9DEC328E05C478D8D6D4796 /* CDVInAppBrowser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

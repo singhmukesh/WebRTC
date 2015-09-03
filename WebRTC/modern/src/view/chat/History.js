@@ -44,13 +44,23 @@ Ext.define('WebRTC.view.chat.History', {
                             url = 'http://'+match;
                         }
 
-                        return '<a href='+url+' target="_blank">'+match+'</a>'
+                        return '<span class="link" data-href='+url+'>'+match+'</span>'
                     }
 
                     return message.replace(matcher, anchorTag);
                 }
             }
-        ]
+        ],
+        listeners: {
+            itemtap: function (list, index, target, record, e, eOpts) {
+                if (e.target.className === 'link') {
+                    url = e.target.dataset['href'];
+                    if (url) {
+                        cordova.InAppBrowser.open(url, '_blank');
+                    }
+                }
+            }
+        }
     },{
             xtype: 'toolbar',
             docked: 'bottom',
