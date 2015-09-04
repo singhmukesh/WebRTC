@@ -3,6 +3,9 @@
 node_modules/
 local-*
 
+# mac
+.DS_Store
+
 # config
 server-config.json
 
