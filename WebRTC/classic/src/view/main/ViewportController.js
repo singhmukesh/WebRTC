@@ -276,8 +276,8 @@ console.log(arguments);
         if (!tab) {
             room = {
                 xtype: 'chatroom',
-                closable: true,
-                iconCls: 'x-fa fa-comments',
+                //closable: true,
+                //iconCls: 'x-fa fa-comments',
                 roomId: id,
                 flex: 1
             };

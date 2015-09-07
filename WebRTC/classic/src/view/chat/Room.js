@@ -2,6 +2,8 @@ Ext.define('WebRTC.view.chat.Room', {
     extend: 'Ext.Panel',
     xtype: 'chatroom',
 
+    ui: 'card',
+
     layout: {
         type: 'box',
         vertical: true,
@@ -14,8 +16,22 @@ Ext.define('WebRTC.view.chat.Room', {
         type: 'chatroom'
     },
 
-    bind : {
-        title : '{room.name}'
+    header : {
+        ui: 'plain',
+        bind: {
+            title : '{room.name}'
+        },
+        items: [
+            //'->',
+            {
+                xtype: 'button',
+                iconCls: 'md-settings',
+                //bind:{
+                //    text: '{name}'
+                //},
+                //handler: 'onSettingsUserSelect'
+            }
+        ]
     },
 
     items: [
@@ -36,11 +52,12 @@ Ext.define('WebRTC.view.chat.Room', {
                     flex: 4,
                     bodyPadding: 6,
                     items: [
+                        //{
+                        //    xtype: 'chatinfo',
+                        //    bodyPadding: 6,
+                        //    hidden: false
+                        //},
                         {
-                            xtype: 'chatinfo',
-                            bodyPadding: 6,
-                            hidden: false
-                        }, {
                             xtype: 'chathistory',
                             reference: 'chathistory',
                             flex: 2

@@ -118,7 +118,8 @@ Ext.define('WebRTC.view.main.Viewport', {
                     columns: [
                         {
                             xtype: 'templatecolumn',
-                            tpl: '{name}'
+                            tpl: '{name}',
+                            flex: 1
                         }
                     ],
                     listeners: {
@@ -129,7 +130,9 @@ Ext.define('WebRTC.view.main.Viewport', {
         },
         {
             xtype: 'container',
+            ui: 'material-card-background',
             reference: 'roomtabs',
+            padding: '0 32 32 32',
             flex: 1,
             layout: 'card'
         }

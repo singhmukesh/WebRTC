@@ -16,18 +16,18 @@ Ext.define('soundlibrary.controller.SoundLibrary', {
         soundLibrary: '#soundlibrary'
     },
 
-    listen: {
-        controller: {
-            '*': {
-                   playsound: 'onPlaysound'
-            },
-            component:{
-                '*':{
-                    playsound: 'onPlaysound'
-                }
-            }
-        }
-    },
+    //listen: {
+    //    controller: {
+    //        '*': {
+    //               playsound: 'onPlaysound'
+    //        },
+    //        component:{
+    //            '*':{
+    //                playsound: 'onPlaysound'
+    //            }
+    //        }
+    //    }
+    //},
 
     init: function(){
         var sound = this._getSoundById('chat-sound');
