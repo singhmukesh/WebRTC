@@ -21,12 +21,6 @@ Ext.define('WebRTC.view.main.Viewport', {
         type: 'mainviewport'
     },
 
-    flex: 1,
-    layout: {
-        type: 'hbox',
-        align: 'stretch'
-    },
-
     tbar: {
         height: 64,
         items: [
@@ -98,55 +92,95 @@ Ext.define('WebRTC.view.main.Viewport', {
         ]
     },
 
+    layout: {
+        type: 'hbox',
+        align: 'stretch'
+    },
 
     items: [
         {
-        flex: 1,
-        hidden: true, // todo: not implemented
-        layout: {
-            type: 'vbox',
-            align: 'stretch'
-        },
-        items:[
-            {
-                xtype: 'tabpanel',
-                flex:3,
-                deferredRender: true,
-                items:[
+            xtype: 'panel',
+            width: 350,
+            tbar: [
                 {
-                    title: 'Rooms',
-                    xtype: 'chatrooms',
-                    iconCls: 'x-fa fa-home',
-                    flex: 1,
-                    reference: 'homerooms'
-                },{
-                    title: 'Users',
-                    xtype: 'chatmembers',
-                    reference: 'homeusers',
-                    hidden: true,
-                    iconCls: 'x-fa fa-home',
-                    flex: 1
-                }]
-            },
-            {
-                xtype: 'tabpanel',
-                flex:1,
-                items:[{
-                    title: '1:1 Chat',
-                    xtype: 'chatmembers',
-                    reference: 'privateusers',
-                    iconCls: 'x-fa fa-shield',
-                    flex: 1
-                }]
-            }
-        ]
-    },
+                    text: 'Add'
+                }
+            ],
+            layout: 'fit',
+            items: [
+                {
+                    xtype: 'grid',
+                    reference: 'roomslist',
+                    //width: 350,
+                    //flex: 1,
+                    padding: '32 0 0 32',
+                    bind: '{rooms}',
+                    columns: [
+                        {
+                            xtype: 'templatecolumn',
+                            tpl: '{name}'
+                        }
+                    ],
+                    listeners: {
+                        rowclick: 'onRoomSelect'
+                    }
+                }
+            ]
+        },
         {
-            xtype: 'tabpanel',
-            tabPosition: 'bottom',
+            xtype: 'container',
             reference: 'roomtabs',
-            flex:4,
-            items:[]
+            flex: 1,
+            layout: 'card'
         }
+
+        //{
+        //    flex: 1,
+        //    hidden: true, // todo: not implemented
+        //    layout: {
+        //        type: 'vbox',
+        //        align: 'stretch'
+        //    },
+        //    items:[
+        //        {
+        //            xtype: 'tabpanel',
+        //            flex:3,
+        //            deferredRender: true,
+        //            items:[
+        //            {
+        //                title: 'Rooms',
+        //                xtype: 'chatrooms',
+        //                iconCls: 'x-fa fa-home',
+        //                flex: 1,
+        //                reference: 'homerooms'
+        //            },{
+        //                title: 'Users',
+        //                xtype: 'chatmembers',
+        //                reference: 'homeusers',
+        //                hidden: true,
+        //                iconCls: 'x-fa fa-home',
+        //                flex: 1
+        //            }]
+        //        },
+        //        {
+        //            xtype: 'tabpanel',
+        //            flex:1,
+        //            items:[{
+        //                title: '1:1 Chat',
+        //                xtype: 'chatmembers',
+        //                reference: 'privateusers',
+        //                iconCls: 'x-fa fa-shield',
+        //                flex: 1
+        //            }]
+        //        }
+        //    ]
+        //},
+        //{
+        //    xtype: 'tabpanel',
+        //    tabPosition: 'bottom',
+        //    reference: 'roomtabs',
+        //    flex:4,
+        //    items:[]
+        //}
     ]
 });

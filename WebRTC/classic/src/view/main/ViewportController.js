@@ -261,7 +261,7 @@ Ext.define('WebRTC.view.main.ViewportController', {
     },
 
     onRoomSelect: function(view,record){
-
+console.log(arguments);
         if(!record) return false;
 
         var me = this,
@@ -528,17 +528,17 @@ Ext.define('WebRTC.view.main.ViewportController', {
 
     onRouteRoom: function(id){
         var me = this,
-            combo = me.lookupReference('roomscombo');
+            roomsList = me.lookupReference('roomslist');
 
         //since the server pushes us rooms the using callback on load doesn't work
         //a defer seems to work fine for now
         Ext.Function.defer(function(){
-            var record = combo.store.getById(id);
+            var record = roomsList.store.getById(id);
 
             if(record){
-                combo.select(record);
-                //not sure why this event isn't getting fired
-                combo.fireEvent('select',combo,record);
+                //roomsList.select(record);
+                ////not sure why this event isn't getting fired
+                //combo.fireEvent('select',combo,record);
             }else{
                 Ext.toast({
                     html: 'We could not find the room provided.',
