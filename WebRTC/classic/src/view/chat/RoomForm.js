@@ -2,7 +2,7 @@ Ext.define('WebRTC.view.chat.RoomForm', {
     extend: 'Ext.form.Panel',
     xtype: 'chatroomform',
 
-    bodyPadding: 10,
+    bodyPadding: '0 24 24 24',
     autoScroll: true,
 
     defaultFocus: 'textfield [name=name]',
@@ -13,20 +13,20 @@ Ext.define('WebRTC.view.chat.RoomForm', {
     },
 
     items: [
-        {
-            xtype: 'fieldset',
-            title: 'Info',
-            defaults:{
-                anchor: '100%'
-            },
-            items: [
+        //{
+        //    xtype: 'fieldset',
+        //    //title: 'Info',
+        //    defaults:{
+        //        anchor: '100%'
+        //    },
+        //    items: [
                 {
                     xtype:'hiddenfield',
                     name: 'id',
                     bind: '{theRoom.id}'
                 },{
                     xtype:'textfield',
-                    fieldLabel: 'Room Name',
+                    fieldLabel: 'Room name',
                     name: 'name',
                     bind: '{theRoom.name}'
                 },
@@ -39,41 +39,43 @@ Ext.define('WebRTC.view.chat.RoomForm', {
                     inputValue: true
                 },{
                     xtype:'textfield',
-                    fieldLabel: 'Room Password',
+                    fieldLabel: 'Room password',
                     name: 'password',
                     bind: {
                         value: '{theRoom.password}',
                         hidden: '{!theRoom.isPrivate}'
                     }
                 }
-            ]
-        },{
-            xtype:'textfield',
-            fieldLabel: 'OpenTok SessionId',
-            name: 'sessionId',
-            disabled: true,
-            bind: {
-                value: '{theRoom.id}',
-                hidden: '{!theRoom.id}'
-            }
-        }
+            //]
+        //},{
+        //    xtype:'textfield',
+        //    fieldLabel: 'OpenTok SessionId',
+        //    name: 'sessionId',
+        //    disabled: true,
+        //    bind: {
+        //        value: '{theRoom.id}',
+        //        hidden: '{!theRoom.id}'
+        //    }
+        //}
     ],
 
-    bbar:[
-        {
-            iconCls: 'x-fa fa-thumbs-o-down',
-            action:'cancel',
-            hidden: true,
-            text:'Cancel'
-        }
-        ,'->',
-        {
-            iconCls: 'x-fa fa-thumbs-o-up',
-            reference: 'okButton',
-            action:'ok',
-            formBind: true,
-            text:'OK'
-        }
-    ]
+    bbar: {
+        ui: 'plain',
+        items: [
+            '->',
+            {
+                //iconCls: 'x-fa fa-thumbs-o-down',
+                action:'cancel',
+                text:'Cancel'
+            },
+            {
+                //iconCls: 'x-fa fa-thumbs-o-up',
+                reference: 'okButton',
+                action:'ok',
+                formBind: true,
+                text:'Add'
+            }
+        ]
+    }
 
 });

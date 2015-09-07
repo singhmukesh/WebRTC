@@ -6,7 +6,10 @@
 Ext.application({
     name: 'WebRTC',
     extend: 'WebRTC.Application',
-    requires: ['WebRTC.*'],
+    requires: [
+        'WebRTC.*',
+        'Material.override.button.Button' // for some reason this is not picked up automatically
+    ],
     mainView: 'WebRTC.view.main.Viewport'
 });
 

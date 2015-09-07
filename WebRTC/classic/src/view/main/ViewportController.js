@@ -197,12 +197,11 @@ Ext.define('WebRTC.view.main.ViewportController', {
 
     onRoomAdd: function(){
         Ext.create('Ext.window.Window', {
-            title: 'Add Room',
-            iconCls: 'x-fa fa-plus-square fa-lg',
-            height: 400,
-            width: 800,
+            title: 'Add room',
+            height: 300,
+            width: 400,
             layout: 'fit',
-            resizable: true,
+            //resizable: true,
             modal: true,
             viewModel:{
                 data:{
