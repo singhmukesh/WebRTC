@@ -53,23 +53,27 @@ Ext.define('WebRTC.view.chat.RoomController', {
             name = me.getView().parent.getViewModel().get('name'),
             roomId = me.getViewModel().get('id'),
             sessionId = this.getViewModel().get('room.sessionId'),
-            message = me.lookupReference('chattext');
+            message = me.lookupReference('chattext'),
+            text = message.getValue();
 
-        chat = Ext.create('WebRTC.model.chat.Message',{
-            message: message.getValue(),
-            roomid: roomId,
-            mine: true,
-            from: name,
-            date: timestamp
-        });
+        if (text) {
+            chat = Ext.create('WebRTC.model.chat.Message',{
+                message: text,
+                roomid: roomId,
+                mine: true,
+                from: name,
+                date: timestamp
+            });
 
-        message.focus(false,200);
-        message.setValue('');
+            // message.focus(false, 200);
+            message.setValue('');
 
-        store.add(chat);
-        // list.scrollBy(0, 999999, true);
+            store.add(chat);
+            // list.scrollBy(0, 999999, true);
 
-        me.fireEvent('chatmessage', sessionId, chat.data);
+            me.fireEvent('chatmessage', sessionId, chat.data);            
+        }
+
     },
 
 

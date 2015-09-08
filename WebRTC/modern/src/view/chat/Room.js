@@ -18,23 +18,23 @@ Ext.define('WebRTC.view.chat.Room', {
         {
             layout: {
                 type: 'hbox',
-                vertical: false,
                 align: 'stretch'
             },
-            flex:3,
+            flex: 3,
             items:[
                 {
                     layout: {
-                        type: 'box',
-                        orient: 'vertical',
+                        type: 'vbox',
+                        // orient: 'vertical',
                         align: 'stretch'
                     },
-                    flex: 4,
+                    flex: 1,
                     items: [
                         {
                             xtype: 'chatinfo',
                             hidden: true
-                        }, {
+                        }, 
+                        {
                             xtype: 'chathistory',
                             reference: 'chathistory',
                             flex: 2
@@ -42,13 +42,10 @@ Ext.define('WebRTC.view.chat.Room', {
                     ]
                 },
                 {
-                    hidden: false,
                     layout: {
-                        type: 'box',
-                        orient: 'vertical',
+                        type: 'vbox',
                         align: 'stretch'
                     },
-                    flex: 1.5,
                     items: [
                         {
                             items:[
@@ -111,24 +108,18 @@ Ext.define('WebRTC.view.chat.Room', {
                                         }
                                     ]
                                 }
-                            ],
-                            bodyPadding: 6
+                            ]
+                        },
+                        {
+                            xtype: 'titlebar',
+                            title: 'Members'
                         },
                         {
                             xtype: 'chatmembers',
-                            iconCls: 'x-fa fa-group fa-lg',
                             flex: 1,
                             bind:{
                                 store: '{members}'
                             }
-                        },
-                        {
-                            title: 'Files',
-                            hidden: true,
-                            reference: 'chatfiles',
-                            // xtype: 'chatattachments',
-                            iconCls: 'x-fa fa-paperclip',
-                            flex: 1
                         }
                     ]
                 }

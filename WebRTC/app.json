@@ -532,18 +532,29 @@
         //     "theme": "theme-triton"
         // },
 
-        "modern": {
+        "ios": {
             "toolkit": "modern",
-            // "theme": "theme-material-modern",
+            "theme": "theme-cupertino",
+            "packager": "cordova",
+            "cordova": {
+                "config": {
+                   "platforms": "ios",
+                   "id": "com.sencha.WebRTC"
+                }
+            }
+        },
+        "android": {
+            "toolkit": "modern",
             "theme": "theme-neptune",
             "packager": "cordova",
             "cordova": {
                 "config": {
-                   "platforms": "ios android",
+                   "platforms": "android",
                    "id": "com.sencha.WebRTC"
                 }
             }
         }        
+
     },
     
 
