@@ -62,6 +62,8 @@ Ext.define('WebRTC.view.chat.History', {
                     flex:1,
                     name:'text',
                     reference: 'chattext',
+                    autoComplete: false,
+                    autoCorrect: false,
                     listeners: {
                         specialkey: 'onSpecialKey'
                     }

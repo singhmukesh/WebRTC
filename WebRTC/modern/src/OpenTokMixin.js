@@ -62,8 +62,8 @@ Ext.define('WebRTC.OpenTokMixin', {
             itemId: this.getSafeStreamCmpId(event.stream.streamId),
             html:'<div id="' + event.stream.streamId + '"></div>',
             flex: 1,
-            // height: 250,
-            // width: 400
+            // height: '100%',
+            // width: '100%'
             minHeight: 250,
             maxWidth: 400
         });
@@ -84,6 +84,8 @@ Ext.define('WebRTC.OpenTokMixin', {
             // height: 250,
             showControls: true
         });
+
+        subscription.restrictFrameRate(true);
 
         // put all the subsriptions into an array for us to walk-through and manipulate if needed
         // for example when changing rooms, mute all...

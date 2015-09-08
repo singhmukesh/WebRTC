@@ -195,19 +195,23 @@ Ext.define('WebRTC.controller.OpenTok', {
         //If opentok supported and session is valid then use WebRTC signals
         if (OT.checkSystemRequirements() == 1) {
             var me = this,
-                session = me.getSessionById(params.sessionId);
+                session = me.getSessionById(params.sessionId),
+                el = Ext.get(params.element);
 
             //can only publish one video per room
             if (!session.localPublisher) {
 
                 session.localPublisher = OT.initPublisher(params.element, {
                     insertMode: 'append',
-                    // fitMode:'contain',
-                    // width: '100%',
-                    // height: '100%',
+                    fitMode:'contain',
+                    width: el ? el.getWidth() : 180,
+                    height: el ? el.getHeight() : 200,
                     publishAudio: true,
                     publishVideo: params.video,
-                    showControls: false
+                    showControls: false,
+                    // -- Best Practices Doc
+                    resolution: '320x240',
+                    frameRate: 7
                 });
 
 

@@ -17,7 +17,8 @@ Ext.define('WebRTC.view.main.Viewport', {
     requires: [
         'Ext.Toolbar',
         'Ext.MessageBox',
-        'Ext.Menu'
+        'Ext.Menu',
+        'Ext.Toast'
     ],
 
     // useTitleForBackButtonText: true,
