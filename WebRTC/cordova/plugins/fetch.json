@@ -18,9 +18,9 @@
     "cordova-plugin-crosswalk-webview": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-crosswalk-webview"
+            "id": "cordova-plugin-crosswalk-webview@latest"
         },
-        "is_top_level": false,
+        "is_top_level": true,
         "variables": {}
     },
     "cordova-plugin-iosrtc": {

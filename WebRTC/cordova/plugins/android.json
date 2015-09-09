@@ -51,9 +51,6 @@
         "cordova-plugin-crosswalk-webview": {
             "PACKAGE_NAME": "com.sencha.WebRTC"
         },
-        "cordova-plugin-iosrtc": {
-            "PACKAGE_NAME": "com.sencha.WebRTC"
-        },
         "cordova-plugin-opentokjs": {
             "PACKAGE_NAME": "com.sencha.WebRTC"
         },

@@ -34,6 +34,7 @@ module.exports.metadata =
     "cordova-plugin-opentokjs": "0.1.2",
     "cordova-plugin-device": "1.0.1",
     "cordova-plugin-inappbrowser": "1.0.1",
+    "cordova-plugin-crosswalk-webview": "1.2.0",
     "cordova-plugin-iosrtc": "1.4.5"
 }
 // BOTTOM OF METADATA
