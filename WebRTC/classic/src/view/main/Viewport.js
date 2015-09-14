@@ -28,13 +28,14 @@ Ext.define('WebRTC.view.main.Viewport', {
             ui: 'primary-toolbar'
         },
         items: [
-            {
-                iconCls: 'md-add',
-                plain: true,
-                listeners: {
-                    click: 'onRoomAdd'
-                }
-            },//{
+            //{
+            //    //iconCls: 'md-add',
+            //    plain: true,
+            //    html: '<i class="material-icons">add</i>',
+            //    listeners: {
+            //        click: 'onRoomAdd'
+            //    }
+            //},//{
             //    iconCls: 'x-fa fa-pencil',
             //    plain: true,
             //    bind:{
@@ -69,14 +70,16 @@ Ext.define('WebRTC.view.main.Viewport', {
             //}
             '->',
             {
-                iconCls: 'md-settings',
+                //iconCls: 'md-settings',
+                html: '<i class="material-icons">account_circle</i>',
                 //bind:{
                 //    text: '{name}'
                 //},
                 handler: 'onSettingsUserSelect'
             },
             {
-                iconCls: 'md-fullscreen',
+                //iconCls: 'md-fullscreen',
+                html: '<i class="material-icons">fullscreen</i>',
                 handler: 'onToggleFullScreen'
             },{
                 iconCls: 'x-fa fa-gear',
@@ -105,11 +108,19 @@ Ext.define('WebRTC.view.main.Viewport', {
         {
             xtype: 'panel',
             width: 350,
-            tbar: [
-                {
-                    text: 'Add'
-                }
-            ],
+            tbar: {
+                ui: 'primary',
+                height: 64,
+                defaults: {
+                    ui: 'primary-toolbar'
+                },
+                items: [
+                    '->',
+                    {
+                        html: '<i class="material-icons">edit</i>'
+                    }
+                ]
+            },
             layout: 'fit',
             items: [
                 {

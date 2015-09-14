@@ -28,12 +28,18 @@ Ext.define('WebRTC.view.chat.Room', {
             },
             '->',
             {
-                xtype: 'button',
-                iconCls: 'md-settings',
-                //bind:{
-                //    text: '{name}'
-                //},
-                //handler: 'onSettingsUserSelect'
+                html: '<i class="material-icons">call</i>'
+            },
+            {
+                html: '<i class="material-icons">videocam</i>'
+            },
+            {
+                html: '<i class="material-icons">visibility</i>',
+                disabled: true
+            },
+            {
+                html: '<i class="material-icons">mic</i>',
+                disabled: true
             }
         ]
     },
