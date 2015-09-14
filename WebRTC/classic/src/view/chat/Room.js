@@ -16,13 +16,17 @@ Ext.define('WebRTC.view.chat.Room', {
         type: 'chatroom'
     },
 
-    header : {
-        ui: 'plain',
-        bind: {
-            title : '{room.name}'
-        },
+    tbar : {
+        height: 64,
+        cls: 'material-bottom-border',
         items: [
-            //'->',
+            {
+                xtype: 'title',
+                bind: {
+                    text: '{room.name}'
+                }
+            },
+            '->',
             {
                 xtype: 'button',
                 iconCls: 'md-settings',
