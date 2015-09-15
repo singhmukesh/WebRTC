@@ -91,7 +91,8 @@ Ext.define('WebRTC.view.chat.Room', {
                                 xtype: 'container',
                                 layout: 'fit',
                                 minHeight: 180,
-                                reference: 'you'
+                                reference: 'you',
+                                //hidden: true
                             },
                             bind:{
                                 hidden: '{!isWebRTCSupported}'
@@ -143,9 +144,10 @@ Ext.define('WebRTC.view.chat.Room', {
                             //]
                         }, {
                             title: 'Members',
+                            cls: 'material-small-title',
                             collapsable: true,
                             xtype: 'chatmembers',
-                            iconCls: 'x-fa fa-group fa-lg',
+                            //iconCls: 'x-fa fa-group fa-lg',
                             flex: 1
                         }, {
                             title: 'Files',
