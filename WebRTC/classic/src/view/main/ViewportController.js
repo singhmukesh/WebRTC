@@ -312,7 +312,7 @@ console.log(arguments);
         tab.getController().roomMemberAdd(member);
         */
 
-        roomtabs.setActiveTab(tab);
+        //roomtabs.setActiveTab(tab);
 
     },
 

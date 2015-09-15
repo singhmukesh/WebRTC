@@ -8,6 +8,12 @@ Ext.define('WebRTC.view.chat.History', {
         vertical: true
     },
 
+    listeners: {
+        afterlayout: function () {
+            console.log('al');
+        }
+    },
+
     items: [
     {
         xtype: 'list',

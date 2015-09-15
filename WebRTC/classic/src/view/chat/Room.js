@@ -28,10 +28,12 @@ Ext.define('WebRTC.view.chat.Room', {
             },
             '->',
             {
-                html: '<i class="material-icons">call</i>'
+                html: '<i class="material-icons">call</i>',
+                handler: 'onAudioCallRoom'
             },
             {
-                html: '<i class="material-icons">videocam</i>'
+                html: '<i class="material-icons">videocam</i>',
+                handler: 'onVideoCallRoom'
             },
             {
                 html: '<i class="material-icons">visibility</i>',
@@ -59,8 +61,9 @@ Ext.define('WebRTC.view.chat.Room', {
                         vertical: true,
                         align: 'stretch'
                     },
-                    flex: 4,
-                    bodyPadding: 6,
+                    cls: 'material-right-seam',
+                    flex: 3,
+                    //bodyPadding: 6,
                     items: [
                         //{
                         //    xtype: 'chatinfo',
@@ -77,8 +80,7 @@ Ext.define('WebRTC.view.chat.Room', {
                 {
                     hidden: false,
                     layout: {
-                        type: 'box',
-                        vertical: true,
+                        type: 'vbox',
                         align: 'stretch'
                     },
                     flex: 1,
@@ -93,52 +95,52 @@ Ext.define('WebRTC.view.chat.Room', {
                             },
                             bind:{
                                 hidden: '{!isWebRTCSupported}'
-                            },
-                            bodyPadding: 6,
-                            bbar: [
-                                {
-                                    bind: {
-                                        disabled: '{inVideoCall}',
-                                        iconCls: '{audioCallIcon}'
-                                    },
-                                    tooltip: 'Toggle Audio Pubish',
-                                    listeners: {
-                                        click: 'onAudioCallRoom'
-                                    }
-                                },
-                                {
-                                    bind: {
-                                        disabled: '{inAudioCall}',
-                                        iconCls: '{videoCallIcon}'
-                                    },
-                                    tooltip: 'Toggle Video Pubish',
-                                    listeners: {
-                                        click: 'onVideoCallRoom'
-                                    }
-                                }
-                                , '->',
-                                {
-                                    iconCls: 'x-fa fa-eye',
-                                    tooltip: 'Toggle Camera',
-                                    bind: {
-                                        disabled: '{!inVideoCall}',
-                                        iconCls: '{videoToggleIcon}'
-                                    },
-                                    listeners: {
-                                        click: 'onPublishVideoToggle'
-                                    }
-                                }, {
-                                    iconCls: 'x-fa fa-microphone',
-                                    tooltip: 'Toggle Microphone',
-                                    bind: {
-                                        disabled: '{isMicDisabled}',
-                                        iconCls: '{audioToggleIcon}'
-                                    },
-                                    listeners: {
-                                        click: 'onPublishAudioToggle'
-                                    }
-                                }
-                            ]
+                            }
+                            //bodyPadding: 6,
+                            //bbar: [
+                            //    {
+                            //        bind: {
+                            //            disabled: '{inVideoCall}',
+                            //            iconCls: '{audioCallIcon}'
+                            //        },
+                            //        tooltip: 'Toggle Audio Pubish',
+                            //        listeners: {
+                            //            click: 'onAudioCallRoom'
+                            //        }
+                            //    },
+                            //    {
+                            //        bind: {
+                            //            disabled: '{inAudioCall}',
+                            //            iconCls: '{videoCallIcon}'
+                            //        },
+                            //        tooltip: 'Toggle Video Pubish',
+                            //        listeners: {
+                            //            click: 'onVideoCallRoom'
+                            //        }
+                            //    }
+                            //    , '->',
+                            //    {
+                            //        iconCls: 'x-fa fa-eye',
+                            //        tooltip: 'Toggle Camera',
+                            //        bind: {
+                            //            disabled: '{!inVideoCall}',
+                            //            iconCls: '{videoToggleIcon}'
+                            //        },
+                            //        listeners: {
+                            //            click: 'onPublishVideoToggle'
+                            //        }
+                            //    }, {
+                            //        iconCls: 'x-fa fa-microphone',
+                            //        tooltip: 'Toggle Microphone',
+                            //        bind: {
+                            //            disabled: '{isMicDisabled}',
+                            //            iconCls: '{audioToggleIcon}'
+                            //        },
+                            //        listeners: {
+                            //            click: 'onPublishAudioToggle'
+                            //        }
+                            //    }
+                            //]
                         }, {
                             title: 'Members',
                             collapsable: true,
