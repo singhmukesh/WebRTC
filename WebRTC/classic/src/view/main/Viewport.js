@@ -70,18 +70,19 @@ Ext.define('WebRTC.view.main.Viewport', {
             //}
             '->',
             {
+                //iconCls: 'md-fullscreen',
+                html: '<i class="material-icons">aspect_ratio</i>',
+                handler: 'onToggleFullScreen'
+            },
+            {
                 //iconCls: 'md-settings',
-                html: '<i class="material-icons">account_circle</i>',
+                html: '<i class="material-icons">account_box</i>',
                 //bind:{
                 //    text: '{name}'
                 //},
                 handler: 'onSettingsUserSelect'
             },
             {
-                //iconCls: 'md-fullscreen',
-                html: '<i class="material-icons">fullscreen</i>',
-                handler: 'onToggleFullScreen'
-            },{
                 iconCls: 'x-fa fa-gear',
                 bind:{
                     hidden: '{isAdmin}'
