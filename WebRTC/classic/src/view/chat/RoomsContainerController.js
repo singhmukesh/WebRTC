@@ -37,6 +37,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         }
     },
 
+
     //If there's no config info load the dialog
     onAdminSetup: function(){
         this.onSettingsAdminSelect();
@@ -44,11 +45,13 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
     //once the authentication system is up authenticate the user
     onAuthInit: function(){
-        this.fireEvent('authorize');
+       console.log('AuthInit');
+       this.fireEvent('authorize');
     },
 
     //something in the user data changed
     onAuthUserData: function(user){
+        console.log('user data changed');
         this.getViewModel().set('user', user);
         this.getViewModel().set('userid', user['id']);
         this.getViewModel().set('name', user['fn']);
@@ -68,12 +71,9 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
     //user was not logged in - so log them in
     onAuthIsLogout: function(){
-        this.fireEvent('authorize');
+       this.redirectTo('login');
+       // this.fireEvent('authorize');
     },
-
-
-
-
 
     onGearClick: function(){
         var me = this;
@@ -285,7 +285,15 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
     onRoomSelect: function(view,record){
 
-        if(!record) return false;
+        if(!record) return;
+
+        // must have name to continue.. get one.
+        if( this.getViewModel().get('name') == null ){
+            this.redirectTo('room/' + record.get('id'));
+            return;
+        }
+
+        if(!this.getViewModel().get('user')) return;
 
         var me = this,
             roomtabs = Ext.first('[reference=roomtabs]'),
@@ -293,14 +301,17 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             id = record.get('id'),
             tab = me.getRoomTabById(id),
             auth = WebRTC.app.getController('Auth'),
-            userId = auth.user['id'],
-            name = auth.user['fn'],
+            user = me.getViewModel().get('user'),
+            userId = user['id'],
+            name = user['fn'],
             membersRef = auth.firebaseRef.child('roommembers/' + id + '/' + userId),
             room;
+
 
         if(defaultContent)
             roomtabs.remove(defaultContent, true);
 
+        console.log('check permissions');
 
         //only add one
         if (!tab) {
@@ -313,6 +324,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             });
             // when I disconnect, remove this member
             membersRef.onDisconnect().remove();
+
 
 
             room = {
@@ -328,6 +340,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
                 // childPanel.getViewModel().getStore('members').getProxy().socket.emit('leave',sessionId)
                 me.fireEvent('closeroom',sessionId);
                 // remove member from room
+
                 auth.firebaseRef.child('roommembers/' + childPanel.getViewModel().get('room').get('id') + '/' + userId).remove();
 
                 roomtabs.remove(childPanel, true);
@@ -347,13 +360,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             me.fireEvent('joinroom', tab, record.data, name);
         }
 
-
-
-        // console.log('room/' + id);
-
         this.redirectTo('room/' + id);
-
-      //  roomtabs.setActiveTab(tab);
 
     },
 
@@ -418,7 +425,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
     /*
      * This is where we can create a token for sharing the room
      */
-    onShareRoom: function(){
+    /*onShareRoom: function(){
         Ext.Ajax.request({
             url     : '/data/jwtsign/' + qs.pwd,
 
@@ -432,7 +439,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
                 action.stop();
             }
         });
-    },
+    },*/
 
 
 
@@ -463,7 +470,14 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
     onUserClick : function(button){
         var auth = WebRTC.app.getController('Auth'),
-            user = auth.user;
+            user =  this.getViewModel().get('user'),
+            name = this.getViewModel().get('name'),
+            form;
+
+        if(!user){
+            this.redirectTo('login');
+            return;
+        }
 
         var window =  Ext.create('Ext.window.Window', {
             title: 'User',
