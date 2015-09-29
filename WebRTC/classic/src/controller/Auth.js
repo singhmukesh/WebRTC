@@ -286,7 +286,7 @@ Ext.define('WebRTC.controller.Auth', {
                 password: email
             }, function (error) {
                 if (error) {
-                    debugger;
+                    //debugger;
                     switch (error.code) {
                         case "INVALID_USER":
                             console.log("The specified user account does not exist.");
