@@ -268,13 +268,14 @@ Ext.define('WebRTC.controller.Auth', {
             var userId = user['id'],
                 email = user['email_userid'];
 
+            alert('delete temp user');
+            return;
             firebase.child('users/' + userId).remove();
             firebase.removeUser({
                 email: email,
                 password: email
             }, function (error) {
                 if (error) {
-                    //debugger;
                     switch (error.code) {
                         case "INVALID_USER":
                             console.log("The specified user account does not exist.");
@@ -423,6 +424,8 @@ Ext.define('WebRTC.controller.Auth', {
         var me = this,
             firebase = me.firebaseRef;
 
+        alert('deleting user');
+        return;
         if (data && firebase) {
             firebase.child('users/' + data.id).remove();
             firebase.removeUser({
