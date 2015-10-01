@@ -108,8 +108,10 @@ Ext.define('WebRTC.view.chat.RoomController', {
                 statusOrder: 60,
                 lastActivity: null
             });
+            you.show();
             this.fireEvent('callroom',  {sessionId: sessionId, element: you.id, video: true} );
         }else{
+            you.hide();
             this.onEndVideoCall(button);
         }
     },
@@ -124,8 +126,11 @@ Ext.define('WebRTC.view.chat.RoomController', {
         this.getViewModel().set('useCamera', true);
         this.getViewModel().set('useMic',true);
 
-        this.setMemberCallStatus({callStatus:'idle'});
-        this.setMemberCallStatus({micStatus:''});
+        this.setMemberCallStatus({
+            callStatus:'idle',
+            micStatus:''
+        });
+        // this.setMemberCallStatus({micStatus:''});
         auth.setPresenseStatus({
             status: 'online',
             statusOrder: 100,
@@ -145,8 +150,11 @@ Ext.define('WebRTC.view.chat.RoomController', {
         this.getViewModel().set('useCamera', true);
         this.getViewModel().set('useMic',true);
 
-        this.setMemberCallStatus({callStatus:'idle'});
-        this.setMemberCallStatus({micStatus:''});
+        this.setMemberCallStatus({
+            callStatus:'idle',
+            micStatus:''
+        });
+        // this.setMemberCallStatus({micStatus:''});
         auth.setPresenseStatus({
             status: 'online',
             statusOrder: 100,

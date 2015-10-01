@@ -18,7 +18,7 @@ Ext.define('opentok.controller.OpenTok', {
                 closeroom: 'onCloseRoom',
                 callroom: 'onCallRoom',
                 endcall: 'onUnpublish',
-                chatmessage: 'onChatEmit',
+                // chatmessage: 'onChatEmit',
                 showPublisherAudio: 'onShowAudio',
                 hidePublisherAudio: 'onHideAudio',
                 showPublisherVideo: 'onShowVideo',
@@ -62,7 +62,7 @@ Ext.define('opentok.controller.OpenTok', {
     bindSessionEvents: function(session){
         var me = this;
         session.on({
-            'signal:chat': Ext.bind(me.onChatReceived,me),
+            // 'signal:chat': Ext.bind(me.onChatReceived,me),
             archiveStarted: Ext.bind(me.onArchiveStarted,me),
             archiveStopped: Ext.bind(me.onArchiveStopped,me),
             connectionCreated: Ext.bind(me.onConnectionCreated,me),
@@ -80,7 +80,10 @@ Ext.define('opentok.controller.OpenTok', {
 
 
 
-    onSessionCreate: function(component, data, name){
+    onSessionCreate: function(component, room, user){
+
+        var name = user['fn'],
+            data = room['data'];
 
         if (OT.checkSystemRequirements() != 1) {
            // this.unmetRequirements();
@@ -216,8 +219,8 @@ Ext.define('opentok.controller.OpenTok', {
                 session.localPublisher = OT.initPublisher(params.element, {
                     insertMode: 'append',
                     // fitMode:'contain',
-                    // width: '100%',
-                    // height: '100%',
+                    width: '100%',
+                    height: '100%',
                     publishAudio: true,
                     publishVideo: params.video,
                     showControls: false
@@ -250,7 +253,7 @@ Ext.define('opentok.controller.OpenTok', {
     onUnpublish: function(sessionId, element){
         var me = this,
             session = me.getSessionById(sessionId);
-
+        console.log('end call recieved');
         if(session && session.localPublisher){
             session.unpublish(session.localPublisher);
             session.localPublisher = null;
@@ -302,7 +305,9 @@ Ext.define('opentok.controller.OpenTok', {
 
 
 
-    onResumeRoom: function(sessionId){
+    onResumeRoom: function(component, room, user){
+        var sessionId = room['data']['sessionId'];
+
         //If opentok supported and session is valid then use WebRTC signals
         if (OT.checkSystemRequirements() == 1) {
             var me = this,
@@ -332,7 +337,9 @@ Ext.define('opentok.controller.OpenTok', {
         }
     },
 
-    onPauseRoom: function(sessionId){
+    onPauseRoom: function(component, room, user){
+        var sessionId = room['data']['sessionId'];
+
         //If opentok supported and session is valid then use WebRTC signals
         if (OT.checkSystemRequirements() == 1) {
             var me = this,
@@ -364,7 +371,9 @@ Ext.define('opentok.controller.OpenTok', {
         }
     },
 
-    onCloseRoom: function(sessionId){
+    onCloseRoom: function(component, room, user){
+        var sessionId = room['data']['sessionId'];
+
         //If opentok supported and session is valid then use WebRTC signals
         if (OT.checkSystemRequirements() == 1) {
             //stop broadcasting if we were when we closed
