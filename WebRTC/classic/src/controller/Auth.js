@@ -267,8 +267,7 @@ Ext.define('WebRTC.controller.Auth', {
         if (user && user['isTemp']) {
             var userId = user['id'],
                 email = user['email_userid'];
-
-            alert('delete temp user');
+            alert('deleting user');
             return;
             firebase.child('users/' + userId).remove();
             firebase.removeUser({
@@ -561,7 +560,11 @@ Ext.define('WebRTC.controller.Auth', {
         if (me.user) {
             var id = me.user['id'],
                 usersRef = me.firebaseRef.child('users/' + id);
-            usersRef.update(status);
+            if(id == undefined || !id ){
+                alert('null user update!')
+            }else{
+                usersRef.update(status);
+            }
         }
     },
 
@@ -581,7 +584,7 @@ Ext.define('WebRTC.controller.Auth', {
             }
         }
 
-        if (id) {
+        if (!!id) {
 
             // Set the user cookie once when the app starts.
             firebase.child('/users/' + id).once("value",
@@ -589,7 +592,7 @@ Ext.define('WebRTC.controller.Auth', {
                     var user = snapshot.val(),
                         expires = new Date("October 13, 2095 11:13:00");
 
-                    if (user) {
+                    if (user && user['id']) {
                         Ext.util.Cookies.clear('user');
                         Ext.util.Cookies.set('user', JSON.stringify(user), expires);
 
@@ -598,6 +601,7 @@ Ext.define('WebRTC.controller.Auth', {
                             function (snapshot) {
                                 var user = snapshot.val();
                                 me.user = user;
+
                                 me.fireEvent('userData', user);
                                 me.startPresence(id);
 
@@ -606,7 +610,10 @@ Ext.define('WebRTC.controller.Auth', {
                             }
                         );
 
+                    }else{
+                        alert('User Info not found.')
                     }
+
                 }, function (errorObject) {
                     console.log("The read failed: " + errorObject.code);
                 }
