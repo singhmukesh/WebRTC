@@ -43,7 +43,6 @@ Ext.define('WebRTC.view.chat.MembersController', {
 
 
     onDblClick: function(list,record){
-        debugger;
         var auth = WebRTC.app.getController('Auth'),
             user = this.getViewModel().get('user'),
             member = record.get('id'),
