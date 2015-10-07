@@ -108,7 +108,7 @@ Ext.define('WebRTC.view.main.Viewport', {
     items: [
         {
             xtype: 'panel',
-            width: 350,
+            width: 300,
             tbar: {
                 ui: 'primary',
                 height: 64,
@@ -118,6 +118,7 @@ Ext.define('WebRTC.view.main.Viewport', {
                 items: [
                     {
                         xtype: 'title',
+                        cls: 'material-title-medium',
                         text: 'Rooms' // if rooms and private chat, use 'Open chats'
                     },
                     '->',
@@ -157,7 +158,7 @@ Ext.define('WebRTC.view.main.Viewport', {
             xtype: 'container',
             ui: 'material-card-background',
             reference: 'roomtabs',
-            padding: '0 32 32 32',
+            padding: '0 32 32 0',
             flex: 1,
             layout: 'card'
         }

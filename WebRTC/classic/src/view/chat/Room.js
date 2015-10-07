@@ -144,7 +144,7 @@ Ext.define('WebRTC.view.chat.Room', {
                             //]
                         }, {
                             title: 'Members',
-                            cls: 'material-small-title',
+                            cls: 'material-title-small',
                             collapsable: true,
                             xtype: 'chatmembers',
                             //iconCls: 'x-fa fa-group fa-lg',
