@@ -1,5 +1,12 @@
 {
     /**
+     *  An array of the paths to all the applications present in this workspace
+     */
+    "apps": [
+        "packages/local/theme-material/classic/examples/conference-manager"
+    ],
+
+    /**
      * This is the folder for build outputs in the workspace.
      */
     "build": {
