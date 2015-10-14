@@ -16,14 +16,15 @@ Ext.define('WebRTC.view.settings.UserController', {
             currentLeaveSound = settings.getById('leave-sound').get('value'),
             soundLeaveCombo = view.down('combo[name=leave-sound]'),
             currentLaunchRoom = settings.getById('launchroom').get('value'),
-            LaunchCombo = view.down('combo[name=launchroom]');
+            LaunchCombo = view.down('combo[name=launchroom]'),
+            currentVideoLayout = settings.getById('videolayout').get('value'),
+            videoLayout = this.lookupReference('videoLayout');
 
         soundChatCombo.setValue(currentChatSound);
         soundEnterCombo.setValue(currentEnterSound);
         soundLeaveCombo.setValue(currentLeaveSound);
-
         LaunchCombo.setValue(currentLaunchRoom);
-
+        videoLayout.setValue({ videolayout: currentVideoLayout });
     },
 
     signOut: function () {
@@ -74,6 +75,8 @@ Ext.define('WebRTC.view.settings.UserController', {
         key = 'launchroom';
         settings.getById(key).set('value', data[key]);
 
+        key = 'videolayout';
+        settings.getById(key).set('value', data[key]);
 
         view.up('window').close(); //TODO: Maybe settings.User has to be a window itself
     }   

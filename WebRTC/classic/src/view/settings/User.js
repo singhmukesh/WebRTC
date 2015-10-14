@@ -142,9 +142,9 @@ Ext.define('WebRTC.view.settings.User', {
                 }]
             }, {
                 title: 'Preferences',
+                defaultType: 'fieldset',
                 items: [
                     {
-                        xtype: 'fieldset',
                         title: 'Sounds',
                         defaults: {
                             anchor: '100%',
@@ -179,7 +179,6 @@ Ext.define('WebRTC.view.settings.User', {
                         ]
                     },
                     {
-                        xtype: 'fieldset',
                         title: 'Startup',
                         defaults: {
                             anchor: '100%',
@@ -196,8 +195,32 @@ Ext.define('WebRTC.view.settings.User', {
                             name: 'launchroom'
 
                         }]
+                    },
+                    {
+                        title: 'Video Meetings',
+                        defaults: {
+                            anchor: '100%',
+                            labelWidth: 180
+                        },
+                        items: [
+                            {
+                                xtype: 'radiogroup',
+                                reference: 'videoLayout',
+                                fieldLabel: 'Layout Focus',
+                                columns: 2,
+                                defaults: {
+                                    name: 'videolayout'
+                                },
+                                items: [{
+                                    boxLabel: 'Chat',
+                                    inputValue: 'chat'
+                                },{
+                                    boxLabel: 'Video Feeds',
+                                    inputValue: 'videofeeds'
+                                }]
+                            }
+                        ]
                     }
-
                 ]
             }, {
                 title: 'Security',

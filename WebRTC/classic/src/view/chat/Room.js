@@ -71,7 +71,7 @@ Ext.define('WebRTC.view.chat.Room', {
                                         disabled: '{inVideoCall}',
                                         iconCls: '{audioCallIcon}'
                                     },
-                                    tooltip: 'Toggle Audio Pubish',
+                                    tooltip: 'Toggle Audio Publish',
                                     listeners: {
                                         click: 'onAudioCallRoom'
                                     }
@@ -81,7 +81,7 @@ Ext.define('WebRTC.view.chat.Room', {
                                         disabled: '{inAudioCall}',
                                         iconCls: '{videoCallIcon}'
                                     },
-                                    tooltip: 'Toggle Video Pubish',
+                                    tooltip: 'Toggle Video Publish',
                                     listeners: {
                                         click: 'onVideoCallRoom'
                                     }
