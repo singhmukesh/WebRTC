@@ -68,9 +68,7 @@ Add your secret key and URL to your `server-config.json` file in the `adminsetti
 
 ### Step 3. Enable Firebase Email & Password authentication
 
-The last step to properly configure yout Firebase application, is to enable basic Email and Password authentication from
-
-the related Login & Auth section.
+The last step to properly configure yout Firebase application, is to enable basic Email and Password authentication from the related Login & Auth section.
 
 <img src="/WebRTC/resources/images/FirebaseAuth.png" border=0 width=600 />
 
