@@ -294,7 +294,8 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
 
     onUpdateCurrentSpeaker: function(){
         var me = this,
-            view = me.getView();
+            view = me.getView(),
+            tollerance = 0.4;
 
         /* If the user switch chat room the view is no longe available
          * so end its realated current speaker task. */
@@ -307,11 +308,11 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
         var remoteStreams = view.getRemoteStreams(),
             speaker = me.getCurrentSpeaker(),
             speakerBox = me.lookupReference('speakervideobox'),
-            partecipantBox = remoteStreams.down('container[username=' + speaker.get('name') + ']'),
+            partecipantBox = remoteStreams.down('container[username=' + speaker.user.get('name') + ']'),
             lastCurrentSpeaker = me.lastCurrentSpeaker,
             lastCurrentSpeakerBox;
 
-        if(speaker !== lastCurrentSpeaker) {
+        if((speaker.user !== lastCurrentSpeaker) && (speaker.audioLevel > tollerance)) {
 
             if (!partecipantBox) {
                 partecipantBox = view.getVideoBox();
@@ -330,8 +331,7 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             Ext.resumeLayouts();
             view.updateLayout();
 
-            me.lastCurrentSpeaker = speaker;
-
+            me.lastCurrentSpeaker = speaker.user;
         }
     },
 
@@ -364,6 +364,9 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             }
         }
 
-        return speaker;
+        return {
+            user: speaker,
+            audioLevel: higherAudioLevel
+        };
     }
 });
