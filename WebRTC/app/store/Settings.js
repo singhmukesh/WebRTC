@@ -11,7 +11,8 @@ Ext.define('WebRTC.store.Settings', {
             'launchroom': null,
             'chat-sound': 'notification',
             'enter-sound': 'IncomingSignal011',
-            'leave-sound': 'IncomingSignal012'
+            'leave-sound': 'IncomingSignal012',
+            'videolayout': 'chat'
         }
     },
 

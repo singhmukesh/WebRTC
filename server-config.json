@@ -5,7 +5,7 @@
     "logger": "default",
     "logAllCalls": false,
     "enableCompression": true,
-    "webRoot": "/public",
+    "webRoot": "/WebRTC",
     "devRoot": "/WebRTC",
     "enableSessions": false,
     "sessionSecret1": "123",
