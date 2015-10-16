@@ -2,7 +2,6 @@ Ext.define('WebRTC.view.chat.VideoWall', {
     extend: 'Ext.window.Window',
     xtype: 'chatvideowall',
     autoscroll: 'true',
-    itemId: 'remotestreams',
     bodyStyle: 'background-color: #cacaca;',
     layout: {
         type: 'column'
@@ -12,7 +11,7 @@ Ext.define('WebRTC.view.chat.VideoWall', {
     tbar:[{
         // This is experimental to see if we can pop out video wall.
         text:'pop',
-        hidden: true,
+        //hidden: true,
         handler:function(button){
             var me=this,
                 strWindowFeatures = "width=600,height=600,menubar=no,location=no,resizable=yes,scrollbars=yes,status=no",

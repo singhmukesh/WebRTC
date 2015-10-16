@@ -57,7 +57,7 @@ Ext.define('WebRTC.view.settings.UserController', {
             title: data['title'],
             tel_work: data['tel_work'],
             tel_cell: data['tel_cell'],
-            company: data['company'],
+            companany: data['company'],
             name: data['fn']
         });
 

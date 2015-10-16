@@ -14,7 +14,8 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
                 streamcreated : 'onOTStreamCreated',
                 streamdestroyed : 'onOTStreamDestroyed',
                 sessionconnected : 'onOTSessionConnected',
-                sessiondisconnect : 'onOTSessionDestroyed'
+                sessiondisconnect : 'onOTSessionDestroyed',
+                audiolevelupdate: 'onOTAudioLevelUpdate'
             },
             'auth':{
                 configure: 'onAdminSetup',
