@@ -16,7 +16,7 @@ Ext.define('WebRTC.view.main.ViewportController', {
 
     //something in the user data changed
     onAuthUserData: function(user){
-        console.log('user data changed');
+        WebRTC.util.Logger.log('user data changed');
         this.getViewModel().set('user', user);
         this.getViewModel().set('userid', user['id']);
         this.getViewModel().set('name', user['fn']);

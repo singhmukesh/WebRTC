@@ -7,6 +7,7 @@ Ext.define('opentok.controller.OpenTok', {
     alias: 'controller.opentok',
     id: 'opentok',
     requires:[
+        'Ext.util.TaskManager',
         'opentok.store.Sessions'
     ],
     listen: {
@@ -152,8 +153,6 @@ Ext.define('opentok.controller.OpenTok', {
        this.fireEvent('connectioncreated',event);
     },
 
-
-
     onStreamCreated: function(event) {
         this.fireEvent('streamcreated',event);
     },
@@ -161,8 +160,6 @@ Ext.define('opentok.controller.OpenTok', {
     onStreamDestroyed: function(event) {
         this.fireEvent('streamdestroyed',event);
     },
-
-
 
     onChatEmit: function(sessionId,chat){
         //If opentok supported and session is valid then use WebRTC signals
@@ -211,10 +208,18 @@ Ext.define('opentok.controller.OpenTok', {
         //If opentok supported and session is valid then use WebRTC signals
         if (OT.checkSystemRequirements() == 1) {
             var me = this,
-                session = me.getSessionById(params.sessionId);
+                session = me.getSessionById(params.sessionId),
+                movingAvg;
 
             //can only publish one video per room
             if (!session.localPublisher) {
+
+                // Start the Audio Level Broadcast
+                me.audioLevelTask = Ext.TaskManager.start({
+                    run: me.onAudioLevelTaskRun,
+                    scope: me,
+                    interval: 1000
+                });
 
                 session.localPublisher = OT.initPublisher(params.element, {
                     insertMode: 'append',
@@ -226,37 +231,51 @@ Ext.define('opentok.controller.OpenTok', {
                     showControls: false
                 });
 
-
-                /*var movingAvg = null;
-                 session.localPublisher.on('audioLevelUpdated', function(event) {
-                 if (movingAvg === null || movingAvg <= event.audioLevel) {
-                 movingAvg = event.audioLevel;
-                 } else {
-                 movingAvg = 0.7 * movingAvg + 0.3 * event.audioLevel;
-                 }
-
-                 // 1.5 scaling to map the -30 - 0 dBm range to [0,1]
-                 var logLevel = (Math.log(movingAvg) / Math.LN10) / 1.5 + 1;
-                 logLevel = Math.min(Math.max(logLevel, 0), 1);
-                 // console.log(logLevel);
-                 // document.getElementById('publisherMeter').value = logLevel;
-                 });*/
-
-
                 session.publish(session.localPublisher);
-                // session.localPublisher.publishVideo(params.video);
+
+                session.localPublisher.on('audioLevelUpdated', function(event) {
+
+                    window.a = session;
+
+                    if (!movingAvg || movingAvg <= event.audioLevel) {
+                        movingAvg = event.audioLevel;
+                    }
+                    else {
+                        movingAvg = 0.7 * movingAvg + 0.3 * event.audioLevel;
+                    }
+
+                    // 1.5 scaling to map the -30 - 0 dBm range to [0,1]
+                    var logLevel = (Math.log(movingAvg) / Math.LN10) / 1.5 + 1;
+                    logLevel = Math.min(Math.max(logLevel, 0), 1);
+
+                    if(me.broadcastAudioLevel){
+                        me.fireEvent('audiolevelupdate', session, logLevel);
+                        delete me.broadcastAudioLevel;
+                    }
+
+                });
             }
         }
     },
 
+    onAudioLevelTaskRun: function(){
+        this.broadcastAudioLevel = true;
+    },
 
     onUnpublish: function(sessionId, element){
         var me = this,
-            session = me.getSessionById(sessionId);
+            session = me.getSessionById(sessionId),
+            audioLevelTask = me.audioLevelTask;
+
         console.log('end call recieved');
         if(session && session.localPublisher){
             session.unpublish(session.localPublisher);
             session.localPublisher = null;
+
+            if(audioLevelTask){
+                Ext.TaskManager.stop(audioLevelTask);
+                delete me.audioLevelTask;
+            }
         }
 
     },

@@ -1,14 +1,20 @@
 Ext.define('WebRTC.view.chat.VideoWall', {
-    extend: 'Ext.window.Window',
+    extend: 'Ext.panel.Panel', //'Ext.window.Window'
     xtype: 'chatvideowall',
     autoscroll: 'true',
-    itemId: 'remotestreams',
-    bodyStyle: 'background-color: #cacaca;',
+    // constrainHeader: true,
+    // renderTo: Ext.getBody(),
+    hidden: true,
+    bodyCls: 'video-layout-remote-streams',
+    // bodyStyle: 'background-color: #cacaca;',
     layout: {
-        type: 'column'
+        type: 'hbox', //column
+        pack: 'center' //column
+
     },
-    closeAction: 'hide',
-    items: [],
+    // closeAction: 'hide',
+    items: []
+    /*
     tbar:[{
         // This is experimental to see if we can pop out video wall.
         text:'pop',
@@ -29,4 +35,5 @@ Ext.define('WebRTC.view.chat.VideoWall', {
 
         }
     }]
+    */
 });
