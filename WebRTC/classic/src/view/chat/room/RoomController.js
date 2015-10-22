@@ -286,7 +286,7 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
                 me.currentSpeakerTask = Ext.TaskManager.start({
                     run: me.onUpdateCurrentSpeaker,
                     scope: me,
-                    interval: 3000
+                    interval: 5000
                 });
             }
         }
