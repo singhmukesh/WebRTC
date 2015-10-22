@@ -1,10 +1,13 @@
-Ext.define('WebRTC.view.chat.RoomModel', {
+Ext.define('WebRTC.view.chat.room.RoomModel', {
     extend: 'Ext.app.ViewModel',
     alias: 'viewmodel.chatroom',
 
     data: {
         inAudioCall: false,
         inVideoCall: false,
+        isStreams: false,
+        showStreams: true,
+        showSelf: true,
         useMic: true,
         useCamera: true
     },
@@ -61,7 +64,7 @@ Ext.define('WebRTC.view.chat.RoomModel', {
             autoLoad: true,
             listeners: {
                 load: function () {
-                    //  console.log('roommembers loaded')
+                    //  WebRTC.util.Logger.log('roommembers loaded')
                 }
             }
         }
@@ -103,6 +106,41 @@ Ext.define('WebRTC.view.chat.RoomModel', {
                 return true;
             }
         },
+        isInCall: function (get) {
+            if (get('inVideoCall')) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        isShowingSelf: function (get) {
+            if (get('showSelf')) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        showSelfTooltip: function (get) {
+            if (get('showSelf')) {
+                return 'Hide You';
+            } else {
+                return 'Show You';
+            }
+        },
+        wallTooltip: function (get) {
+            if (get('showStreams')) {
+                return 'Hide Wall';
+            } else {
+                return 'Show Wall';
+            }
+        },
+        isShowingSelfIcon: function (get) {
+            if (get('showSelf')) {
+                return 'x-fa fa-user';
+            } else {
+                return 'x-fa fa-user-times';
+            }
+        },
         isWebRTCSupported: function (get) {
             if (Ext.browser.is.Safari || Ext.browser.is.IE) {
                 return false;
@@ -114,6 +152,12 @@ Ext.define('WebRTC.view.chat.RoomModel', {
                 }
             }
 
+        },
+        isVideoLayout: function(){
+            var settings = Ext.getStore('Settings'),
+                layout = settings.getById('videolayout').get('value');
+
+            return layout === 'videofeeds';
         }
     }
 

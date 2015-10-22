@@ -18,8 +18,6 @@ Ext.define('opentok.OpenTokMixin', {
         return 'stream' + streamId.replace(/-/g,'');
     },
 
-
-
     onOTConnectionCreated: function(event){
         var data = event.connection.data,
             sessionId = event.target.sessionId,
@@ -28,6 +26,7 @@ Ext.define('opentok.OpenTokMixin', {
             name = chunks[1];
 
         if(tab){
+
             var member = Ext.create('WebRTC.model.chat.RoomMember',{
                 name: name,
                 user_id: event.connection.connectionId,
@@ -52,36 +51,41 @@ Ext.define('opentok.OpenTokMixin', {
             session = OT.getSessionById(event.target.sessionId),
             tab = this.getRoomBySessionId(event.target.sessionId),
             // view = this.getView(),
-            remotestreams = tab.down('#remotestreams'),
-            them = tab.down('#them');
+            them = tab.down('#them'),
+            streamUser = event.stream.connection.data.split('=')[1],
+            remotestreams;
 
-        if(  Ext.first('[reference=roomtabs]').items.items[0].sessionId == tab.sessionId ){
-            if(remotestreams.isHidden()){
+        tab.getController().switchToVideoMeetingLayout(true);
+        remotestreams = tab.getRemoteStreams();
+
+        if(Ext.first('[reference=roomtabs]').items.items[0].sessionId == tab.sessionId ){
+            if( tab.getViewModel().get('showStreams') ){
+                tab.getViewModel().set('isStreams',true);
+
                 remotestreams.show()
             }
         }
 
         var newly = remotestreams.add({
             xtype: 'panel',
-            bodyPadding: 3,
+            connectionId: event.stream.connection.connectionId,
+            username: streamUser,
             itemId: this.getSafeStreamCmpId(event.stream.id),
             html:'<div id="' + event.stream.id + '"></div>',
-            flex: 1,
-            maxHeight: 300,
-            minWidth: 150,
-            minHeight: 150
+            width: 200,
+            height: 200,
+            margin: 10
         });
 
         var subscription = session.subscribe(event.stream, event.stream.id , {
-            /// insertMode: 'append',
+            //insertMode: 'append',
             style: {
-            audioLevelDisplayMode: 'auto'
-            //   backgroundImageURI : '/resources/images/BlankAvatar.png'
-           },
-           // fitMode:'contain',
-           width: '100%',
-           height: '100%',
-           showControls: true
+                audioLevelDisplayMode: 'auto'
+            },
+            // fitMode:'contain',
+            width: '100%',
+            height: '100%',
+            showControls: true
         });
 
         // put all the subsriptions into an array for us to walk-through and manipulate if needed
@@ -96,16 +100,23 @@ Ext.define('opentok.OpenTokMixin', {
             session = OT.getSessionById(event.target.sessionId),
             deadCmp = this.getView().down('#' + this.getSafeStreamCmpId(event.stream.id)),
             tab = this.getRoomBySessionId(event.target.sessionId),
+            viewModel = tab.getViewModel(),
             // view = this.getView(),
-            remotestreams = tab.down('#remotestreams');
+            remotestreams = tab.getRemoteStreams();
 
         // console.log(deadCmp);
 
         if(  Ext.first('[reference=roomtabs]').items.items[0].sessionId == tab.sessionId ){
             if(deadCmp){
                 deadCmp.destroy();
+
                 if(!remotestreams.items.length){
+                    viewModel.set('isStreams',false);
                     remotestreams.hide();
+
+                    if(!viewModel.get('inVideoCall')) {
+                        tab.getController().switchToVideoMeetingLayout(false);
+                    }
                 }
             }
         }
@@ -143,11 +154,19 @@ Ext.define('opentok.OpenTokMixin', {
     },
 
 
-
     onOTChatReceived: function(event){
         var tab = this.getRoomBySessionId(event.target.sessionId);
 
         tab.getController().chatReceived(event.data.chat);
-    }
+    },
 
+    onOTAudioLevelUpdate: function(session, audioLevel){
+        var me = this,
+            sessionId = session.id,
+            tab = this.getRoomBySessionId(sessionId);
+
+        if(tab){
+            tab.getController().updateAudioLevel(audioLevel);
+        }
+    }
 });

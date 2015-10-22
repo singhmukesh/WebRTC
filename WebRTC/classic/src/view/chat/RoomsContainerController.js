@@ -14,11 +14,12 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
                 streamcreated : 'onOTStreamCreated',
                 streamdestroyed : 'onOTStreamDestroyed',
                 sessionconnected : 'onOTSessionConnected',
-                sessiondisconnect : 'onOTSessionDestroyed'
+                sessiondisconnect : 'onOTSessionDestroyed',
+                audiolevelupdate: 'onOTAudioLevelUpdate'
             },
             'auth':{
                 configure: 'onAdminSetup',
-                init: 'onAuthInit',
+                initDone: 'onAuthInit',
                 islogin: 'onAuthIsLogin',
                 islogout: 'onAuthIsLogout',
                 login: 'onAuthLogin'
@@ -44,12 +45,13 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
     //once the authentication system is up authenticate the user
     onAuthInit: function(){
-       console.log('AuthInit');
+       WebRTC.util.Logger.log('AuthInit');
        this.fireEvent('authorize');
     },
 
     //user was already logged in
     onAuthIsLogin: function(){
+        WebRTC.util.Logger.log('Was logged in now selecting');
         this.deferAndSelectFirst();
     },
 
@@ -106,13 +108,14 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
                         //not sure why this event isn't getting fired
                         combo.fireEvent('select',combo,record);
                     }else{
+                        WebRTC.util.Logger.log('hmm no currentLaunchRoom');
                         // combo.select(store.getAt(0));
                         // list.getSelectionModel().select(0)
                         //not sure why this event isn't getting fired
                         // combo.fireEvent('select',combo,record);
                     }
                 },
-                500);
+                700);
             }
         }
     },
@@ -122,7 +125,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         var me = this;
         Ext.defer(function() {
             me.selectFirstRoom();
-        }, deferLength || 1200);
+        }, deferLength || 500);
     },
 
 
@@ -300,7 +303,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         if(defaultContent)
             roomtabs.remove(defaultContent, true);
 
-        console.log('check permissions');
+        WebRTC.util.Logger.log('check permissions');
 
         //only add one
         if (!tab) {
@@ -324,7 +327,9 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
             tab = roomtabs.insert(0, newroom);
 
-            tab.getViewModel().set('room', record);
+            //Set the viewmodel on the container as the room model will link to it.
+            // tab.getViewModel().set('room', record);
+            this.getViewModel().set('room', record);
 
             tab.getViewModel().getStore('messages').getProxy().setExtraParam('room',id);
             tab.getViewModel().getStore('messages').load();
@@ -445,12 +450,15 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         }
 
         var window =  Ext.create('Ext.window.Window', {
-            title: 'User',
+            bind:{
+                title: 'Settings | {user.name} '
+            },
             iconCls: 'x-fa fa-user fa-lg',
             height: 600,
             width: 600,
             modal: true,
             layout: 'fit',
+            constrainHeader: true,
             viewModel:{
                 data: user
             },

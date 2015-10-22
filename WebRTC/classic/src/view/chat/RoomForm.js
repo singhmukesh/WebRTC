@@ -67,7 +67,8 @@ Ext.define('WebRTC.view.chat.RoomForm', {
          disabled: true,
          hidden: true,
          bind: {
-             value: '{theRoom.password}',
+             value: '{theRoom.password}'
+
          }
          }
     ],

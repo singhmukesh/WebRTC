@@ -1,6 +1,5 @@
 /**
- * @class WebRTC.overrides.Auth
- * @override auth.controller.Auth
+
  *
  *  Description: The authorization package need to override the default behavior for registration and login
  *  for your specific application. There are four main methods to override:
@@ -45,6 +44,7 @@ Ext.define('WebRTC.controller.Auth', {
         // Add a single document event listener to handle when the user tabs away.
         if (document.addEventListener) document.addEventListener("visibilitychange", me.visibilityChanged.bind(me));
 
+
         WebRTC.model.AdminSettings.load(0, {
             success: function (record, operation) {
                 if (!record.get('otApiKey')) {
@@ -53,11 +53,27 @@ Ext.define('WebRTC.controller.Auth', {
                     //get the firebase url and create a client instance of Firebase.
                     me.FBUrl = record.data.fbUrl;
                     me.firebaseRef = new Firebase(me.FBUrl);
-                    me.fireEvent('init');
+                    me.ensureFirebaseReady();
+
+
                 }
             }
         });
 
+    },
+
+    //Since there's no callback when firebase is ready wait and retry a few times, then call initDone when ready
+    ensureFirebaseReady: function(){
+        var me = this;
+        if (!me.firebaseRef) {
+            Ext.Function.defer(function () {
+                    WebRTC.util.Logger.log('Firebase not ready');
+                    me.ensureFirebaseReady();
+                },
+                50);
+        }else{
+            me.fireEvent('initDone');
+        }
     },
 
     // this can be used to trigger timers or other events related to security
@@ -70,31 +86,29 @@ Ext.define('WebRTC.controller.Auth', {
     authorize: function () {
         var me = this;
 
+
         if (me.isAuthenticating) {
-            console.log('was authenticating');
+            WebRTC.util.Logger.log('was authenticating');
             return;
         }
 
-        console.log('authenticating original route: ' + window.location.hash);
+        WebRTC.util.Logger.log('authenticating original route: ' + window.location.hash);
         me.isAuthenticating = true;
         if( window.location.hash == '#login' ||  window.location.hash == '#register'||  window.location.hash == '#guest'){
             me.originalRoute = '#home'; //so when they log in it will show the home screen
         }else{
             me.originalRoute = window.location.hash;
         }
-        console.log('authenticating  route: ' + me.originalRoute);
+        WebRTC.util.Logger.log('authenticating  route: ' + me.originalRoute);
 
 
-        // routes happen prior to the viewport loading
-        // note: this needs to be rearchitected some - for now defer it..
-        if (!me.firebaseRef) {
-            Ext.Function.defer(function () {
-                    console.log('defered FB auth');
-                    me.firebaseRef.onAuth(me.authDataCallback, me);
-                },
-                1500);
-        } else {
-            console.log('FB auth');
+
+        if(Ext.isSpace) {
+            Ext.onSpaceReady().then(
+                function() {
+                    me.loginSpaceClient();
+                });
+        }else{
             me.firebaseRef.onAuth(me.authDataCallback, me);
         }
 
@@ -106,7 +120,7 @@ Ext.define('WebRTC.controller.Auth', {
         var me = this,
             window = Ext.first('lockingwindow');
 
-        console.log('AuthHandler Routine being run');
+        WebRTC.util.Logger.log('AuthHandler Routine being run');
 
           if (error) {
              if (window) {
@@ -121,25 +135,25 @@ Ext.define('WebRTC.controller.Auth', {
     authDataCallback: function (authData) {
         var me = this;
 
-        console.log('Auth Data Callback');
+        WebRTC.util.Logger.log('Auth Data Callback');
 
 
         if (authData) {
-            console.log('User is logged in');
+            WebRTC.util.Logger.log('User is logged in');
             me.initUser(authData);
 
             if (authData.password.isTemporaryPassword) {
                 me.redirectTo('newpassword');
             } else {
-                console.log('cleanup');
+                WebRTC.util.Logger.log('cleanup');
                 me.cleanupAuth();
-                console.log('fire is login');
+                WebRTC.util.Logger.log('fire is login');
                 me.fireEvent('islogin', authData);
             }
 
 
         } else {
-            console.log("User is logged out");
+            WebRTC.util.Logger.log("User is logged out");
             me.fireEvent('islogout');
         }
     },
@@ -157,10 +171,10 @@ Ext.define('WebRTC.controller.Auth', {
                 password: data.password
             }, function (error) {
                 if (error === null) {
-                    console.log("Email changed successfully");
+                    WebRTC.util.Logger.log("Email changed successfully");
                     btn.up('lockingwindow').getController().updateStatus("Email changed successfully");
                 } else {
-                    console.log("Error changing email:", error);
+                    WebRTC.util.Logger.log("Error changing email:", error);
                     btn.up('lockingwindow').getController().updateStatus("Error changing email: " + error);
                 }
             });
@@ -183,7 +197,7 @@ Ext.define('WebRTC.controller.Auth', {
                 newPassword: data.newpassword
             }, function (error) {
                 if (error === null) {
-                    console.log("Password changed successfully.");
+                    WebRTC.util.Logger.log("Password changed successfully.");
                     btn.up('lockingwindow').getController().updateStatus("Password changed successfully.");
                     //now login with new info.
                     firebase.authWithPassword(
@@ -196,7 +210,7 @@ Ext.define('WebRTC.controller.Auth', {
                         } //don't do anything
                     );
                 } else {
-                    console.log("Error changing passsword:", error);
+                    WebRTC.util.Logger.log("Error changing passsword:", error);
                     btn.up('lockingwindow').getController().updateStatus("Error changing password: " + error);
                 }
             });
@@ -253,6 +267,84 @@ Ext.define('WebRTC.controller.Auth', {
         }
     },
 
+    loginSpaceClient: function(){
+        var me=this,
+            firebase = me.firebaseRef,
+            un = 'space-' + Ext.space.Profile.org.name + '-' + Ext.space.Profile.user.userId,
+            pwd = 'pwd-' + Ext.space.Profile.user.userId;
+
+        //Try to login, if fails try to register then login.
+        firebase.authWithPassword(
+            {
+                email: un,
+                password: pwd
+            }
+            ,function(err,authData){
+               if (authData) {
+                    WebRTC.util.Logger.log('Space User logged in');
+                   me.firebaseRef.onAuth(me.authDataCallback, me);
+                } else {
+                    me.registerSpaceClient();
+                }
+            }
+        );
+
+        // alert( 'Auth |' + Ext.space.Profile.user.userId + ' - '  +  Ext.space.Profile.user);
+        Ext.space.Logger.log("current username", Ext.space.Profile.user.userId);
+    },
+
+    registerSpaceClient: function(){
+        var me=this,
+            expires = new Date("October 13, 2095 11:13:00"),
+            firebase = me.firebaseRef,
+            un = 'space-' + Ext.space.Profile.org.name + '-' + Ext.space.Profile.user.userId,
+            pwd = 'pwd-' + Ext.space.Profile.user.userId,
+            newUser = Ext.create('WebRTC.model.User', {
+                fn: Ext.space.Profile.user.userId,
+                isSpace: true,
+                spaceUserId: Ext.space.Profile.user.userId,
+                spaceOrgId: Ext.space.Profile.org.name,
+                email_userid: un,
+                name: Ext.space.Profile.user.userId,
+                password: pwd
+            });
+
+        Ext.util.Cookies.clear('user');
+
+
+        //Post to server as it has admin access to create users.
+        newUser.save({
+            failure: function (record, operation) {
+                var error = JSON.parse(operation.error.response.responseText),
+                    message = error.message.code || 'Unable to save.';
+                alert(error);
+            },
+            success: function (record, operation) {
+                Ext.util.Cookies.set('user', JSON.stringify(newUser.data), expires);
+            },
+            callback: function (record, operation, success) {
+                // alert('space login | ' + Ext.space.Profile.user.userId);
+                firebase.authWithPassword(
+                    {
+                        email: un,
+                        password: pwd
+                    }
+                    ,function(err,authData){
+                        if (authData) {
+                            WebRTC.util.Logger.log('New Space User logged in');
+                            me.firebaseRef.onAuth(me.authDataCallback, me);
+                        } else {
+                            me.registerSpaceClient();
+                        }
+                    }
+                );
+
+            }
+
+
+        })
+    },
+
     logout: function () {
         var me = this,
             user = JSON.parse(Ext.util.Cookies.get('user')),
@@ -277,16 +369,16 @@ Ext.define('WebRTC.controller.Auth', {
                 if (error) {
                     switch (error.code) {
                         case "INVALID_USER":
-                            console.log("The specified user account does not exist.");
+                            WebRTC.util.Logger.log("The specified user account does not exist.");
                             break;
                         case "INVALID_PASSWORD":
-                            console.log("The specified user account password is incorrect.");
+                            WebRTC.util.Logger.log("The specified user account password is incorrect.");
                             break;
                         default:
-                            console.log("Error removing user:", error);
+                            WebRTC.util.Logger.log("Error removing user:", error);
                     }
                 } else {
-                    console.log("User account deleted successfully!");
+                    WebRTC.util.Logger.log("User account deleted successfully!");
                     Ext.util.Cookies.clear('user');
                     firebase.unauth();
                     this.redirectTo('login');
@@ -310,10 +402,10 @@ Ext.define('WebRTC.controller.Auth', {
                 email: data.email
             }, function (error) {
                 if (error === null) {
-                    console.log("Password reset email sent successfully");
+                    WebRTC.util.Logger.log("Password reset email sent successfully");
                     btn.up('lockingwindow').getController().updateStatus('Password reset email sent successfully:');
                 } else {
-                    console.log("Error sending password reset email:", error);
+                    WebRTC.util.Logger.log("Error sending password reset email:", error);
                     btn.up('lockingwindow').getController().updateStatus('Error sending password reset email:');
 
                 }
@@ -430,10 +522,10 @@ Ext.define('WebRTC.controller.Auth', {
                 password: data.password
             }, function (error) {
                 if (error === null) {
-                    console.log("User removed successfully");
+                    WebRTC.util.Logger.log("User removed successfully");
                     btn.up('lockingwindow').getController().updateStatus("User removed successfully");
                 } else {
-                    console.log("Error removing user:", error);
+                    WebRTC.util.Logger.log("Error removing user:", error);
                     btn.up('lockingwindow').getController().updateStatus("Error removing user: " + error);
                 }
             });
@@ -475,14 +567,19 @@ Ext.define('WebRTC.controller.Auth', {
                 con.onDisconnect().remove();
 
                 me.fireEvent('connected');
+
                 me.setPresenseStatus({
                     status: 'online',
+                    id: me.user['id'],
+                    name: me.user['fn'],
                     statusOrder: 100,
                     lastActivity: null
                 });
 
                 userRef.onDisconnect().update({
                     status: 'offline',
+                    id: me.user['id'],
+                    name: me.user['fn'],
                     statusOrder: 0,
                     lastOnceLine: Firebase.ServerValue.TIMESTAMP,
                     lastActivity: null
@@ -494,7 +591,7 @@ Ext.define('WebRTC.controller.Auth', {
                 //Even though disconnected is fired, other firebase ref's can use the pattern : ref.onDisconnect().remove();
                 me.fireEvent('disconnected');
                 me.redirectTo('login');
-                console.log("not connected");
+                WebRTC.util.Logger.log("not connected");
             }
         });
     },
@@ -507,12 +604,14 @@ Ext.define('WebRTC.controller.Auth', {
             if (me.isIdle) {
                 me.setPresenseStatus({
                     status: 'online',
+                    id: me.user['id'],
+                    name: me.user['fn'],
                     statusOrder: 100,
                     lastActivity: null
                 });
                 me.isIdle = false;
             }
-            // console.log('active');
+            // WebRTC.util.Logger.log('active');
             me.idleTime = 0;
             me.lastActivityTime = Firebase.ServerValue.TIMESTAMP;
         };
@@ -538,12 +637,14 @@ Ext.define('WebRTC.controller.Auth', {
     //timer counter and rules
     onTimerIncrement: function (me) {
         me.idleTime++;
-        // console.log('icrement' + window.idleTime );
+        // WebRTC.util.Logger.log('icrement' + window.idleTime );
         if (me.idleTime > (5 * 60) && !me.isIdle) {
-            // console.log('idle');
+            // WebRTC.util.Logger.log('idle');
             me.isIdle = true;
             me.setPresenseStatus({
                 status: 'idle',
+                id: me.user['id'],
+                name: me.user['fn'],
                 statusOrder: 10,
                 lastActivity: Firebase.ServerValue.TIMESTAMP
             });
@@ -604,7 +705,7 @@ Ext.define('WebRTC.controller.Auth', {
                                 me.startPresence(id);
 
                             }, function (errorObject) {
-                                console.log("The read failed: " + errorObject.code);
+                                WebRTC.util.Logger.log("The read failed: " + errorObject.code);
                             }
                         );
 
@@ -613,12 +714,12 @@ Ext.define('WebRTC.controller.Auth', {
                     }
 
                 }, function (errorObject) {
-                    console.log("The read failed: " + errorObject.code);
+                    WebRTC.util.Logger.log("The read failed: " + errorObject.code);
                 }
             );
 
         } else {
-            console.log("Error getting id of an auththenication: " + errorObject.code);
+            WebRTC.util.Logger.log("Error getting id of an auththenication: " + errorObject.code);
         }
 
 

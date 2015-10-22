@@ -5,7 +5,6 @@ var fs = require('fs'),                         // file system
     moment = require('moment'),                 // moment is a friendly time library
     ejs = require('ejs'),                       // ejs is a template engine for JSON to HTML
     wrap = require('./lib/wrapjsonresponse.js'),
-
     data,
     firebase,
     serverConfig;
@@ -25,7 +24,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-
 if(nconf.get('adminsettings')['serviceprovider'] != undefined){
 
   data = require('./lib/data')(nconf);             // load data package for routes
@@ -42,6 +40,11 @@ if(serverConfig.logAllCalls) {
     });
 }
 
+//All browser crashes are logged to here.
+app.route('/crashlog')
+    .get(function(req, res, id) {
+        res.status(200).send(null);
+    });
 
 //Route all data related calls as a single route with an id or not
 app.route('/data/:store/:id')
