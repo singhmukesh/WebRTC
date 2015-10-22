@@ -27,12 +27,18 @@ Ext.define('WebRTC.view.chat.MembersController', {
 
     onJoinRoom: function(tab, room, user){
         var auth = WebRTC.app.getController('Auth'),
-            membersRef = auth.firebaseRef.child('roommembers/' + room['id'] + '/' + user['id']);
+            membersRef = auth.firebaseRef.child('roommembers/' + room['id'] + '/' + user['id']),
+            socketId = '';
+
+        if(room.store.getProxy()['socket']){
+            socketId =  room.store.getProxy().socket.id;
+        }
 
         membersRef.update({
             id: user['id'],
             callStatus:'idle',
             micStatus:'',
+            socketId: socketId,
             name: user['fn']
         });
         // when I disconnect, remove this member

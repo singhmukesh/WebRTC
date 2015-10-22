@@ -88,31 +88,7 @@ Ext.define('WebRTC.view.chat.room.layout.Chat', {
                             xtype: 'chatmembers',
                             minHeight: 80,
                             flex: 1
-                        }, {
-                            xtype: 'chatvideowall',
-                            itemId: 'remotestreams',
-                            bind: {
-                                title: '{room.name} Wall',
-                                hidden: '{!showStreams}'
-                            },
-                            header: {
-                                listeners: {
-                                    dblclick: function(){
-                                        // WebRTC.util.Logger.log('clicked');
-                                        alert('dble');
-                                    }
-                                }
-                            },
-                            listeners:{
-                                hide: 'onWallHide'
-
-                            },
-                            //hidden: true,
-                            // bodyPadding: 10,
-                            minHeight: 200,
-                            autoScroll: true,
-                            flex: 1
-                        }, {
+                        },  {
                             title: 'Files',
                             hidden: true,
                             reference: 'chatfiles',
@@ -120,6 +96,32 @@ Ext.define('WebRTC.view.chat.room.layout.Chat', {
                             flex: 1
                         }
                     ]
+                },
+                {
+                    region: 'south',
+                    xtype: 'chatvideowall',
+                    itemId: 'remotestreams',
+                    /*bind: {
+                        title: '{room.name} Participants',
+                        hidden: '{!showStreams}'
+                    },
+                    header: {
+                        listeners: {
+                            dblclick: function(){
+                                // WebRTC.util.Logger.log('clicked');
+                                alert('dble');
+                            }
+                        }
+                    },*/
+                    listeners:{
+                        hide: 'onWallHide'
+
+                    },
+                    //hidden: true,
+                    // bodyPadding: 10,
+                    minHeight: 200,
+                    autoScroll: true
+                    //flex: 1
                 }
             ]
         }

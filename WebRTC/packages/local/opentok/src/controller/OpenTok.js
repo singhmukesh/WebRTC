@@ -223,7 +223,7 @@ Ext.define('opentok.controller.OpenTok', {
 
                 session.localPublisher = OT.initPublisher(params.element, {
                     insertMode: 'append',
-                    fitMode:'contain',
+                    // fitMode:'contain',
                     width: '100%',
                     height: '100%',
                     publishAudio: true,
