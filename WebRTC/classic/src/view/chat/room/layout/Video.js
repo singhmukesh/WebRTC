@@ -67,7 +67,7 @@ Ext.define('WebRTC.view.chat.room.layout.Video', {
             items: [
                 {
                     xtype: 'chatmembers',
-                    title: 'Partecipants'
+                    title: 'Participants'
                 },
                 {
                     xtype: 'chathistory',
