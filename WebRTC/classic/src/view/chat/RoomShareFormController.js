@@ -15,7 +15,7 @@ Ext.define('WebRTC.view.chat.RoomShareFormController', {
             user = Ext.first('chatroomscontainer').getViewModel().get('user');
 
         if (form.isValid()) {
-            console.log(data);
+            WebRTC.util.Logger.log(data);
             form.down('[name=email]').setValue('');
             Ext.Msg.wait('Inviting', 'Sending invitation...');
             Ext.Ajax.request({
@@ -37,7 +37,7 @@ Ext.define('WebRTC.view.chat.RoomShareFormController', {
                 failure: function(response, opts) {
                     Ext.Msg.hide();
                     me.updateStatus(window,'Failure with status code ' + response.status);
-                    console.log('server-side failure with status code ' + response.status);
+                    WebRTC.util.Logger.log('server-side failure with status code ' + response.status);
                 }
             });
         }

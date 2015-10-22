@@ -98,7 +98,7 @@ Ext.define('WebRTC.view.chat.room.layout.Chat', {
                             header: {
                                 listeners: {
                                     dblclick: function(){
-                                        // console.log('clicked');
+                                        // WebRTC.util.Logger.log('clicked');
                                         alert('dble');
                                     }
                                 }

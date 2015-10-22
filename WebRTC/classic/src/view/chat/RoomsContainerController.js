@@ -19,7 +19,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             },
             'auth':{
                 configure: 'onAdminSetup',
-                init: 'onAuthInit',
+                initDone: 'onAuthInit',
                 islogin: 'onAuthIsLogin',
                 islogout: 'onAuthIsLogout',
                 login: 'onAuthLogin'
@@ -45,13 +45,13 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
     //once the authentication system is up authenticate the user
     onAuthInit: function(){
-       console.log('AuthInit');
+       WebRTC.util.Logger.log('AuthInit');
        this.fireEvent('authorize');
     },
 
     //user was already logged in
     onAuthIsLogin: function(){
-        console.log('Was logged in now selecting');
+        WebRTC.util.Logger.log('Was logged in now selecting');
         this.deferAndSelectFirst();
     },
 
@@ -108,7 +108,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
                         //not sure why this event isn't getting fired
                         combo.fireEvent('select',combo,record);
                     }else{
-                        console.log('hmm no currentLaunchRoom');
+                        WebRTC.util.Logger.log('hmm no currentLaunchRoom');
                         // combo.select(store.getAt(0));
                         // list.getSelectionModel().select(0)
                         //not sure why this event isn't getting fired
@@ -303,7 +303,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         if(defaultContent)
             roomtabs.remove(defaultContent, true);
 
-        console.log('check permissions');
+        WebRTC.util.Logger.log('check permissions');
 
         //only add one
         if (!tab) {

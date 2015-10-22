@@ -17,7 +17,7 @@ Ext.define('WebRTC.Application', {
     stores:['WebRTC.store.chat.Rooms','Settings','SecurityRoles','Users'],
 
     init: function(){
-        WebRTC.util.ErrorLogger.init();
+        WebRTC.util.Logger.init();
     },
 
     onAppUpdate: function () {
