@@ -181,8 +181,6 @@ Ext.define('opentok.OpenTokMixin', {
 
                 Ext.suspendLayouts();
 
-                debugger;
-
                 if (myVideoEnabled && !imFullscreen) {
 
                     // Set myself as fullscreen

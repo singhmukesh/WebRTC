@@ -377,8 +377,6 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             // If the Speaker Box was not found, it means I'm the speaker.
             viewModel.set('imFullscreen', imFullscreen);
 
-            console.log('-- imFullscreen ', imFullscreen);
-
             if(!speakerBox){
                 speakerBox = myVideoBox;
             }
