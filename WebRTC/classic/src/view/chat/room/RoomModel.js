@@ -9,7 +9,9 @@ Ext.define('WebRTC.view.chat.room.RoomModel', {
         showStreams: true,
         showSelf: true,
         useMic: true,
-        useCamera: true
+        useCamera: true,
+        imFullscreen: true,
+        videoConnections: 0
     },
 
     links: {

@@ -5,12 +5,20 @@ Ext.define('WebRTC.view.chat.room.layout.Video', {
     items: [
         {
             xtype: 'panel',
-            reference: 'speakervideobox',
+            reference: 'fullscreenvideobox',
             region: 'center',
             layout: 'fit',
             tbar: {
                 xtype: 'roomcontrols'
-            }
+            },
+            items: [
+                {
+                    xtype: 'container',
+                    layout: 'fit',
+                    isMyVideoBox: true,
+                    hidden: true
+                }
+            ]
         },
         {
             xtype: 'tabpanel',
@@ -49,31 +57,23 @@ Ext.define('WebRTC.view.chat.room.layout.Video', {
         }
     ],
     dockedItems: [
-    {
-        xtype: 'panel',
-        dock: 'bottom',
-        itemId: 'remotestreams',
-        bodyCls: 'video-layout-remote-streams',
-        scrollable: 'horizontal',
-        layout: {
-            type: 'hbox',
-            pack: 'center'
-        },
-
-        height: 220,
-        defaults: {
-            width: 200,
-            height: 200,
-            margin: 10
-        },
-        items: [
-            {
-                xtype: 'container',
-                layout: 'fit',
-                isMyVideoBox: true,
-                hidden: true
+        {
+            xtype: 'panel',
+            dock: 'bottom',
+            itemId: 'remotestreams',
+            bodyCls: 'video-layout-remote-streams',
+            scrollable: 'horizontal',
+            hidden: true,
+            layout: {
+                type: 'hbox',
+                pack: 'center'
+            },
+            height: 220,
+            defaults: {
+                width: 200,
+                height: 200,
+                margin: 10
             }
-        ]
-    }
-]
+        }
+    ]
 });
