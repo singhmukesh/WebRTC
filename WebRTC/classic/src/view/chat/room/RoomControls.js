@@ -7,8 +7,10 @@ Ext.define('WebRTC.view.chat.room.RoomControls', {
     },
     items: [
         {
+            xtype: 'button',
             bind: {
                 disabled: '{inVideoCall}',
+                // ui: '{audioCallClass}',
                 iconCls: '{audioCallIcon}'
             },
             tooltip: 'Toggle Audio Publish',
@@ -17,6 +19,7 @@ Ext.define('WebRTC.view.chat.room.RoomControls', {
             }
         },
         {
+            xtype: 'button',
             bind: {
                 disabled: '{inAudioCall}',
                 iconCls: '{videoCallIcon}'
@@ -29,6 +32,7 @@ Ext.define('WebRTC.view.chat.room.RoomControls', {
         , '->',
         {
             iconCls: 'x-fa fa-user',
+            xtype: 'button',
             bind: {
                 hidden: '{!inVideoCall} || {isVideoLayout}',
                 tooltip: '{showSelfTooltip}',
@@ -41,6 +45,7 @@ Ext.define('WebRTC.view.chat.room.RoomControls', {
         , '->',
         {
             iconCls: 'x-fa fa-th',
+            xtype: 'button',
             bind: {
                 disabled: false,
                 tooltip: '{wallTooltip}',
@@ -53,6 +58,7 @@ Ext.define('WebRTC.view.chat.room.RoomControls', {
         },
         {
             iconCls: 'x-fa fa-eye',
+            xtype: 'button',
             tooltip: 'Toggle Camera',
             bind: {
                 disabled: '{!inVideoCall}',
@@ -64,6 +70,7 @@ Ext.define('WebRTC.view.chat.room.RoomControls', {
         }, {
             iconCls: 'x-fa fa-microphone',
             tooltip: 'Toggle Microphone',
+            xtype: 'button',
             bind: {
                 disabled: '{isMicDisabled}',
                 iconCls: '{audioToggleIcon}'
