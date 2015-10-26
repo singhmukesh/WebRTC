@@ -66,6 +66,7 @@ Ext.define('WebRTC.model.User', {
         { name: 'nickname',       type: 'string' },
         { name: 'photo',          type: 'string',    defaultValue: null       },
         { name: 'title',          type: 'string' },
+
         { name: 'email_userid',   type: 'string' },
         { name: 'email_home',     type: 'string' },
         { name: 'email_work',     type: 'string' },

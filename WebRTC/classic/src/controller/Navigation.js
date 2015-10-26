@@ -41,7 +41,7 @@ Ext.define('WebRTC.controller.Navigation', {
 
     onRouteUnmatched:function(route){
         if(!!route){
-            console.log('unmatched route' + route);
+            WebRTC.util.Logger.log('unmatched route' + route);
             window.location.hash = '#home';
         }
     },

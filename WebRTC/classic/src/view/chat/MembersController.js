@@ -22,22 +22,28 @@ Ext.define('WebRTC.view.chat.MembersController', {
         // remove member from room
         membersRef.remove();
 
-        console.log('members | room closed')
+        WebRTC.util.Logger.log('members | room closed')
     },
 
     onJoinRoom: function(tab, room, user){
         var auth = WebRTC.app.getController('Auth'),
-            membersRef = auth.firebaseRef.child('roommembers/' + room['id'] + '/' + user['id']);
+            membersRef = auth.firebaseRef.child('roommembers/' + room['id'] + '/' + user['id']),
+            socketId = '';
+
+        if(room.store.getProxy()['socket']){
+            socketId =  room.store.getProxy().socket.id;
+        }
 
         membersRef.update({
             id: user['id'],
             callStatus:'idle',
             micStatus:'',
+            socketId: socketId,
             name: user['fn']
         });
         // when I disconnect, remove this member
         membersRef.onDisconnect().remove();
-        console.log('members | room joined')
+        WebRTC.util.Logger.log('members | room joined')
     },
 
 
@@ -53,13 +59,13 @@ Ext.define('WebRTC.view.chat.MembersController', {
         }else{
             userroomsRef.once("value", function (snap) {
                 if ( snap.val() ) {
-                    console.log('foundroom');
+                    WebRTC.util.Logger.log('foundroom');
                 }else{
-                    console.log('createrooms');
+                    WebRTC.util.Logger.log('createrooms');
                     //userroomsRef.update({private:true})
                 }
             }, function (err) {
-                    console.log(err);
+                    WebRTC.util.Logger.log(err);
             });
         }
 
@@ -84,7 +90,7 @@ Ext.define('WebRTC.view.chat.MembersController', {
             name: user['fn'],
             lastActivity: lastActivity
         });
-        // console.log('idle');
+        // WebRTC.util.Logger.log('idle');
     },
 
     onActive: function(){
@@ -99,7 +105,7 @@ Ext.define('WebRTC.view.chat.MembersController', {
                 lastActivity: null
             });
         }
-        // console.log('active');
+        // WebRTC.util.Logger.log('active');
     },
 
     setPresenseStatus: function(status){
@@ -107,7 +113,7 @@ Ext.define('WebRTC.view.chat.MembersController', {
             userId = auth.user['id'],
             membersRef = auth.firebaseRef.child('roommembers/' + id + '/' + userId);
 
-      //  console.log('room members status : ' + status);
+      //  WebRTC.util.Logger.log('room members status : ' + status);
       membersRef = auth.firebaseRef.child('roommembers/' + id + '/' + userId);
     }
 

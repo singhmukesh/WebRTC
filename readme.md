@@ -66,17 +66,29 @@ The screen should look something like this:
 
 Add your secret key and URL to your `server-config.json` file in the `adminsettings.serviceprovider.firebase` section.
 
-### Step 3. Start Server & Initial Setup
+### Step 3. Enable Firebase Email & Password authentication
 
-Once you have node installed, your Api Keys and URL and the Sencha Framework and CMD installed its time to get the server running.
+The last step to properly configure yout Firebase application, is to enable basic Email and Password authentication from the related Login & Auth section.
 
-Using your terminal navigate to the folder for this repository and navigate to the 'server' sub-directory.
+<img src="/WebRTC/resources/images/FirebaseAuth.png" border=0 width=600 />
+
+### Step 4. Start Server & Initial Setup
+
+Once you have node installed, your Api Keys and URL and the Sencha Framework and CMD installed its time to get the server running, but before doing that, it's important
+
+to create a server configuration file for your local environment.
+
+Doing so it's really simple. Just duplicate the **server-config.json** file and rename it to **local-server-config.json**.
+
+Now you are ready to run the server. Use your terminal to navigate to the root folder of this repository.
 
 -use the path to your node server-
 
-From here we wil start the server in development mode. This is done by setting the an environment variable.
+From here we wil start the server in development mode. This is done by setting the **NODE_ENV** environment variable.
 
-type: <code> NODE_ENV=development /usr/local/bin/node server.js  </code>
+To run the application in development mode run: <code> NODE_ENV=development /usr/local/bin/node server.js  </code>
+
+For production run: <code> NODE_ENV=production /usr/local/bin/node server.js  </code>
 
 The server is set to startup on port 8000. So lets navigate there and make sure we see the app.
 
@@ -94,7 +106,7 @@ Use the same development mode startup and then reload your browser.
 
 This time you should see a prompt for a login.
 
-### Step 4. Login
+### Step 5. Login
 
 Once your settings have been saved and the server restarted all new users will receive a login screen like this:
 
@@ -105,7 +117,7 @@ Use any name you want. If you need to change your administrative settings then y
 Using the 'admin' login will provide a settings button for you to change your server settings.
 
 
-### Step 5. Create First Room & Invite Others
+### Step 6. Create First Room & Invite Others
 
 In order to chat and do video conferences you will need to create a room.
 
@@ -119,7 +131,7 @@ If you are running locally and don't have a URL you will need to give people the
 
 Share your IP address ( with port 8000 ) and have someone join you in your new room.
 
-### Step 6. Startup a video / audio chat
+### Step 7. Startup a video / audio chat
 
 Now that you can join rooms; you can see and hear others in the room if they are broadcasting.
 
@@ -160,7 +172,7 @@ To run the server in development mode and begin extending this demo for your own
 <code>NODE_ENV=development</code>
 
 #### Server Configuration
-The server will need to be setup to run correctly for the first time. This data can be manually entered into the <code>/server/server-config.json</code> file or it can be entered using a web browser the first time the server is started.
+The server will need to be setup to run correctly for the first time. This data can be manually entered into the <code>/server/server-config.json</code> file for the production environment or <code>/server/local-server-config.json</code> file for development, or it can be entered using a web browser the first time the server is started.
 
 If you want to change the server configuration at any time you can edit this file -or- you can sign-out and the login as 'admin'. From the admin user you can click the 'config' button on the top right of the screen. 
 

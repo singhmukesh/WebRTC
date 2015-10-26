@@ -23,7 +23,7 @@ Ext.define('WebRTC.view.chat.PresenseController', {
             statusOrder: 100
         });
 
-        console.log('presense | room closed')
+        WebRTC.util.Logger.log('presense | room closed')
     },
 
     onJoinRoom: function(tab, room, user){
@@ -38,7 +38,7 @@ Ext.define('WebRTC.view.chat.PresenseController', {
             statusOrder: 100
         });
 
-        console.log('presense | room joined')
+        WebRTC.util.Logger.log('presense | room joined')
     },
 
     onDblClick: function(list, record ){
