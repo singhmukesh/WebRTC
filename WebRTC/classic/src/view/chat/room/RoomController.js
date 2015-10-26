@@ -78,7 +78,9 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
 
 
     onAudioCallRoom: function(button){
-        var you = this.lookupReference('you'),
+        var me=this,
+            view = me.getView(),
+            videoBox = view.getVideoBox(),
             auth = WebRTC.app.getController('Auth'),
             sessionId = this.getViewModel().get('room.sessionId');
 
@@ -91,7 +93,7 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
                 statusOrder: 60,
                 lastActivity: null
             });
-            this.fireEvent('callroom', {sessionId: sessionId, element: you.id, video: false} );
+            this.fireEvent('callroom', {sessionId: sessionId, element: videoBox.id, video: false} );
         }else{
             this.onEndAudioCall(button);
         }
@@ -154,7 +156,9 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
     },
 
     onEndAudioCall: function(button){
-        var you = this.lookupReference('you'),
+        var me=this,
+            view = me.getView(),
+            videoBox = view.getVideoBox(),
             auth = WebRTC.app.getController('Auth'),
             sessionId = this.getViewModel().get('room.sessionId');
 
@@ -173,7 +177,7 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             lastActivity: null
         });
 
-        this.fireEvent('endcall', sessionId, you.id );
+        this.fireEvent('endcall', sessionId, videoBox.id );
 
     },
 
