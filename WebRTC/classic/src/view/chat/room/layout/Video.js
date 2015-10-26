@@ -8,6 +8,7 @@ Ext.define('WebRTC.view.chat.room.layout.Video', {
             reference: 'fullscreenvideobox',
             region: 'center',
             layout: 'fit',
+            flex: 5,
             tbar: {
                 xtype: 'roomcontrols'
             },
@@ -25,7 +26,8 @@ Ext.define('WebRTC.view.chat.room.layout.Video', {
             reference: 'roominfo',
             region: 'east',
             title: 'Room Information',
-            width: 400,
+            // width: 400,
+            flex: 2,
             collapsible: true,
             split: true,
             header: false,

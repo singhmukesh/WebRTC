@@ -80,6 +80,13 @@ Ext.define('WebRTC.view.chat.room.RoomModel', {
                 return 'x-fa fa-phone';
             }
         },
+        audioCallClass: function (get) {
+            if (get('inAudioCall')) {
+                return 'inAudioCall';
+            } else {
+                return 'audioCall';
+            }
+        },
         videoCallIcon: function (get) {
             if (get('inVideoCall')) {
                 return 'x-fa fa-stop';
