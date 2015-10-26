@@ -14,6 +14,7 @@ Ext.define('WebRTC.Application', {
         'Navigation'
     ],
 
+
     stores:['WebRTC.store.chat.Rooms','Settings','SecurityRoles','Users'],
 
     init: function(){
