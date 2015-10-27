@@ -28,6 +28,12 @@ Ext.define('auth.view.authentication.LockingWindow', {
     maximized: true,
     modal: true,
 
+    bodyStyle: 'background: transparent;',
+    html:'<video autoplay loop class="bgvid">' +
+    '<source type="video/mp4" src="http://ak0.picdn.net/shutterstock/videos/4129582/preview/stock-footage-young-and-attractive-multi-ethnic-group-of-professionals-are-having-a-business-meeting-with-a.mp4">' +
+    '<source type="video/webm" src="http://ak0.picdn.net/shutterstock/videos/4129582/preview/stock-footage-young-and-attractive-multi-ethnic-group-of-professionals-are-having-a-business-meeting-with-a.webm">' +
+    '</video>',
+
     layout: {
         type: 'vbox',
         align: 'center',
