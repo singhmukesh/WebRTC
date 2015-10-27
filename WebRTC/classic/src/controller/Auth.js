@@ -638,7 +638,7 @@ Ext.define('WebRTC.controller.Auth', {
     onTimerIncrement: function (me) {
         me.idleTime++;
         // WebRTC.util.Logger.log('icrement' + window.idleTime );
-        if (me.idleTime > (5 * 60) && !me.isIdle) {
+        if (me.idleTime > (1 * 60) && !me.isIdle) {
             // WebRTC.util.Logger.log('idle');
             me.isIdle = true;
             me.setPresenseStatus({
@@ -659,6 +659,7 @@ Ext.define('WebRTC.controller.Auth', {
         if (me.user) {
             var id = me.user['id'],
                 usersRef = me.firebaseRef.child('users/' + id);
+
             if(id == undefined || !id ){
                 alert('null user update!')
             }else{

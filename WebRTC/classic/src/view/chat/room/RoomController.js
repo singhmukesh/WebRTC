@@ -129,13 +129,16 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             viewModel.set('inVideoCall', true);
             viewModel.set('showingCamera', true);
 
+
             me.setMemberCallStatus({callStatus:'video'});
 
-            auth.setPresenseStatus({
+
+           auth.setPresenseStatus({
                 status: 'busy',
                 statusOrder: 60,
                 lastActivity: null
             });
+
 
             // Show the streams only if there is more than one video connection
             if(videoConnections > 1){
@@ -170,7 +173,9 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             callStatus:'idle',
             micStatus:''
         });
+
         // this.setMemberCallStatus({micStatus:''});
+
         auth.setPresenseStatus({
             status: 'online',
             statusOrder: 100,
