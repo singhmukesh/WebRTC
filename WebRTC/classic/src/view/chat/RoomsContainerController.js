@@ -458,6 +458,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             width: 600,
             modal: true,
             layout: 'fit',
+            ghost: false,
             constrainHeader: true,
             viewModel:{
                 data: user

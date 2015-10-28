@@ -23,15 +23,23 @@ Ext.define('WebRTC.view.main.Viewport', {
             hidden: '{!isAdmin}'
         },
         split:true,
-        minWidth: 200,
+       // minWidth: 200,
         flex: 1
     },{
         xtype:'chatroomscontainer',
         region:'center',
+        hidden: true,
         flex:5,
         bind: {
             title: 'Sencha Communicator  | {user.fn}'
         },
         reference: 'roomtabs'
+    },{
+        xtype:'uxiframe',
+        src: "/static/cms/",
+        region:'north',
+        layout:'fit',
+        flex:1000,
+        reference: 'cms'
     }]
 });
