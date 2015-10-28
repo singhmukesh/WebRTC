@@ -25,6 +25,7 @@ Ext.define('WebRTC.view.chat.room.RoomControls', {
                 iconCls: '{videoCallIcon}'
             },
             tooltip: 'Toggle Video Publish',
+            cls: 'round-focus-button',
             listeners: {
                 click: 'onVideoCallRoom'
             }

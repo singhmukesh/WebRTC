@@ -7,3 +7,15 @@
   background-repeat: no-repeat;
   background-size: auto 76%;
 }
+
+
+.round-focus-button{
+  background: $base-color;
+  border-radius: 10%;
+  .x-btn-icon-el-default-toolbar-small{
+    color: #fff;
+  }
+  .x-button-over{
+    color: $base-color;
+  }
+}

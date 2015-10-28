@@ -41,6 +41,7 @@ Ext.define('WebRTC.view.chat.room.layout.Chat', {
                     collapsable: true,
                     collasped: true,
                     split:true,
+                    ui: 'chat-panel-right',
                     layout: {
                         type: 'box',
                         vertical: true,

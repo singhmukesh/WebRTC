@@ -6,8 +6,16 @@ video {
   margin: 0 0 5px 0;
  // width: 100%;
 }
-
-
 body{
   -webkit-user-select: none;
+}
+.x-panel-chat-panel-right{
+  background-color: #000;
+}
+
+.colored-menu{
+background-color: lighten($base-color,20%) !important;
+}
+.roomControls{
+  background-color: lighten($base-color,40%) !important;
 }
