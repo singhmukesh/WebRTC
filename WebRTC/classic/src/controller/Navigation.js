@@ -80,7 +80,7 @@ Ext.define('WebRTC.controller.Navigation', {
                 src: "/static/cms/",
                 region:'north',
                 layout:'fit',
-                flex:1,
+                flex:1000,
                 reference: 'cms'
         });
     },

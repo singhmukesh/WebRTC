@@ -10,10 +10,12 @@ h1 {
   font-size: 38px;
   line-height: 44px;
   font-weight: 500;
+  text-align: center;
 }
 h2 {
   margin-top: 0px;
   margin-bottom: 10px;
+  color: #b9b9b9;
   font-size: 30px;
   line-height: 36px;
   font-weight: 400;
@@ -50,6 +52,8 @@ h6 {
 p {
   margin-top: 0px;
   margin-bottom: 5px;
+  color: #5c5b5b;
+  text-align: left;
 }
 .button {
   display: inline-block;
@@ -129,12 +133,12 @@ p {
 }
 .section.main {
   margin-top: 73px;
-  background-color: #4dbd90;
+  background-color: #78ac71;
   background-image: url('../images/analytics-graphic2.png');
   background-position: 0% 23%;
   background-size: cover;
-  color: white;
-  text-shadow: rgba(0, 0, 0, 0.20) 0px 1px 0px;
+  color: #608a55;
+  text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 0px;
 }
 .section.grey {
   background-color: #f0f0f0;
@@ -169,7 +173,7 @@ p {
 .section.press {
   padding-top: 29px;
   padding-bottom: 38px;
-  background-color: #3e5c50;
+  background-color: #888181;
 }
 .slider {
   display: none;
@@ -285,6 +289,7 @@ p {
   color: white;
   font-size: 38px;
   line-height: 44px;
+  text-align: left;
 }
 .section-subtitle {
   margin-bottom: 68px;
@@ -393,6 +398,11 @@ p {
 .small-features-row {
   margin-top: 71px;
 }
+.main-image {
+  border: 9px solid #615656;
+  border-radius: 16px;
+  box-shadow: #56744d 0px -6px 27px 0px;
+}
 .client-logo {
   width: 16.6%;
 }
@@ -407,6 +417,20 @@ p {
   font-size: 16px;
   font-weight: 300;
   text-align: center;
+}
+.senchacolor {
+  color: #199b19;
+}
+.section2para {
+  color: white;
+  text-align: center;
+}
+.imageborder {
+  border: 8px solid black;
+  border-radius: 16px;
+}
+.dibblockseperation {
+  padding-top: 72px;
 }
 html.w-mod-js *[data-ix="fade-in-on-load"] {
   opacity: 0;
