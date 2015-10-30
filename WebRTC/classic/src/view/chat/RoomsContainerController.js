@@ -1,13 +1,13 @@
 Ext.define('WebRTC.view.chat.RoomsContainerController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.chatroomscontainer',
-    mixins: ['opentok.OpenTokMixin'],
+    mixins: ['WebRTC.view.chat.OpenTokMixin'],
 
     requires: ['WebRTC.model.AdminSettings'],
 
     listen: {
         controller: {
-            'opentok': {
+           'opentok': {
                 chatreceived : 'onOTChatReceived',
                 connectioncreated : 'onOTConnectionCreated',
                 connectiondestroyed : 'onOTConnectionDestroyed',
@@ -18,11 +18,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
                 audiolevelupdate: 'onOTAudioLevelUpdate'
             },
             'auth':{
-                configure: 'onAdminSetup',
-                initDone: 'onAuthInit',
-                islogin: 'onAuthIsLogin',
-                islogout: 'onAuthIsLogout',
-                login: 'onAuthLogin'
+                userData: 'onAuthUserData'
             },
             '*':{
                 openUser: 'onUserClick'
@@ -38,32 +34,55 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
     },
 
 
-    //If there's no config info load the dialog
-    onAdminSetup: function(){
-        this.onSettingsAdminSelect();
+    init: function(){
+        var me = this,
+            view =  me.getView(),
+            combo = Ext.first('combobox[reference=roomscombo]');
+
+        if(view.startupRoom){
+            // Give firebase a moment to load the rooms
+            Ext.Function.defer(function(){
+                var record = combo.store.getById(view.startupRoom);
+                if(record){
+                    combo.select(record);
+                    combo.fireEvent('select',combo,record);
+                }else{
+                    Ext.toast({
+                        title: 'Unknown Room',
+                        html:  'This room can no longer be found. Please select another room',
+                        align: 't',
+                        bodyPadding: 10
+                    });
+                }
+            },
+            900);
+        }else{
+            this.deferAndSelectFirst();
+        }
     },
 
-    //once the authentication system is up authenticate the user
-    onAuthInit: function(){
-       WebRTC.util.Logger.log('AuthInit');
-       this.fireEvent('authorize');
-    },
+    // something in the user data changed
+    // make sure to filter the rooms by the user info
+    onAuthUserData: function(user){
+        var me=this,
+            store = this.getViewModel().getStore('myrooms');
 
-    //user was already logged in
-    onAuthIsLogin: function(){
-        WebRTC.util.Logger.log('Was logged in now selecting');
-        this.deferAndSelectFirst();
-    },
-
-    //login successful
-    onAuthLogin: function(authData){
-        this.deferAndSelectFirst();
-    },
-
-    //user was not logged in - so log them in
-    onAuthIsLogout: function(){
-       this.redirectTo('login');
-       // this.fireEvent('authorize');
+        store.filterBy(function (item) {
+            if (item) {
+                var user = me.getViewModel().get('user');
+                if (item.get('isPublic')) {
+                    return true;
+                } else if (user && user['name'] == 'admin' ) {
+                    return true;
+                } else if (user && user['id'] == item.get('owner') ) {
+                    return true;
+                }  else if (user && user['id'] && !user['isTemp']) {
+                    return !item.get('isPrivate')
+                }else {
+                    return false;
+                }
+            }
+        })
     },
 
     onGearClick: function(){
@@ -458,6 +477,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             width: 600,
             modal: true,
             layout: 'fit',
+            ghost: false,
             constrainHeader: true,
             viewModel:{
                 data: user

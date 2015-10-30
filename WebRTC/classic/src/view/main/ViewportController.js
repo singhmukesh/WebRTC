@@ -20,9 +20,6 @@ Ext.define('WebRTC.view.main.ViewportController', {
         this.getViewModel().set('user', user);
         this.getViewModel().set('userid', user['id']);
         this.getViewModel().set('name', user['fn']);
-
-       // seems loading the store breaks the bind.
-       // Ext.StoreManager.lookup('rooms').load();
     }
 
 });

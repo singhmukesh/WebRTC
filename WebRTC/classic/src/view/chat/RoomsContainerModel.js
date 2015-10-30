@@ -14,24 +14,6 @@ Ext.define('WebRTC.view.chat.RoomsContainerModel', {
         myrooms: {
             source: 'rooms',
             sorters: [{property: 'date', direction: 'ASC'}],
-            filters: [
-                function (item) {
-                    if (item) {
-                        var user = Ext.first('app-main').getViewModel().get('user');
-                        if (item.get('isPublic')) {
-                            return true;
-                        } else if (user && user['name'] == 'admin' ) {
-                            return true;
-                        } else if (user && user['id'] == item.get('owner') ) {
-                            return true;
-                        }  else if (user && user['id'] && !user['isTemp']) {
-                            return !item.get('isPrivate')
-                        }else {
-                            return false;
-                        }
-                    }
-                }
-            ],
             autoLoad: true,
             autosync: true
         }

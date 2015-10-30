@@ -5,8 +5,10 @@ Ext.define('WebRTC.Application', {
 
     requires: ['WebRTC.*'],
 
+    //If no token then go home
     defaultToken : 'home',
 
+    //Global Controllers
     controllers:[
         'opentok.controller.OpenTok',
         'soundlibrary.controller.SoundLibrary',
@@ -14,8 +16,13 @@ Ext.define('WebRTC.Application', {
         'Navigation'
     ],
 
-
-    stores:['WebRTC.store.chat.Rooms','Settings','SecurityRoles','Users'],
+    //Global Stores
+    stores:[
+        'WebRTC.store.chat.Rooms',
+        'Settings',
+        'SecurityRoles',
+        'Users'
+    ],
 
     init: function(){
         WebRTC.util.Logger.init();
