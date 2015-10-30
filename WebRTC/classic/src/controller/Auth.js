@@ -37,6 +37,13 @@ Ext.define('WebRTC.controller.Auth', {
     //used to store the currect number of seconds idle
     idleTime: 0,
 
+    listen: {
+        controller: {
+            '*':{
+                isAuthReady: 'isAuthReady'
+            }
+        }
+    },
 
     init: function () {
         var me = this;
@@ -54,15 +61,25 @@ Ext.define('WebRTC.controller.Auth', {
                     me.FBUrl = record.data.fbUrl;
                     me.firebaseRef = new Firebase(me.FBUrl);
                     me.ensureFirebaseReady();
-
-
                 }
             }
         });
 
     },
 
-    //Since there's no callback when firebase is ready wait and retry a few times, then call initDone when ready
+    isAuthReady: function(callback){
+        var me = this;
+        if (!me.firebaseRef) {
+            Ext.Function.defer(function () {
+               callback(true);
+            },
+            500);
+        }else{
+            callback(true);
+        }
+    },
+
+    // Since there's no callback when firebase is ready wait and retry a few times, then call initDone when ready
     ensureFirebaseReady: function(){
         var me = this;
         if (!me.firebaseRef) {
@@ -381,13 +398,13 @@ Ext.define('WebRTC.controller.Auth', {
                     WebRTC.util.Logger.log("User account deleted successfully!");
                     Ext.util.Cookies.clear('user');
                     firebase.unauth();
-                    this.redirectTo('login');
+                    this.redirectTo('logout');
                 }
             });
         }else{
             Ext.util.Cookies.clear('user');
             firebase.unauth();
-            this.redirectTo('login')
+            this.redirectTo('logout')
         }
 
     },

@@ -7,8 +7,12 @@ Ext.define('WebRTC.controller.Navigation', {
         'home' : {
             action  : 'onRouteHome'
         },
+        'room' : {
+            before  : 'onRouteBeforeRoom',
+            action  : 'onRouteRoom'
+        },
         'room/:id' : {
-           // before  : 'onRouteBeforeRoom',
+            before  : 'onRouteBeforeRoomId',
             action  : 'onRouteRoom'
         },
         'token/:id' : {
@@ -21,6 +25,9 @@ Ext.define('WebRTC.controller.Navigation', {
         'user' : {
             action  : 'onRouteUser'
         },
+        'logout' : {
+            action  : 'onRouteLogout'
+        },
         'settings' : {
             before  : 'onRouteBeforeSettings',
             action  : 'onRouteSettings'
@@ -29,78 +36,126 @@ Ext.define('WebRTC.controller.Navigation', {
 
     listen: {
         controller: {
+            'auth':{
+                // configure: 'onAdminSetup',
+                // initDone: 'onAuthInit',
+                islogin: 'onAuthIsLogin',
+                islogout: 'onAuthIsLogout',
+                login: 'onAuthLogin'
+            },
             '#' : {
                 unmatchedroute : 'onRouteUnmatched'
             }
         }
     },
 
-    onRouteHome: function(){
+    //empty object that will contain route to continue with if authorized
+    _authorizingRoute: null,
 
+    //Hide everything on the viewport except our route.
+    clearViewport: function (doRemove){
+        var viewport = Ext.ComponentQuery.query('app-main')[0];
+        Ext.each(viewport.items.items, function(childPanel) {
+            if(!!doRemove){
+                viewport.remove(childPanel, true);
+            }else{
+                childPanel.hide();
+            }
+        });
     },
 
-    onRouteUnmatched:function(route){
+    //add or show a new component based on the route
+    onRouteViewportComponent: function (xtype, params) {
+        this.clearViewport();
+        if(Ext.ComponentQuery.query(xtype)[0]){
+            Ext.ComponentQuery.query(xtype)[0].show();
+        }else{
+            Ext.ComponentQuery.query('app-main')[0].add(params)
+        }
+    },
+
+    onRouteHome: function(){
+        this.onRouteViewportComponent('uxiframe',{
+            xtype:'uxiframe',
+                src: "/static/cms/",
+                region:'north',
+                layout:'fit',
+                flex:1,
+                reference: 'cms'
+        });
+    },
+
+    onRouteUnmatched: function(route) {
         if(!!route){
             WebRTC.util.Logger.log('unmatched route' + route);
             window.location.hash = '#home';
         }
     },
 
-   /*
-   onRouteBeforeRoom : function(id, action) {
-        var me = this,
-            roomId = id;
-
-        if(Ext.StoreManager.lookup('rooms').getTotalCount() > 0 ){
-            var room = Ext.StoreManager.lookup('rooms').getById(roomId);
-            if(!room){
-                action.stop();
-                me.redirectTo('');
-            }else{
-                me.onRouteRoomSetup(room,action);
-            }
-
-        }else{
-            Ext.StoreManager.lookup('rooms').load(function(){
-                var room = Ext.StoreManager.lookup('rooms').getById(roomId); //lookup the value after callback
-                if(!room){
-                    action.stop();
-                    me.redirectTo('');
-                }else{
-                    me.onRouteRoomSetup(room,action);
-                }
-            })
-        }
+    onRouteBeforeRoom : function(action) {
+        var me = this;
+        me.fireEvent('isAuthReady',function(isReady) {
+            me._authorizingRoute = {
+                action: action
+            };
+            me.fireEvent('authorize');
+        });
     },
 
-    onRouteRoomSetup: function(room, action){
-        var me= this,
-            userCookie = Ext.util.Cookies.get('user');
-
-
-        if( room.get('isPublic') ){
-            action.resume();
-        }else{
-            if( room.get('isPrivate') ){
-                this.redirectTo('denied');
-            }else{
-                action.resume();
-            }
-        }
+    onRouteBeforeRoomId : function(id, action) {
+        this.onRouteBeforeRoom(action);
     },
-    */
 
     onRouteRoom: function(id){
-        var combo = Ext.first('combobox[reference=roomscombo]');
+        var vm = Ext.ComponentQuery.query('app-main')[0].getViewModel();
 
-        Ext.Function.defer(function(){
-            var record = combo.store.getById(id);
-            if(record){
-                combo.select(record);
-                combo.fireEvent('select',combo,record);
-            }
-        },
-        1200);
+        //Chat rooms into center
+        this.onRouteViewportComponent('chatroomscontainer',{
+            xtype:'chatroomscontainer',
+            region:'center',
+            flex:5,
+            layout:'fit',
+            startupRoom: id,
+            bind: {
+                title: 'Sencha Communicator  | {user.fn}'
+            },
+            reference: 'roomtabs'
+        });
+
+        if(1==0){ //!vm.isAdmin(vm)
+            this.onRouteViewportComponent('chatpresense',{
+                title: 'All Users',
+                xtype: 'chatpresense',
+                region:'west',
+                collapsable: true,
+                collasped: true,
+                /*bind: {
+                 hidden: '{!isAdmin}'
+                 },*/
+                split:true,
+                flex: 1
+            });
+        }
+
+    },
+
+    // this will be used when we implment more room security
+    onRouteRoomSetup: function(room, action){
+        /*
+         var me= this,
+         userCookie = Ext.util.Cookies.get('user');
+
+
+         if( room.get('isPublic') ){
+         action.resume();
+         }else{
+         if( room.get('isPrivate') ){
+         this.redirectTo('denied');
+         }else{
+         action.resume();
+         }
+         }
+         */
     },
 
     onRouteBeforeToken : function(id, action) {
@@ -154,6 +209,29 @@ Ext.define('WebRTC.controller.Navigation', {
     onRouteToken: function(){
         var id = this.tokenInfo.id;
         this.onRouteRoom(id)
+    },
+
+    onRouteLogout: function (){
+        this.redirectTo('home');
+    },
+
+    //user was already logged in
+    onAuthIsLogin: function(){
+        if(this._authorizingRoute){
+            this._authorizingRoute.action.resume();
+        }
+    },
+
+    //login successful
+    onAuthLogin: function(authData){
+        if(this._authorizingRoute){
+            this._authorizingRoute.action.resume();
+        }
+    },
+
+    //user was not logged in - so log them in
+    onAuthIsLogout: function(){
+        this.redirectTo('login');
     }
 
 

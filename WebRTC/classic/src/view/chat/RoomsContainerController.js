@@ -1,13 +1,13 @@
 Ext.define('WebRTC.view.chat.RoomsContainerController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.chatroomscontainer',
-    mixins: ['opentok.OpenTokMixin'],
+    mixins: ['WebRTC.view.chat.OpenTokMixin'],
 
     requires: ['WebRTC.model.AdminSettings'],
 
     listen: {
         controller: {
-            'opentok': {
+           'opentok': {
                 chatreceived : 'onOTChatReceived',
                 connectioncreated : 'onOTConnectionCreated',
                 connectiondestroyed : 'onOTConnectionDestroyed',
@@ -16,13 +16,6 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
                 sessionconnected : 'onOTSessionConnected',
                 sessiondisconnect : 'onOTSessionDestroyed',
                 audiolevelupdate: 'onOTAudioLevelUpdate'
-            },
-            'auth':{
-                configure: 'onAdminSetup',
-                initDone: 'onAuthInit',
-                islogin: 'onAuthIsLogin',
-                islogout: 'onAuthIsLogout',
-                login: 'onAuthLogin'
             },
             '*':{
                 openUser: 'onUserClick'
@@ -38,32 +31,31 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
     },
 
 
-    //If there's no config info load the dialog
-    onAdminSetup: function(){
-        this.onSettingsAdminSelect();
-    },
+    init: function(){
+        var me = this,
+            view =  me.getView(),
+            combo = Ext.first('combobox[reference=roomscombo]');
 
-    //once the authentication system is up authenticate the user
-    onAuthInit: function(){
-       WebRTC.util.Logger.log('AuthInit');
-       this.fireEvent('authorize');
-    },
-
-    //user was already logged in
-    onAuthIsLogin: function(){
-        WebRTC.util.Logger.log('Was logged in now selecting');
-        this.deferAndSelectFirst();
-    },
-
-    //login successful
-    onAuthLogin: function(authData){
-        this.deferAndSelectFirst();
-    },
-
-    //user was not logged in - so log them in
-    onAuthIsLogout: function(){
-       this.redirectTo('login');
-       // this.fireEvent('authorize');
+        if(view.startupRoom){
+            // Give firebase a moment to load the rooms
+            Ext.Function.defer(function(){
+                var record = combo.store.getById(view.startupRoom);
+                if(record){
+                    combo.select(record);
+                    combo.fireEvent('select',combo,record);
+                }else{
+                    Ext.toast({
+                        title: 'Unknown Room',
+                        html:  'This room can no longer be found. Please select another room',
+                        align: 't',
+                        bodyPadding: 10
+                    });
+                }
+            },
+            900);
+        }else{
+            this.deferAndSelectFirst();
+        }
     },
 
     onGearClick: function(){
