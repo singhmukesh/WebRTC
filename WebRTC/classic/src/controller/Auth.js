@@ -37,6 +37,9 @@ Ext.define('WebRTC.controller.Auth', {
     //used to store the currect number of seconds idle
     idleTime: 0,
 
+    //set to home in case someone tries to start at login....
+    originalRoute: '#home',
+
     listen: {
         controller: {
             '*':{
@@ -240,6 +243,10 @@ Ext.define('WebRTC.controller.Auth', {
     login: function (btn, data) {
         var me = this,
             firebase = me.firebaseRef;
+
+        if(!me.isAuthenticating){
+            me.authorize();
+        }
 
         if (data && firebase) {
             firebase.authWithPassword(
@@ -457,7 +464,9 @@ Ext.define('WebRTC.controller.Auth', {
                 },
                 success: function (record, operation) {
                     Ext.util.Cookies.set('user', JSON.stringify(newUser.data), expires);
-                    //me.cleanupAuth();
+                    if(!me.isAuthenticating) {
+                        me.firebaseRef.onAuth(me.authDataCallback, me);
+                    }
                     firebase.authWithPassword(
                         {
                             email: data.email,
@@ -465,7 +474,7 @@ Ext.define('WebRTC.controller.Auth', {
                         }
                         , me.authHandler.bind(me)
                     );
-                    // me.redirectTo('login');
+
                 },
                 callback: function (record, operation, success) {
                 }

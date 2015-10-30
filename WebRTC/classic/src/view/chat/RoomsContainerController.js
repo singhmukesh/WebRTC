@@ -17,6 +17,9 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
                 sessiondisconnect : 'onOTSessionDestroyed',
                 audiolevelupdate: 'onOTAudioLevelUpdate'
             },
+            'auth':{
+                userData: 'onAuthUserData'
+            },
             '*':{
                 openUser: 'onUserClick'
             }
@@ -56,6 +59,30 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         }else{
             this.deferAndSelectFirst();
         }
+    },
+
+    // something in the user data changed
+    // make sure to filter the rooms by the user info
+    onAuthUserData: function(user){
+        var me=this,
+            store = this.getViewModel().getStore('myrooms');
+
+        store.filterBy(function (item) {
+            if (item) {
+                var user = me.getViewModel().get('user');
+                if (item.get('isPublic')) {
+                    return true;
+                } else if (user && user['name'] == 'admin' ) {
+                    return true;
+                } else if (user && user['id'] == item.get('owner') ) {
+                    return true;
+                }  else if (user && user['id'] && !user['isTemp']) {
+                    return !item.get('isPrivate')
+                }else {
+                    return false;
+                }
+            }
+        })
     },
 
     onGearClick: function(){
