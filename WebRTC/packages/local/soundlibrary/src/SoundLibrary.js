@@ -2,7 +2,6 @@ Ext.define('soundlibrary.base.SoundLibrary', {
     extend: 'Ext.Component',
     xtype: 'soundlibrary',
 
-    renderTo: Ext.getBody(),
 
     tpl: [
         '<tpl for=".">',

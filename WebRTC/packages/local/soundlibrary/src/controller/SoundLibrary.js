@@ -37,6 +37,7 @@ Ext.define('soundlibrary.controller.SoundLibrary', {
         Ext.onReady(function(){
             Ext.create('soundlibrary.base.SoundLibrary', {
                 itemId: 'soundlibrary',
+                renderTo: Ext.getBody(),
                 data: sound
             });
         });
