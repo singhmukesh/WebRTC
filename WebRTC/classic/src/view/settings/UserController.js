@@ -29,6 +29,7 @@ Ext.define('WebRTC.view.settings.UserController', {
 
     signOut: function () {
         this.fireEvent('logout');
+        this.getView().up('window').close();
     },
 
     onChangePassword: function(){

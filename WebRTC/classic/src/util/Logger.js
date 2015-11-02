@@ -4,7 +4,7 @@ Ext.define("WebRTC.util.Logger", {
     // Log only one error per page visit
     maxNbrLogs      : 1,
     nbrErrorsLogged : 0,
-    debugMode: true,
+    debugMode: false,
 
     constructor : function () {
         window.onerror = Ext.Function.bind(this.onError, this);

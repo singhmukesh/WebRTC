@@ -20,8 +20,6 @@ Ext.define('WebRTC.view.main.ViewportController', {
         this.getViewModel().set('user', user);
         this.getViewModel().set('userid', user['id']);
         this.getViewModel().set('name', user['fn']);
-
-        Ext.StoreManager.lookup('rooms').load();
     }
 
 });

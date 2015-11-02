@@ -180,5 +180,6 @@ Ext.define('auth.view.authentication.Login', {
     initComponent: function() {
         this.addCls('user-login-register-container');
         this.callParent(arguments);
+
     }
 });

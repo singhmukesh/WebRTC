@@ -16,6 +16,10 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
         }
     },
 
+    init: function(){
+        this.user = Ext.decode(Ext.util.Cookies.get('user'));
+    },
+
     roomMemberAdd: function(member){
        // var store = this.getViewModel().getStore('members');
        // store.add(member);
@@ -74,7 +78,9 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
 
 
     onAudioCallRoom: function(button){
-        var you = this.lookupReference('you'),
+        var me=this,
+            view = me.getView(),
+            videoBox = view.getVideoBox(),
             auth = WebRTC.app.getController('Auth'),
             sessionId = this.getViewModel().get('room.sessionId');
 
@@ -87,7 +93,7 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
                 statusOrder: 60,
                 lastActivity: null
             });
-            this.fireEvent('callroom', {sessionId: sessionId, element: you.id, video: false} );
+            this.fireEvent('callroom', {sessionId: sessionId, element: videoBox.id, video: false} );
         }else{
             this.onEndAudioCall(button);
         }
@@ -98,27 +104,46 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
         var me = this,
             view = me.getView(),
             viewModel = me.getViewModel(),
+            videoConnections = viewModel.get('videoConnections'),
             auth = WebRTC.app.getController('Auth'),
             sessionId = viewModel.get('room').get('sessionId'),
             inVideoCall = viewModel.get('inVideoCall'),
-            videoBox;
+            enableVideoCall = !inVideoCall,
+            videoBox, streams;
 
-        if(!inVideoCall){
+        // Update the number of enabled video connections
+        videoConnections += enableVideoCall ? 1 : -1;
+        viewModel.set('videoConnections', videoConnections);
+
+        //<debug>
+        console.log('- Video Connections: ', videoConnections);
+        //</debug>
+
+        if(enableVideoCall){
 
             me.switchToVideoMeetingLayout(true);
 
             videoBox = view.getVideoBox();
+            streams = view.getRemoteStreams();
 
             viewModel.set('inVideoCall', true);
             viewModel.set('showingCamera', true);
 
+
             me.setMemberCallStatus({callStatus:'video'});
 
-            auth.setPresenseStatus({
+
+           auth.setPresenseStatus({
                 status: 'busy',
                 statusOrder: 60,
                 lastActivity: null
             });
+
+
+            // Show the streams only if there is more than one video connection
+            if(videoConnections > 1){
+                streams.show();
+            }
 
             me.fireEvent('callroom',  {sessionId: sessionId, element: videoBox.id, video: true });
 
@@ -130,10 +155,13 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
         if(videoBox) {
             videoBox[!inVideoCall ? 'show' : 'hide']();
         }
+
     },
 
     onEndAudioCall: function(button){
-        var you = this.lookupReference('you'),
+        var me=this,
+            view = me.getView(),
+            videoBox = view.getVideoBox(),
             auth = WebRTC.app.getController('Auth'),
             sessionId = this.getViewModel().get('room.sessionId');
 
@@ -145,14 +173,16 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             callStatus:'idle',
             micStatus:''
         });
+
         // this.setMemberCallStatus({micStatus:''});
+
         auth.setPresenseStatus({
             status: 'online',
             statusOrder: 100,
             lastActivity: null
         });
 
-        this.fireEvent('endcall', sessionId, you.id );
+        this.fireEvent('endcall', sessionId, videoBox.id );
 
     },
 
@@ -162,8 +192,12 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             videoBox = view.getVideoBox(),
             viewModel = me.getViewModel(),
             auth = WebRTC.app.getController('Auth'),
-            sessionId = this.getViewModel().get('room.sessionId'),
-            streams = view.getRemoteStreams();
+            sessionId = viewModel.get('room.sessionId'),
+            isVideoLayout = viewModel.get('isVideoLayout'),
+            videoConnections = viewModel.get('videoConnections'),
+            imFullscreen = viewModel.get('imFullscreen'),
+            streams = view.getRemoteStreams(),
+            fullscreenBox, myVideoBox;
 
         viewModel.set('inVideoCall', false);
         viewModel.set('useCamera', true);
@@ -181,8 +215,35 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             lastActivity: null
         });
 
-        if(!streams.items.length){
+        if(videoConnections === 0){
             me.switchToVideoMeetingLayout(false);
+        }
+        else if(videoConnections === 1) {
+            streams.hide();
+        }
+
+        /* If I was the fullscreen user I need to pick the first remote video box
+         * from the streams container and make him fullscreen.
+         * My video box will be then added to the streams container.
+         */
+        else if(imFullscreen && isVideoLayout){
+
+            fullscreenBox = view.lookupReference('fullscreenvideobox');
+            myVideoBox = view.getVideoBox();
+            otherVideoBox = streams.query('container')[0];
+
+            Ext.suspendLayouts();
+
+            fullscreenBox.remove(myVideoBox, false);
+            streams.add(myVideoBox);
+
+            streams.remove(otherVideoBox, false);
+            fullscreenBox.add(otherVideoBox);
+
+            Ext.resumeLayouts();
+            view.updateLayout();
+
+            viewModel.set('imFullscreen', false);
         }
 
         me.fireEvent('endcall', sessionId, videoBox.id );
@@ -192,7 +253,6 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
         var auth = WebRTC.app.getController('Auth'),
             id = this.getViewModel().get('room')['id'],
             user = this.getViewModel().get('user');
-
 
         if(user){
             var userId = user['id'],
@@ -294,44 +354,60 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
 
     onUpdateCurrentSpeaker: function(){
         var me = this,
+            user = me.user,
             view = me.getView(),
-            tollerance = 0.4;
+            viewModel = view.getViewModel(),
+            videoConnections = viewModel.get('videoConnections'),
+            imFullscreen = viewModel.get('imFullscreen'),
+            tolerance = 0.4;
 
-        /* If the user switch chat room the view is no longe available
-         * so end its realated current speaker task. */
+        /* If the user switch chat room the view is no longer available
+         * so end its related current speaker task. */
         if(!view){
             Ext.TaskManager.stop(me.currentSpeakerTask);
             delete me.currentSpeakerTask;
             return false;
         }
 
-        var remoteStreams = view.getRemoteStreams(),
-            speaker = me.getCurrentSpeaker(),
-            speakerBox = me.lookupReference('speakervideobox'),
-            partecipantBox = remoteStreams.down('container[username=' + speaker.user.get('name') + ']'),
-            lastCurrentSpeaker = me.lastCurrentSpeaker,
-            lastCurrentSpeakerBox;
+        /* Proceed with the current speaker detection only if there are more
+         * than a single video connections. */
+        if(videoConnections > 1) {
 
-        if((speaker.user !== lastCurrentSpeaker) && (speaker.audioLevel > tollerance)) {
+            var myVideoBox = view.getVideoBox(),
+                streams = view.getRemoteStreams(),
+                speaker = me.getCurrentSpeaker(),
+                speakerName = speaker.user.get('name'),
+                fullscreenBox = me.lookupReference('fullscreenvideobox'),
+                speakerBox = streams.down('container[username=' + speakerName + ']'),
+                imFullscreen = speakerName === user.name,
+                lastCurrentSpeaker = me.lastCurrentSpeaker,
+                lastCurrentSpeakerBox;
 
-            if (!partecipantBox) {
-                partecipantBox = view.getVideoBox();
+            // If the Speaker Box was not found, it means I'm the speaker.
+            viewModel.set('imFullscreen', imFullscreen);
+
+            if(!speakerBox){
+                speakerBox = myVideoBox;
             }
 
-            Ext.suspendLayouts();
+            if ((speaker.user !== lastCurrentSpeaker) && (speaker.audioLevel > tolerance)) {
 
-            lastCurrentSpeakerBox = speakerBox.removeAll(false);
-            if(lastCurrentSpeakerBox.length){
-                remoteStreams.add(lastCurrentSpeakerBox[0]);
+                Ext.suspendLayouts();
+
+                lastCurrentSpeakerBox = fullscreenBox.removeAll(false);
+                if (lastCurrentSpeakerBox.length) {
+                    streams.add(lastCurrentSpeakerBox[0]);
+                }
+
+                streams.remove(speakerBox, false);
+                fullscreenBox.add(speakerBox);
+
+                Ext.resumeLayouts();
+                view.updateLayout();
+
+                me.lastCurrentSpeaker = speaker.user;
             }
 
-            remoteStreams.remove(partecipantBox, false);
-            speakerBox.add(partecipantBox);
-
-            Ext.resumeLayouts();
-            view.updateLayout();
-
-            me.lastCurrentSpeaker = speaker.user;
         }
     },
 
@@ -343,7 +419,9 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             members = me.getStore('members'),
             record = members.getById(userId);
 
-        record.set('audio_level', audioLevel);
+        if(record) {
+            record.set('audio_level', audioLevel);
+        }
     },
 
     getCurrentSpeaker: function(){

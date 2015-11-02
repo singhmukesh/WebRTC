@@ -1,15 +1,23 @@
 //@import url(https://fonts.googleapis.com/css?family=Oregano);
 
+$default-content-base-color: $base-accent-color;
+
+.x-panel-body-defaultContentWrapper{
+  background: $default-content-base-color;
+  -webkit-box-shadow: inset 0px 10px 20px -12px rgba(0,0,0,0.75);
+  -moz-box-shadow: inset 0px 10px 20px -12px rgba(0,0,0,0.75);
+  box-shadow: inset 0px 10px 20px -12px rgba(0,0,0,0.75);
+}
 .defaultContent{
-    background: rgb(236, 247, 255);
+    background: $default-content-base-color;
     text-align: center;
     font-size: 16px;
     font-family: 'Open Sans', sans-serif;
-    color: #a0a0a0;
+    color: #909090;
   h1 {
         font-family: 'Open Sans', sans-serif;
         text-shadow: 1px 1px 5px #aaa;
-        color: #cde4ff;
+        color: #FFFFFF;
         font-size: 88px;
         margin: 36px;
     }

@@ -28,6 +28,14 @@ Ext.define('auth.view.authentication.LockingWindow', {
     maximized: true,
     modal: true,
 
+    /*
+    // sample full screen video backend - not implemented.
+    bodyStyle: 'background: transparent;',
+    html:'<video autoplay loop class="bgvid">' +
+    '<source type="video/mp4" src="/static/images/bgVid.mp4">' +
+    '</video>',
+    */
+
     layout: {
         type: 'vbox',
         align: 'center',

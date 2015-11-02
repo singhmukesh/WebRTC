@@ -9,7 +9,9 @@ Ext.define('WebRTC.view.chat.room.RoomModel', {
         showStreams: true,
         showSelf: true,
         useMic: true,
-        useCamera: true
+        useCamera: true,
+        imFullscreen: true,
+        videoConnections: 0
     },
 
     links: {
@@ -76,6 +78,13 @@ Ext.define('WebRTC.view.chat.room.RoomModel', {
                 return 'x-fa fa-stop';
             } else {
                 return 'x-fa fa-phone';
+            }
+        },
+        audioCallClass: function (get) {
+            if (get('inAudioCall')) {
+                return 'inAudioCall';
+            } else {
+                return 'audioCall';
             }
         },
         videoCallIcon: function (get) {

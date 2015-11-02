@@ -37,6 +37,16 @@ Ext.define('WebRTC.controller.Auth', {
     //used to store the currect number of seconds idle
     idleTime: 0,
 
+    //set to home in case someone tries to start at login....
+    originalRoute: '#home',
+
+    listen: {
+        controller: {
+            '*':{
+                isAuthReady: 'isAuthReady'
+            }
+        }
+    },
 
     init: function () {
         var me = this;
@@ -54,15 +64,25 @@ Ext.define('WebRTC.controller.Auth', {
                     me.FBUrl = record.data.fbUrl;
                     me.firebaseRef = new Firebase(me.FBUrl);
                     me.ensureFirebaseReady();
-
-
                 }
             }
         });
 
     },
 
-    //Since there's no callback when firebase is ready wait and retry a few times, then call initDone when ready
+    isAuthReady: function(callback){
+        var me = this;
+        if (!me.firebaseRef) {
+            Ext.Function.defer(function () {
+               callback(true);
+            },
+            500);
+        }else{
+            callback(true);
+        }
+    },
+
+    // Since there's no callback when firebase is ready wait and retry a few times, then call initDone when ready
     ensureFirebaseReady: function(){
         var me = this;
         if (!me.firebaseRef) {
@@ -224,6 +244,10 @@ Ext.define('WebRTC.controller.Auth', {
         var me = this,
             firebase = me.firebaseRef;
 
+        if(!me.isAuthenticating){
+            me.authorize();
+        }
+
         if (data && firebase) {
             firebase.authWithPassword(
                 {
@@ -381,13 +405,13 @@ Ext.define('WebRTC.controller.Auth', {
                     WebRTC.util.Logger.log("User account deleted successfully!");
                     Ext.util.Cookies.clear('user');
                     firebase.unauth();
-                    this.redirectTo('login');
+                    this.redirectTo('logout');
                 }
             });
         }else{
             Ext.util.Cookies.clear('user');
             firebase.unauth();
-            this.redirectTo('login')
+            this.redirectTo('logout')
         }
 
     },
@@ -440,7 +464,9 @@ Ext.define('WebRTC.controller.Auth', {
                 },
                 success: function (record, operation) {
                     Ext.util.Cookies.set('user', JSON.stringify(newUser.data), expires);
-                    //me.cleanupAuth();
+                    if(!me.isAuthenticating) {
+                        me.firebaseRef.onAuth(me.authDataCallback, me);
+                    }
                     firebase.authWithPassword(
                         {
                             email: data.email,
@@ -448,7 +474,7 @@ Ext.define('WebRTC.controller.Auth', {
                         }
                         , me.authHandler.bind(me)
                     );
-                    // me.redirectTo('login');
+
                 },
                 callback: function (record, operation, success) {
                 }
@@ -638,7 +664,7 @@ Ext.define('WebRTC.controller.Auth', {
     onTimerIncrement: function (me) {
         me.idleTime++;
         // WebRTC.util.Logger.log('icrement' + window.idleTime );
-        if (me.idleTime > (5 * 60) && !me.isIdle) {
+        if (me.idleTime > (1 * 60) && !me.isIdle) {
             // WebRTC.util.Logger.log('idle');
             me.isIdle = true;
             me.setPresenseStatus({
@@ -659,6 +685,7 @@ Ext.define('WebRTC.controller.Auth', {
         if (me.user) {
             var id = me.user['id'],
                 usersRef = me.firebaseRef.child('users/' + id);
+
             if(id == undefined || !id ){
                 alert('null user update!')
             }else{
