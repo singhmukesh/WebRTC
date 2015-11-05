@@ -11,8 +11,14 @@ Ext.define('auth.view.authentication.LockingWindow', {
         'auth.view.authentication.AuthenticationController'
     ],
 
-    cls: 'auth-locked-window',
-    layout: 'fit',
+    baseCls: 'auth-locked-window',
+
+    layout: {
+        type: 'vbox',
+        align: 'center',
+        pack: 'center'
+    },
+
     controller: 'authentication',
 
     updateStatus: function(text){

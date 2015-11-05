@@ -50,6 +50,12 @@
     font-weight: bold;
 }
 
+.x-input-el {
+    border: 1px solid $field-border-color;
+}
+
+$color-soft-orange: #ffc107;
+
 video.bgvid {
     position: fixed;
     top: 50%;
@@ -76,6 +82,16 @@ video.bgvid {
         border: none;
         border-radius: 0;
         padding: 0;
+    }
+    .checkbox-text-adjustment{
+        margin-top:.5em;
+    }
+
+    .status-top-label{
+        color:$color-soft-orange;
+        font-size: 1.3em;
+        font-weight:bold;
+        text-align: center;
     }
 }
 

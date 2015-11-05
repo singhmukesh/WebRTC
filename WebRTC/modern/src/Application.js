@@ -16,14 +16,21 @@ Ext.define('WebRTC.Application', {
     defaultToken : 'home',
 
     controllers: [
+        'Navigation',
         'Auth',
         'OpenTok'
     ],
 
     stores:[
+        'WebRTC.store.chat.Rooms',
+        'SecurityRoles',
         'Settings',
         'Users'
     ],
+
+    init: function(){
+        WebRTC.util.Logger.init();
+    },
 
     onAppUpdate: function () {
         Ext.Msg.confirm('Application Update', 'This application has an update, reload?',

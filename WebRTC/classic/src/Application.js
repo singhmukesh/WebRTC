@@ -5,7 +5,6 @@ Ext.define('WebRTC.Application', {
 
     requires: ['WebRTC.*'],
 
-    //If no token then go home
     defaultToken : 'home',
 
     //Global Controllers

@@ -12,64 +12,64 @@ Ext.define('auth.view.authentication.PasswordReset', {
         type: 'authentication'
     },
 
-    items: [
-        {
-            xtype: 'authdialog',
-            bodyPadding: '20 20',
-            defaults : {
-                margin : '5 0'
-            },
+    items: [{
+        xtype: 'panel',
 
+        items: [{
+            padding: '20 0 0 20',
+            html: 'Enter your email address for further reset instructions'
+        }, {
+            xtype: 'container',
+            padding: 20,
+            defaults: {
+                margin: '0 0 10 0'
+            },
             items: [
                 {
-                    xtype: 'titlebar',
-                    title: 'Reset Password',
-                    docked: 'top'
+                    xtype: 'label',
+                    reference: 'statusLabel',
+                    cls: 'status-top-label',
+                    hidden: true,
+                    text: 'An error has occurred'
                 },
                 {
-                    xtype: 'fieldset',
-                    title: 'Enter your email address for further reset instructions',
-                    items: [
-                        {
-                            xtype: 'label',
-                            reference: 'statusLabel',
-                            cls: 'status-top-label',
-                            hidden: true,
-                            html: 'An error has occurred'
-                        },
-                        {
-                            xtype: 'textfield',
-                            cls: 'auth-textbox',
-                            name: 'email',
-                            bind: '{email}',
-                            label: 'Email',
-                            allowBlank: false,
-                            emptyText: 'user@example.com',
-                            vtype: 'email'
+                    xtype: 'textfield',
+                    cls: 'auth-textbox',
+                    height: 55,
+                    name: 'email',
+                    bind: '{email}',
+                    hideLabel: true,
+                    allowBlank: false,
+                    placeHolder: 'user@example.com',
+                    vtype: 'email',
+                    triggers: {
+                        glyphed: {
+                            cls: 'trigger-glyph-noop auth-email-trigger'
                         }
-                    ]
+                    }
                 },
                 {
                     xtype: 'button',
                     reference: 'resetPassword',
                     scale: 'large',
                     // ui: 'soft-blue',
-                    // formBind: true,
-                    iconAlign: 'top',
+                    formBind: true,
+                    iconAlign: 'right',
                     iconCls: 'x-fa fa-angle-right',
                     text: 'Reset Password',
                     listeners: {
-                        click: 'onResetClick'
+                        tap: 'onResetClick'
                     }
                 },
                 {
                     xtype: 'component',
                     html: '<div style="text-align:right">' +
-                        '<a href="#login" class="link-forgot-password">'+
-                            'Back to Log In</a>' +
-                        '</div>'
-                }                
+                    '<a href="#login" class="link-forgot-password">' +
+                    'Back to Log In</a>' +
+                    '</div>'
+                }
             ]
-        }
-    ]
+        }]
+    }]
+
 });

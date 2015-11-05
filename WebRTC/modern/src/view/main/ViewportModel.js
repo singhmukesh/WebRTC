@@ -30,7 +30,7 @@ Ext.define('WebRTC.view.main.ViewportModel', {
             },
             filters: [
                 function(item) {
-                    var user = Ext.first('chatroomscontainer').getViewModel().get('user');
+                    var user = Ext.first('app-main').getViewModel().get('user');
                     if(item.get('passwordVerified')) {
                         return true;
                     }else if(user && user['id']){

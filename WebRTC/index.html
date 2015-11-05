@@ -34,9 +34,17 @@
             else if (s.match(/\bmaterial\-modern\b/)) {
                 profile = 'material-modern';
             }
+            else if (tags.desktop) {
+                profile = 'classic';
+            }
+            else if (tags.tablet) {
+                profile = 'classic';
+            }
+            else if (tags.phone) {
+                profile = 'modern';
+            }
             else {
-                profile = tags.desktop ? 'classic' : 'modern';  //typically desktop is classic but this app is all modern.
-                //profile = tags.phone ? 'modern' : 'classic';
+                profile = 'classic';
             }
             Ext.manifest = profile; // this name must match a build profile name
             // This function is called once the manifest is available but before
