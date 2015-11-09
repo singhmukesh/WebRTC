@@ -16,13 +16,23 @@ Ext.define('WebRTC.Application', {
     defaultToken : 'home',
 
     controllers: [
-        'Navigation',
+        'Routes',
         'Auth',
         'OpenTok'
     ],
 
+    profiles: [
+        'Phone',
+        'Tablet'
+    ],
+
+    //Startup view for modern
+    mainView: 'WebRTC.view.main.Main',
+
+
     stores:[
         'WebRTC.store.chat.Rooms',
+        'NavigationTree',
         'SecurityRoles',
         'Settings',
         'Users'

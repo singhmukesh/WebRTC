@@ -57,7 +57,7 @@ Ext.define('auth.view.authentication.Login', {
                 text: 'Login',
                 iconAlign: 'right',
                 iconCls: 'x-fa fa-angle-right',
-                ui: 'confirm',
+                ui: 'soft-green',
                 listeners: {
                     tap: 'onLoginButton'
                 }

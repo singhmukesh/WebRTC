@@ -99,6 +99,11 @@ Ext.define('WebRTC.controller.GlobalAuth', {
     authorize: function () {
         var me = this;
 
+        if (!me.firebaseRef) {
+            me.ensureFirebaseReady();
+            return;
+        }
+
         if (me.isAuthenticating) {
             WebRTC.util.Logger.log('was authenticating');
             return;

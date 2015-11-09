@@ -8,51 +8,10 @@ Ext.define('WebRTC.view.settings.User', {
 
     controller: 'settingsuser',
     bodyPadding: 10,
+    ui: 'soft-green',
     scrollable: true,
 
-
-
     items: [
-        // {
-        //     xtype: 'fieldset',
-        //     title: 'Authorization',
-        //     defaults:{
-        //         anchor: '100%'
-        //     },
-        //     items: [
-        //         {
-        //             xtype:'textfield',
-        //             fieldLabel: 'ApiKey',
-        //             name: 'OTApiKey'
-        //         },
-        //         {
-        //             xtype:'textfield',
-        //             fieldLabel: 'SecretKey',
-        //             inputType: 'password',
-        //             name: 'OTSecretKey'
-        //         }
-        //     ]
-        // },
-        // {
-        //     xtype: 'fieldset',
-        //     title: 'FB Profile',
-        //     defaults:{
-        //         anchor: '100%'
-        //     },
-        //     items: [
-        //         {
-        //             xtype:'textfield',
-        //             fieldLabel: 'ApiKey',
-        //             name: 'FBApiKey'
-        //         },
-        //         {
-        //             xtype:'textfield',
-        //             fieldLabel: 'SecretKey',
-        //             inputType: 'password',
-        //             name: 'FBSecretKey'
-        //         }
-        //     ]
-        // },
         {
             xtype: 'fieldset',
             title: 'Sounds',
@@ -113,15 +72,17 @@ Ext.define('WebRTC.view.settings.User', {
             docked: 'bottom',
             items: [{
                 iconCls: 'x-fa fa-sign-out',
+                ui: 'header',
                 action:'cancel',
                 text:'Sign Out',
                 handler: 'signOut'
             },{
                     xtype: 'spacer'
             },{
-                    iconCls: 'x-fa fa-thumbs-o-up',
+                    iconCls: 'x-fa fa-check-circle',
+                    ui: 'header',
                     action:'ok',
-                    text:'OK',
+                   // text:'OK',
                     handler: 'saveSettings'
             }
             ]

@@ -31,7 +31,8 @@ Ext.define('WebRTC.view.settings.UserController', {
     },
 
     saveSettings: function () {
-        var view = this.getView(),
+        var me=this,
+            view = this.getView(),
             data = view.getValues(),
             settings = Ext.getStore('Settings');
 
@@ -49,7 +50,7 @@ Ext.define('WebRTC.view.settings.UserController', {
         settings.getById(key).set('value', data[key]);
 
 
-        view.up('navigationview').pop();
+        me.redirectTo('room');
     }
 
 

@@ -185,4 +185,6 @@ Ext.define('auth.controller.Auth', {
     register: function(btn,data){
 
     }
+
+
 });

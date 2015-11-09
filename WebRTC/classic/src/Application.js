@@ -12,16 +12,20 @@ Ext.define('WebRTC.Application', {
         'opentok.controller.OpenTok',
         'soundlibrary.controller.SoundLibrary',
         'Auth',
-        'Navigation'
+        'Routes'
     ],
 
     //Global Stores
     stores:[
+        'NavigationTree',
         'WebRTC.store.chat.Rooms',
         'Settings',
         'SecurityRoles',
         'Users'
     ],
+
+    //Startup view for Classic
+    mainView: 'WebRTC.view.main.Viewport',
 
     init: function(){
         WebRTC.util.Logger.init();
