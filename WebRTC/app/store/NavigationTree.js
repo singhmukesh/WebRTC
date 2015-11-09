@@ -14,7 +14,7 @@ Ext.define('WebRTC.store.NavigationTree', {
             {
                 text: 'User',
                 iconCls: 'x-fa fa-user',
-                rowCls: 'nav-tree-badge nav-tree-badge-new',
+                // rowCls: 'nav-tree-badge nav-tree-badge-new',
                 viewType: 'settingsuser',
                 routeId: 'user', // routeId defaults to viewType
                 leaf: true
@@ -22,7 +22,7 @@ Ext.define('WebRTC.store.NavigationTree', {
             {
                 text: 'Chat Rooms',
                 iconCls: 'x-fa fa-comments',
-                rowCls: 'nav-tree-badge nav-tree-badge-new',
+                // rowCls: 'nav-tree-badge nav-tree-badge-new',
                 viewType: 'chatroomcontainer',
                 routeId: 'room', // routeId defaults to viewType
                 leaf: true
