@@ -66,10 +66,11 @@ Ext.define('WebRTC.controller.GlobalAuth', {
     isAuthReady: function(callback){
         var me = this;
         if (!me.firebaseRef) {
+            WebRTC.util.Logger.log('Firebase not ready');
             Ext.Function.defer(function () {
                     callback(true);
                 },
-                500);
+                1200);
         }else{
             callback(true);
         }
@@ -80,7 +81,7 @@ Ext.define('WebRTC.controller.GlobalAuth', {
         var me = this;
         if (!me.firebaseRef) {
             Ext.Function.defer(function () {
-                    WebRTC.util.Logger.log('Firebase not ready');
+                    WebRTC.util.Logger.log('Firebase not ensured ready');
                     me.ensureFirebaseReady();
                 },
                 50);

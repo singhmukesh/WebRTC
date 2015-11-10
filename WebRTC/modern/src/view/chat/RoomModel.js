@@ -9,13 +9,6 @@ Ext.define('WebRTC.view.chat.RoomModel', {
         useCamera: true
     },
 
-    links: {
-        room: {
-            type: 'WebRTC.model.chat.Room',
-            create: true
-        }
-    },
-
     stores:{
         messages: {
             model: 'WebRTC.model.chat.Message',

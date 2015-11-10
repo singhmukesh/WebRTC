@@ -25,16 +25,14 @@ Ext.define('WebRTC.controller.Routes', {
                 xtype:'chatroomscontainer',
                 reference: 'roomtabs',
                 flex: 1,
-                routeId: 'room',
-                title: 'Rooms'
+                routeId: 'room'
             });
         }else{
             this.onRouteViewportComponent('room',{
                 xtype:'chatroom',
                 reference: 'room',
                 flex: 1,
-                routeId: 'room/' + id,
-                title: 'Rooms'
+                routeId: 'room/' + id
             });
         }
     }

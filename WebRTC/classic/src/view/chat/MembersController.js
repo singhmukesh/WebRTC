@@ -16,7 +16,7 @@ Ext.define('WebRTC.view.chat.MembersController', {
     },
 
     onCloseRoom: function(tab,room, user){
-        var auth = WebRTC.app.getController('Auth'),
+        var auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             membersRef = auth.firebaseRef.child('roommembers/' + room['id'] + '/' + user['id']);
 
         // remove member from room
@@ -26,7 +26,7 @@ Ext.define('WebRTC.view.chat.MembersController', {
     },
 
     onJoinRoom: function(tab, room, user){
-        var auth = WebRTC.app.getController('Auth'),
+        var auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             membersRef = auth.firebaseRef.child('roommembers/' + room['id'] + '/' + user['id']),
             socketId = '';
 
@@ -49,7 +49,7 @@ Ext.define('WebRTC.view.chat.MembersController', {
 
 
     onDblClick: function(list,record){
-        var auth = WebRTC.app.getController('Auth'),
+        var auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             user = this.getViewModel().get('user'),
             member = record.get('id'),
             userroomsRef = auth.firebaseRef.child('userrooms/' + user['id']+ '/' + member);
@@ -109,7 +109,7 @@ Ext.define('WebRTC.view.chat.MembersController', {
     },
 
     setPresenseStatus: function(status){
-        var auth = WebRTC.app.getController('Auth'),
+        var auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             userId = auth.user['id'],
             membersRef = auth.firebaseRef.child('roommembers/' + id + '/' + userId);
 

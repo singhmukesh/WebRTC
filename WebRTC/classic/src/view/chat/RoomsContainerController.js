@@ -258,7 +258,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
     onRoomRemove: function(){
         var me= this,
             roomtabs = Ext.first('[reference=roomtabs]'),
-            auth = WebRTC.app.getController('Auth'),
+            auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             combo = Ext.first('combobox[reference=roomscombo]'),
             record = combo.getSelection();
 
@@ -311,11 +311,11 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             defaultContent = Ext.first('[defaultContent=true]'),
             id = record.get('id'),
             tab = me.getRoomTabById(id),
-            auth = WebRTC.app.getController('Auth'),
+            auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             user = me.getViewModel().get('user'),
             userId = user['id'],
             name = user['fn'],
-            membersRef = auth.firebaseRef.child('roommembers/' + id + '/' + userId),
+            // membersRef = auth.firebaseRef.child('roommembers/' + id + '/' + userId),
             newroom;
 
 
@@ -348,7 +348,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
             //Set the viewmodel on the container as the room model will link to it.
             // tab.getViewModel().set('room', record);
-            this.getViewModel().set('room', record);
+            me.getViewModel().set('room', record);
 
             tab.getViewModel().getStore('messages').getProxy().setExtraParam('room',id);
             tab.getViewModel().getStore('messages').load();
@@ -360,7 +360,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             me.fireEvent('joinroom', tab, record, user);
         }
 
-        this.redirectTo('room/' + id);
+       this.redirectTo('room/' + id);
 
     },
 

@@ -30,15 +30,13 @@ Ext.define('soundlibrary.controller.SoundLibrary', {
     },
 
     init: function(){
-        var sound = this._getSoundById('chat-sound');
-
         Ext.create('soundlibrary.store.Sounds',{storeId:'Sounds'});
 
         Ext.onReady(function(){
             Ext.create('soundlibrary.base.SoundLibrary', {
                 itemId: 'soundlibrary',
                 renderTo: Ext.getBody(),
-                data: sound
+                data: null
             });
         });
 

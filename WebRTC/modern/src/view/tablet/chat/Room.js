@@ -1,6 +1,5 @@
 Ext.define('WebRTC.view.tablet.chat.Room', {
     extend: 'Ext.Panel',
-    // xtype: 'chatroom',
 
     layout: {
         type: 'box',
@@ -39,7 +38,7 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
                         {
                             xtype: 'chatinfo',
                             hidden: true
-                        }, 
+                        },
                         {
                             xtype: 'chathistory',
                             reference: 'chathistory',

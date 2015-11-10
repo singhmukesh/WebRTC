@@ -1,6 +1,5 @@
 Ext.define('WebRTC.view.phone.chat.Room', {
     extend: 'Ext.Panel',
-    // xtype: 'chatroom',
 
     layout: {
         type: 'box',

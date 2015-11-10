@@ -31,7 +31,21 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
     },
 
     //These are routes that are handled by their own packages and should be ignored
-    knownRoutes: ['login','logout','register','lock','newpassword','guest','denied','newemail'],
+    knownRoutes: [
+        'home',
+        'room',
+        'room/:id',
+        'token/:id',
+        'settings',
+        'login',
+        'logout',
+        'register',
+        'lock',
+        'newpassword',
+        'guest',
+        'denied',
+        'newemail'
+    ],
 
     listen: {
         controller: {
@@ -95,6 +109,7 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
 
     onRouteBeforeRoom : function(action) {
         var me = this;
+        WebRTC.util.Logger.log('Before Route Room');
 
         me.fireEvent('isAuthReady',function(isReady) {
             me._authorizingRoute = {
@@ -241,13 +256,14 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
     //any change in route that isn't specifically fired defaults to this
     onRouteChange: function (hashTag) {
 
+        WebRTC.util.Logger.log('Route Change');
 
-        //let other known routes process
-        if(Ext.Array.contains(this.knownRoutes, hashTag)){
+        // let other known routes process
+        if(Ext.Array.contains(this.knownRoutes, hashTag) ){
+            WebRTC.util.Logger.log('Ignore known route');
             return false;
         }
 
-        WebRTC.util.Logger.log('Route Change');
         this.setCurrentView(hashTag);
     },
 
@@ -255,8 +271,8 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
     // it makes the hashtag the current active card
     setCurrentView: function (hashTag) {
         WebRTC.util.Logger.log('Setting Current View');
-
         hashTag = (hashTag || '').toLowerCase();
+
         var appMain = Ext.ComponentQuery.query('app-main')[0],
             vc = appMain.getController(),
             mainCard = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0],
@@ -281,6 +297,8 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
         mainCard.setActiveItem(item);
 
         navigationTree.setSelection(node);
+
+
 
         //if (newView.isFocusable(true)) {
         //    newView.focus();

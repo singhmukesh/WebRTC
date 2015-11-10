@@ -17,28 +17,14 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
                 sessiondisconnect : 'onOTSessionDestroyed'
             },
             'auth':{
-                configure: 'onAdminSetup',
-                init: 'onAuthInit',
-                islogin: 'onAuthIsLogin',
-                islogout: 'onAuthIsLogout',
-                login: 'onAuthLogin',
                 userData: 'onAuthUserData'
             }
         }
-        // component:{
-        //     'chatroom':{
-        //         activate: 'onRoomActivate',
-        //         destroy: 'onRoomRemoved'
-        //         // deactivate: 'onRoomDeactivate',
-        //         // beforeclose: 'onRoomClose'
-        //     }
-        // }
     },
 
     // required by OpenTokMixin
     getRoomBySessionId: function(sessionId){
         var room = Ext.first('chatroom[sessionId="' + sessionId + '"]');
-
         return room;
     },
 
@@ -46,82 +32,33 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         return WebRTC.app.getController('OpenTok');
     },
 
-
-    //If there's no config info load the dialog
-    onAdminSetup: function(){
-        this.onSettingsAdminSelect();
-    },
-
-    //once the authentication system is up authenticate the user
-    onAuthInit: function(){
-        this.fireEvent('authorize');
-    },
-
-    //something in the user data changed
+    // something in the user data changed
+    // make sure to filter the rooms by the user info
     onAuthUserData: function(user){
-        // this.getViewModel().set('user', user);
-        // this.getViewModel().set('userid', user['id']);
-        // this.getViewModel().set('name', user['fn']);
+        var me=this,
+            store = this.getViewModel().getStore('myrooms');
 
-        // Ext.StoreManager.lookup('rooms').load();
+        if(store){
+            store.filterBy(function (item) {
+                if (item) {
+                    var user = me.getViewModel().get('user');
+                    if (item.get('isPublic')) {
+                        return true;
+                    } else if (user && user['name'] == 'admin' ) {
+                        return true;
+                    } else if (user && user['id'] == item.get('owner') ) {
+                        return true;
+                    }  else if (user && user['id'] && !user['isTemp']) {
+                        return !item.get('isPrivate')
+                    }else {
+                        return false;
+                    }
+                }
+            })
+        }
+
     },
 
-    //user was already logged in
-    onAuthIsLogin: function(){
-        this.deferAndSelectFirst();
-    },
-
-    //user was not logged in
-    onAuthIsLogout: function(){
-        this.fireEvent('authorize');
-    },
-
-    //login successful
-    onAuthLogin: function(){
-        this.deferAndSelectFirst();
-    },
-
-
-    // @TODO
-    selectFirstRoom: function () {
-        console.log('TODO: selectFirstRoom')
-        // var selection,
-        //     combo = Ext.first('combobox[reference=roomscombo]'),
-        //     // list = this.getView().down('chatrooms').down('dataview'),
-        //     settings = Ext.getStore('Settings'),
-        //     currentLaunchRoom = settings.getById('launchroom').get('value'),
-        //     store = combo.getStore();
-
-
-
-        // if (store && store.getCount()) {
-        //     // selection = list.getSelection();
-        //     if (!selection || !selection.length) {
-        //         Ext.Function.defer(function(){
-        //             if(currentLaunchRoom){
-        //                 var record = store.getById(currentLaunchRoom);
-        //                 combo.select(record);
-        //                 //not sure why this event isn't getting fired
-        //                 combo.fireEvent('select',combo,record);
-        //             }else{
-        //                 // combo.select(store.getAt(0));
-        //                 // list.getSelectionModel().select(0)
-        //                 //not sure why this event isn't getting fired
-        //                 // combo.fireEvent('select',combo,record);
-        //             }
-        //         },
-        //         500);
-        //     }
-        // }
-    },
-
-    //due to latency in getting push of rooms
-    deferAndSelectFirst: function(deferLength){
-        var me = this;
-        Ext.defer(function() {
-            me.selectFirstRoom();
-        }, deferLength || 1200);
-    },
 
 
 
@@ -150,6 +87,13 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         //     }
         // });
         // button.up('chatroomscontainer').add(window);
+    },
+
+    onRoomEditTap: function(button, e){
+        console.log(button.getRecord());
+        console.log('clicked on share button of record '+button.getRecord().getId());
+        e.stopPropagation();
+        return false;
     },
 
     onRoomEdit: function(button){

@@ -2,8 +2,13 @@ Ext.define('WebRTC.view.chat.RoomsContainerModel', {
     extend: 'Ext.app.ViewModel',
     alias: 'viewmodel.chatroomscontainer',
 
+    links: {
+        room: {
+            type: 'WebRTC.model.chat.Room',
+            create: true
+        }
+    },
     data: {
-        room: null,
         name: null,
         user: null
     },
@@ -12,8 +17,12 @@ Ext.define('WebRTC.view.chat.RoomsContainerModel', {
             return get('name') != 'admin' ;    //shows config button if name is admin
         },
         isRoomSelectedByOwner: function (get) {
-            var user = Ext.first('chatroomscontainer').getViewModel().get('user');
-            return get('room') != null && (user.id == get('room').get('owner') ) ;    //edit allowed only when owner
+            var user = get('user');
+            if (user) {
+                return get('room') != null && (user['id'] == get('room').get('owner') );    //edit allowed only when owner
+            } else {
+                return false
+            }
         },
         isRoomSelected: function (get) {
             return get('room') != null ;    //edit allowed only when selected

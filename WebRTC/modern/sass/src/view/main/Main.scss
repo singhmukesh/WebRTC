@@ -1,10 +1,32 @@
 .room-wrap {
-    font-size:16px;
-    margin-bottom: 10px;
+    font-size:18px;
     padding:10px;
-    border-bottom: solid 1px #909090;
-}
+    display: block;
 
+
+    .room-icon {
+        display: block;
+        float:left;
+        width: 36px;
+    }
+
+    .room-info {
+        display: block;
+        overflow: hidden;
+        position: relative;
+        margin-left: 24px;
+
+        .room-topic {
+            font-size:13px;
+            color: darken($field-border-color,15%);
+        }
+
+    }
+
+}
+.cleared {
+    clear: both;
+}
 
 .x-tabbar .x-tab {
     .x-button-icon {
@@ -146,7 +168,7 @@ a {
 
 .x-big .main-toolbar, .main-toolbar {
     border: none;
-    padding: 0 38px 0 0;
+    padding: 0 10px 0 0;
 }
 
 .main-nav-floated {
@@ -213,7 +235,7 @@ $logo-image-height: 26px;
         left: 22px;
         width: $logo-image-width;
         height: $logo-image-height;
-        background: transparent url(/static/images/company-logo.png) no-repeat center center;
+        background: transparent url('/static/images/company-logo.png') no-repeat center center;
     }
 }
 

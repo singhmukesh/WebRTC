@@ -81,7 +81,7 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
         var me=this,
             view = me.getView(),
             videoBox = view.getVideoBox(),
-            auth = WebRTC.app.getController('Auth'),
+            auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             sessionId = this.getViewModel().get('room.sessionId');
 
         if( !this.getViewModel().get('inAudioCall') ){
@@ -105,7 +105,7 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             view = me.getView(),
             viewModel = me.getViewModel(),
             videoConnections = viewModel.get('videoConnections'),
-            auth = WebRTC.app.getController('Auth'),
+            auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             sessionId = viewModel.get('room').get('sessionId'),
             inVideoCall = viewModel.get('inVideoCall'),
             enableVideoCall = !inVideoCall,
@@ -162,7 +162,7 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
         var me=this,
             view = me.getView(),
             videoBox = view.getVideoBox(),
-            auth = WebRTC.app.getController('Auth'),
+            auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             sessionId = this.getViewModel().get('room.sessionId');
 
         this.getViewModel().set('inAudioCall', false);
@@ -191,7 +191,7 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
             view = me.getView(),
             videoBox = view.getVideoBox(),
             viewModel = me.getViewModel(),
-            auth = WebRTC.app.getController('Auth'),
+            auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             sessionId = viewModel.get('room.sessionId'),
             isVideoLayout = viewModel.get('isVideoLayout'),
             videoConnections = viewModel.get('videoConnections'),
@@ -250,7 +250,7 @@ Ext.define('WebRTC.view.chat.room.RoomController', {
     },
 
     setMemberCallStatus: function(status){
-        var auth = WebRTC.app.getController('Auth'),
+        var auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             id = this.getViewModel().get('room')['id'],
             user = this.getViewModel().get('user');
 

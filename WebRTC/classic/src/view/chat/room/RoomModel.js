@@ -14,12 +14,7 @@ Ext.define('WebRTC.view.chat.room.RoomModel', {
         videoConnections: 0
     },
 
-    links: {
-        room: {
-            type: 'WebRTC.model.chat.Room',
-            create: true
-        }
-    },
+
 
     stores: {
         messages: {

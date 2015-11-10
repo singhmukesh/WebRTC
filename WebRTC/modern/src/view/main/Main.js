@@ -47,8 +47,8 @@ Ext.define('WebRTC.view.main.Main', {
             flex: 1,
             reference: 'mainCard',
             userCls: 'main-container',
-            useTitleForBackButtonText: true,
-            navigationBar: true
+            // useTitleForBackButtonText: true,
+            navigationBar: false
         }
     ]
 });

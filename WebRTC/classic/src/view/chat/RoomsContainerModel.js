@@ -2,8 +2,11 @@ Ext.define('WebRTC.view.chat.RoomsContainerModel', {
     extend: 'Ext.app.ViewModel',
     alias: 'viewmodel.chatroomscontainer',
 
-    data: {
-        room: null
+    links: {
+        room: {
+            type: 'WebRTC.model.chat.Room',
+            create: true
+        }
     },
     stores: {
         presense: {
