@@ -15,13 +15,6 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
 
     items: [
         {
-            xtype: 'titlebar',
-            bind: {
-                title: '{room.name}'    
-            },
-            docked: 'top'            
-        },
-        {
             layout: {
                 type: 'hbox',
                 align: 'stretch'

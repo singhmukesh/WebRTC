@@ -22,6 +22,40 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         }
     },
 
+    init: function(){
+
+    },
+
+    displayRoom: function (record) {
+        if (!record) return false;
+
+        var me = this,
+            navView = me.getView(),
+            id = record.get('id'),
+            name = me.getViewModel().get('name'),
+            room;
+
+
+        navView.getViewModel().set('room', record);
+
+        room = navView.push({
+            xtype: 'chatroom',
+            // title: roomName,
+            closable: true,
+            iconCls: 'x-fa fa-comments',
+            roomId: id,
+            flex: 1
+        });
+
+        room.getViewModel().set('room', record);
+
+        room.getViewModel().getStore('messages').getProxy().getExtraParams().room = id;
+
+        // Notify TokBox in this case
+        me.fireEvent('joinroom', room, record.data, name);
+    },
+
+
     // required by OpenTokMixin
     getRoomBySessionId: function(sessionId){
         var room = Ext.first('chatroom[sessionId="' + sessionId + '"]');
@@ -175,7 +209,6 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         var me = this,
             id = record.get('id');
 
-    
         me.redirectTo('room/' + id);
 
     },

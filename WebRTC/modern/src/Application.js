@@ -5,7 +5,6 @@
  */
 Ext.define('WebRTC.Application', {
     extend: 'Ext.app.Application',
-    
     name: 'WebRTC',
 
     requires: [
@@ -13,18 +12,21 @@ Ext.define('WebRTC.Application', {
         'Ext.Toast'
     ],
 
-    defaultToken : 'home',
-
-    controllers: [
-        'Routes',
-        'Auth',
-        'OpenTok'
-    ],
-
     profiles: [
         'Phone',
         'Tablet'
     ],
+
+
+    defaultToken : 'home',
+
+    controllers: [
+        'opentok.controller.OpenTok',
+        'soundlibrary.controller.SoundLibrary',
+        'Routes',
+        'Auth'
+    ],
+
 
     //Startup view for modern
     mainView: 'WebRTC.view.main.Main',

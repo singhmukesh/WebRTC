@@ -1,31 +1,31 @@
 Ext.define('WebRTC.controller.GlobalRoutes', {
     extend: 'Ext.app.Controller',
 
-    routes : {
-        'home' : {
-            action  : 'onRouteHome'
+    routes: {
+        'home': {
+            action: 'onRouteHome'
         },
-        'room' : {
-            before  : 'onRouteBeforeRoom',
-            action  : 'onRouteRoom'
+        'room': {
+            before: 'onRouteBeforeRoom',
+            action: 'onRouteRoom'
         },
-        'room/:id' : {
-            before  : 'onRouteBeforeRoomId',
-            action  : 'onRouteRoom'
+        'room/:id': {
+            before: 'onRouteBeforeRoomId',
+            action: 'onRouteRoom'
         },
-        'token/:id' : {
-            before  : 'onRouteBeforeToken',
-            action  : 'onRouteToken',
-            conditions : {
-                ':id' : '(.*)'
+        'token/:id': {
+            before: 'onRouteBeforeToken',
+            action: 'onRouteToken',
+            conditions: {
+                ':id': '(.*)'
             }
         },
-        'logout' : {
-            action  : 'onRouteLogout'
+        'logout': {
+            action: 'onRouteLogout'
         },
-        'settings' : {
-            before  : 'onRouteBeforeSettings',
-            action  : 'onRouteSettings'
+        'settings': {
+            before: 'onRouteBeforeSettings',
+            action: 'onRouteSettings'
         },
         ':node': 'onRouteChange'
     },
@@ -49,15 +49,15 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
 
     listen: {
         controller: {
-            'auth':{
+            'auth': {
                 // configure: 'onAdminSetup',
                 // initDone: 'onAuthInit',
                 islogin: 'onAuthIsLogin',
                 islogout: 'onAuthIsLogout',
                 login: 'onAuthLogin'
             },
-            '#' : {
-                unmatchedroute : 'onRouteUnmatched'
+            '#': {
+                unmatchedroute: 'onRouteUnmatched'
             }
         }
     },
@@ -66,12 +66,12 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
     _authorizingRoute: null,
 
     //Hide everything on the viewport except our route.
-    clearViewport: function (doRemove){
+    clearViewport: function (doRemove) {
         var viewport = Ext.ComponentQuery.query('app-main')[0];
-        Ext.each(viewport.items.items, function(childPanel) {
-            if(!!doRemove){
+        Ext.each(viewport.items.items, function (childPanel) {
+            if (!!doRemove) {
                 viewport.remove(childPanel, true);
-            }else{
+            } else {
                 childPanel.hide();
             }
         });
@@ -80,38 +80,40 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
     //add or show a new component based on the route
     onRouteViewportComponent: function (xtype, params) {
         this.clearViewport();
-        if(Ext.ComponentQuery.query(xtype)[0]){
+        if (Ext.ComponentQuery.query(xtype)[0]) {
             Ext.ComponentQuery.query(xtype)[0].show();
-        }else{
+        } else {
             Ext.ComponentQuery.query('app-main')[0].add(params)
         }
     },
 
 
-
-    onRouteUnmatched: function(route) {
-        if(!!route){
+    onRouteUnmatched: function (route) {
+        if (!!route) {
             WebRTC.util.Logger.log('unmatched route' + route);
             window.location = '/cms/';
         }
     },
 
-    onRouteHome: function() {
+    onRouteHome: function () {
         var user = Ext.ComponentQuery.query('app-main')[0].getViewModel().get('user');
-        if(user){
+        if (user) {
             window.location.hash = '#room';
-        }else{
+        } else {
             window.location = '/cms/';
         }
     },
 
 
+    onRouteBeforeRoomId: function (id, action) {
+        this.onRouteBeforeRoom(action);
+    },
 
-    onRouteBeforeRoom : function(action) {
+    onRouteBeforeRoom: function (action) {
         var me = this;
         WebRTC.util.Logger.log('Before Route Room');
 
-        me.fireEvent('isAuthReady',function(isReady) {
+        me.fireEvent('isAuthReady', function (isReady) {
             me._authorizingRoute = {
                 action: action
             };
@@ -119,19 +121,15 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
         });
     },
 
-    onRouteBeforeRoomId : function(id, action) {
-        this.onRouteBeforeRoom(action);
-    },
-
-    onRouteRoom: function(id){
+    onRouteRoom: function (id) {
         var vm = Ext.ComponentQuery.query('app-main')[0].getViewModel();
 
         //Chat rooms into center
-        this.onRouteViewportComponent('chatroomscontainer',{
-            xtype:'chatroomscontainer',
-            region:'center',
-            flex:5,
-            layout:'fit',
+        this.onRouteViewportComponent('chatroomscontainer', {
+            xtype: 'chatroomscontainer',
+            region: 'center',
+            flex: 5,
+            layout: 'fit',
             startupRoom: id,
             bind: {
                 title: 'Sencha Communicator  | {user.fn}'
@@ -139,17 +137,17 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
             reference: 'roomtabs'
         });
 
-        if(1==0){ //!vm.isAdmin(vm)
-            this.onRouteViewportComponent('chatpresense',{
+        if (1 == 0) { //!vm.isAdmin(vm)
+            this.onRouteViewportComponent('chatpresense', {
                 title: 'All Users',
                 xtype: 'chatpresense',
-                region:'west',
+                region: 'west',
                 collapsable: true,
                 collasped: true,
                 /*bind: {
                  hidden: '{!isAdmin}'
                  },*/
-                split:true,
+                split: true,
                 flex: 1
             });
         }
@@ -157,7 +155,7 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
     },
 
     // this will be used when we implment more room security
-    onRouteRoomSetup: function(room, action){
+    onRouteRoomSetup: function (room, action) {
         /*
          var me= this,
          userCookie = Ext.util.Cookies.get('user');
@@ -176,132 +174,82 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
     },
 
 
-    onRouteBeforeToken : function(id, action) {
-        var me=this,
-            qs= Ext.Object.fromQueryString(location.search);
+    onRouteBeforeToken: function (id, action) {
+        var me = this,
+            qs = Ext.Object.fromQueryString(location.search);
 
-        if(qs['pwd']){
+        if (qs['pwd']) {
             Ext.Ajax.request({
-                url     : '/data/jwtdecode/' + id +'?pwd=' + qs['pwd'],
-                success : function(response) {
+                url: '/data/jwtdecode/' + id + '?pwd=' + qs['pwd'],
+                success: function (response) {
                     var store = Ext.StoreManager.lookup('rooms');
                     me.tokenInfo = JSON.parse(response.responseText);
                     //add the private room to the store.
                     store.add(me.tokenInfo);
                     action.resume();
                 },
-                failure : function(response) {
+                failure: function (response) {
                     // var error = JSON.parse(response.responseText);
                     Ext.Msg.alert('Denied', 'The token for this room is no longer valid');
                     action.stop();
                 }
             });
-        }else{
-            Ext.Msg.prompt('Password','Please enter password for this room',function(buttonId,value){
-                if(value) {
+        } else {
+            Ext.Msg.prompt('Password', 'Please enter password for this room', function (buttonId, value) {
+                if (value) {
                     Ext.Ajax.request({
-                        url     : '/data/jwtdecode/' + id +'?pwd=' + value,
-                        success : function(response) {
+                        url: '/data/jwtdecode/' + id + '?pwd=' + value,
+                        success: function (response) {
                             var store = Ext.StoreManager.lookup('rooms');
                             me.tokenInfo = JSON.parse(response.responseText);
                             //add the private room to the store.
                             store.add(me.tokenInfo);
                             action.resume();
                         },
-                        failure : function(response) {
+                        failure: function (response) {
                             // var error = JSON.parse(response.responseText);
                             Ext.Msg.alert('Denied', 'The password entered is no longer valid');
                             action.stop();
                         }
                     });
-                }else{
+                } else {
                     me.redirectTo('')
                 }
             });
         }
 
 
-
     },
 
-    onRouteToken: function(){
+    onRouteToken: function () {
         var id = this.tokenInfo.id;
         this.onRouteRoom(id)
     },
 
 
-    onRouteLogout: function (){
+    onRouteLogout: function () {
         this.redirectTo('home');
     },
 
     //user was already logged in
-    onAuthIsLogin: function(){
-        if(this._authorizingRoute){
+    onAuthIsLogin: function () {
+        if (this._authorizingRoute) {
             this._authorizingRoute.action.resume();
         }
     },
 
     //login successful
-    onAuthLogin: function(authData){
-        if(this._authorizingRoute){
+    onAuthLogin: function (authData) {
+        if (this._authorizingRoute) {
             this._authorizingRoute.action.resume();
         }
     },
 
     //user was not logged in - so log them in
-    onAuthIsLogout: function(){
+    onAuthIsLogout: function () {
         this.redirectTo('login');
-    },
-
-    //any change in route that isn't specifically fired defaults to this
-    onRouteChange: function (hashTag) {
-
-        WebRTC.util.Logger.log('Route Change');
-
-        // let other known routes process
-        if(Ext.Array.contains(this.knownRoutes, hashTag) ){
-            WebRTC.util.Logger.log('Ignore known route');
-            return false;
-        }
-
-        this.setCurrentView(hashTag);
-    },
-
-    // this is mainly for modern viewport card stack
-    // it makes the hashtag the current active card
-    setCurrentView: function (hashTag) {
-        WebRTC.util.Logger.log('Setting Current View');
-        hashTag = (hashTag || '').toLowerCase();
-
-        var appMain = Ext.ComponentQuery.query('app-main')[0],
-            vc = appMain.getController(),
-            mainCard = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0],
-            refs = vc.getReferences(),
-            navigationTree = vc.navigationTree,
-            store = navigationTree.getStore(),
-            node = store.findNode('routeId', hashTag) ||
-                store.findNode('viewType', hashTag),
-            item = mainCard.child('component[routeId=' + hashTag + ']');
-
-        if(!node){
-            this.onRouteUnmatched(hashTag)
-        }
-
-        if (!item) {
-            item = mainCard.add({
-                xtype: node.get('viewType'),
-                routeId: hashTag
-            });
-        }
-
-        mainCard.setActiveItem(item);
-
-        navigationTree.setSelection(node);
-
-
-
-        //if (newView.isFocusable(true)) {
-        //    newView.focus();
-        //}
     }
+
+
+
 });

@@ -2,7 +2,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
     extend: 'Ext.panel.Panel',
     xtype: 'chatroomscontainer',
     viewModel: {
-        type: 'chatroomscontainer'
+        type: 'chatroomslist'
     },
     controller: 'chatroomscontainer',
     dockedItems: [{

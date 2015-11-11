@@ -10,13 +10,13 @@ Ext.define('WebRTC.view.main.MainController', {
         },
         controller: {
             'auth':{
-                userData: 'onUserDataChanged'
+                userData: 'onAuthUserData'
             }
         }
     },
 
     config: {
-        showNavigation: true
+        showNavigation: true //keeps track of showing the text or not
     },
 
     collapsedCls: 'main-nav-collapsed',
@@ -99,13 +99,12 @@ Ext.define('WebRTC.view.main.MainController', {
     },
 
 
-    onUserDataChanged: function(user){
-        var vm = this.getViewModel();
-        vm.set('user', user);
-        vm.set('userid', user['id']);
-        vm.set('name', user['fn']);
-
-        vm.getStore('rooms').load();
+    //something in the user data changed
+    onAuthUserData: function(user){
+        WebRTC.util.Logger.log('user data changed');
+        this.getViewModel().set('user', user);
+        this.getViewModel().set('userid', user['id']);
+        this.getViewModel().set('name', user['fn']);
     },
 
     onNavigationPop: function () {

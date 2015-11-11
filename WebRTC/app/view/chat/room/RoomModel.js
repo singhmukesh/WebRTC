@@ -146,7 +146,7 @@ Ext.define('WebRTC.view.chat.room.RoomModel', {
             }
         },
         isWebRTCSupported: function (get) {
-            if (Ext.browser.is.Safari || Ext.browser.is.IE) {
+            if (1==0 && Ext.browser.is.Safari || Ext.browser.is.IE) {
                 return false;
             } else {
                 if (!!window.webkitRTCPeerConnection || !!window.mozRTCPeerConnection) {
@@ -159,9 +159,12 @@ Ext.define('WebRTC.view.chat.room.RoomModel', {
         },
         isVideoLayout: function(){
             var settings = Ext.getStore('Settings'),
-                layout = settings.getById('videolayout').get('value');
-
-            return layout === 'videofeeds';
+                layout = settings.getById('videolayout');
+            if(layout){
+                return layout.get('value') === 'videofeeds';
+            }else{
+                return true;
+            }
         }
     }
 

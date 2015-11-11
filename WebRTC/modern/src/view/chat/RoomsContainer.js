@@ -5,7 +5,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
     requires: ['WebRTC.ux.ListSlideActions'],
 
     viewModel: {
-        type: 'chatroomscontainer'
+        type: 'chatroomslist'
     },
     controller: 'chatroomscontainer',
 
@@ -52,7 +52,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                 '</div>'
             ],
             bind:{
-                store: '{rooms}'
+                store: '{myrooms}'
             },
             listeners: {
                itemtap: 'onRoomSelect'

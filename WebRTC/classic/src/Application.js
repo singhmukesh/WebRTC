@@ -1,9 +1,11 @@
-
 Ext.define('WebRTC.Application', {
     extend: 'Ext.app.Application',
     name: 'WebRTC',
 
-    requires: ['WebRTC.*'],
+    requires: [
+        'WebRTC.*'
+    ],
+
 
     defaultToken : 'home',
 
@@ -15,17 +17,18 @@ Ext.define('WebRTC.Application', {
         'Routes'
     ],
 
-    //Global Stores
+
+    //Startup view for classic
+    mainView: 'WebRTC.view.main.Main',
+
+
     stores:[
-        'NavigationTree',
         'WebRTC.store.chat.Rooms',
-        'Settings',
+        'NavigationTree',
         'SecurityRoles',
+        'Settings',
         'Users'
     ],
-
-    //Startup view for Classic
-    mainView: 'WebRTC.view.main.Viewport',
 
     init: function(){
         WebRTC.util.Logger.init();

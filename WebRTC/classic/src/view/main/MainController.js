@@ -1,6 +1,6 @@
-Ext.define('WebRTC.view.main.ViewportController', {
+Ext.define('WebRTC.view.main.MainController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.mainviewport',
+    alias: 'controller.main',
 
     requires: [
         'Ext.window.Toast'

@@ -60,38 +60,5 @@ Ext.define('WebRTC.view.main.Toolbar', {
             margin: '0 7 0 0',
             handler: 'toolbarButtonClick'
         }
- /*       ,
-        '->',
-        {
-            xtype: 'segmentedbutton',
-            margin: '0 16 0 0',
-            //defaultUI: 'header',
-
-            platformConfig: {
-                phone: {
-                    hidden: true
-                }
-            },
-
-            items: [{
-                iconCls: 'x-fa fa-desktop',
-                handler: 'onSwitchToClassic'
-            }, {
-                iconCls: 'x-fa fa-tablet',
-                pressed: true
-            }]
-        },
-        {
-            xtype: 'component',
-            html: 'Goff Smith',
-            margin: '0 12 0 4',
-            userCls: 'main-user-name'
-        },
-        {
-            xtype: 'image',
-            userCls: 'main-user-image small-image circular',
-            alt: 'Current user image',
-            src: 'resources/images/user-profile/2.png'
-        }*/
     ]
 });
