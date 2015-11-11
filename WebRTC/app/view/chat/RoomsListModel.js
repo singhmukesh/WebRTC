@@ -1,6 +1,6 @@
-Ext.define('WebRTC.view.chat.RoomsContainerModel', {
+Ext.define('WebRTC.view.chat.RoomsListModel', {
     extend: 'Ext.app.ViewModel',
-    alias: 'viewmodel.chatroomscontainer',
+    alias: 'viewmodel.chatroomslist',
 
     links: {
         room: {

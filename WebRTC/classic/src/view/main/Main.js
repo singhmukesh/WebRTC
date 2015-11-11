@@ -8,7 +8,7 @@ Ext.define('WebRTC.view.main.Viewport', {
     ],
     controller: 'mainviewport',
     viewModel: {
-        type: 'mainviewport'
+        type: 'main'
     },
     //empty viewport is filled by routes
     items: []
