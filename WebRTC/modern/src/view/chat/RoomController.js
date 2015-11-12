@@ -16,6 +16,10 @@ Ext.define('WebRTC.view.chat.RoomController', {
         }
     },
 
+    onBackTap: function(button){
+        button.up('navigationview').pop();
+    },
+
     roomMemberAdd: function(member){
         var store = this.getViewModel().getStore('members');
         store.add(member);

@@ -1,7 +1,7 @@
 Ext.define('WebRTC.view.settings.User', {
     extend: 'Ext.form.Panel',
     xtype: 'settingsuser',
-
+    title: 'User Settings',
     requires: [
         'WebRTC.view.settings.UserController'
     ],
@@ -57,9 +57,7 @@ Ext.define('WebRTC.view.settings.User', {
             items: [{
                 xtype: 'selectfield',
                 label: 'Launch Room',
-                bind:{
-                    store: '{rooms}'
-                },
+                store: 'rooms',
                 queryMode: 'local',
                 displayField: 'name',
                 valueNotFoundText: 'Room No Longer Found',
@@ -67,6 +65,29 @@ Ext.define('WebRTC.view.settings.User', {
                 name: 'launchroom'
 
             }]
+        },
+        {
+            xtype: 'fieldset',
+            title: 'Video Meetings',
+            defaults: {
+                anchor: '100%',
+                labelWidth: 180
+            },
+            items: [
+                {
+                    xtype: 'radiofield',
+                    name: 'videolayout',
+                    label: 'Chat',
+                    bind: '{chat}',
+                    value: 'chat'
+                },{
+                    xtype: 'radiofield',
+                    name: 'videolayout',
+                    label: 'Video Feeds',
+                    bind: '{chat}',
+                    value: 'videofeeds'
+                }
+            ]
         },{
             xtype: 'toolbar',
             docked: 'bottom',

@@ -20,14 +20,17 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
                 ':id': '(.*)'
             }
         },
+        'user': {
+            action: 'onRouteUser'
+        },
         'logout': {
             action: 'onRouteLogout'
         },
         'settings': {
             before: 'onRouteBeforeSettings',
             action: 'onRouteSettings'
-        },
-        ':node': 'onRouteChange'
+        }
+        //,':node': 'onRouteChange'
     },
 
     //These are routes that are handled by their own packages and should be ignored

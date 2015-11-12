@@ -1,5 +1,5 @@
 Ext.define('WebRTC.view.chat.RoomsContainer', {
-    extend: 'Ext.Container',
+    extend: 'Ext.panel.Panel',
     xtype: 'chatroomscontainer',
 
     requires: ['WebRTC.ux.ListSlideActions'],
@@ -10,6 +10,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
     controller: 'chatroomscontainer',
 
     layout: 'fit',
+
 
     items: [
         {
@@ -58,6 +59,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                itemtap: 'onRoomSelect'
             },
             plugins:{
+                //NOTE: These buttons are added outside the component chain and so the controller scope needs to be a component lookup until a better method is worked out.
                 xclass: 'WebRTC.ux.ListSlideActions',
                 buttons: [
                     {
@@ -66,8 +68,22 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                         ui: 'action',
                         listeners: {
                             tap: function(button, e){
-                                console.log(button.getRecord());
-                                console.log('clicked on share button of record '+button.getRecord().getId());
+                                var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                                controller.onRoomEdit( button ); //send the record to the controller : button.getRecord()
+                                e.stopPropagation();
+                                return false;
+                            },
+                            scope: this
+                        }
+                    },
+                    {
+                        xtype: 'button',
+                        iconCls:'x-fa fa-share',
+                        ui: 'confirm',
+                        listeners: {
+                            tap: function(button, e){
+                                var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                                controller.onRoomShare( button );
                                 e.stopPropagation();
                                 return false;
                             },
@@ -80,8 +96,8 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                         ui: 'decline',
                         listeners: {
                             tap: function(button, e){
-                                console.log(button.getRecord());
-                                console.log('clicked on delete button of record '+button.getRecord().getId());
+                                var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                                controller.onRoomRemove( button );
                                 e.stopPropagation();
                                 return false;
                             },

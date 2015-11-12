@@ -3,6 +3,21 @@ Ext.define('WebRTC.controller.Routes', {
     extend: 'WebRTC.controller.GlobalRoutes',
     alias: 'controller.Routes',
 
+    //Hide everything on the viewport except our route.
+    clearNavPanel: function (doRemove) {
+        var nav = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0];
+        nav.removeAll(false,false);
+        nav.pop();
+
+        /*Ext.each(nav.items.items, function (childPanel) {
+            if (!!doRemove) {
+                // nav.pop();
+                 nav.remove(childPanel, true);
+            } else {
+                childPanel.hide();
+            }
+        });*/
+    },
 
     //any change in route that isn't specifically fired defaults to this
     onRouteChange: function (hashTag) {
@@ -15,6 +30,7 @@ Ext.define('WebRTC.controller.Routes', {
             return false;
         }
 
+        this.clearNavPanel();
         this.setCurrentView(hashTag);
     },
 
@@ -39,7 +55,7 @@ Ext.define('WebRTC.controller.Routes', {
         }
 
         if (!item) {
-            item = mainCard.add({
+            item = mainCard.push({
                 xtype: node.get('viewType'),
                 routeId: hashTag
             });
@@ -61,7 +77,7 @@ Ext.define('WebRTC.controller.Routes', {
             item = mainCard.child('component[routeId=' + (params.routeId || hashTag) + ']');
 
         if (!item) {
-            item = mainCard.add(params);
+            item = mainCard.push(params);
         }
 
         mainCard.setActiveItem(item);
@@ -72,11 +88,15 @@ Ext.define('WebRTC.controller.Routes', {
     onRouteRoom: function(id){
         var me = this;
 
+        WebRTC.util.Logger.log('Routing Modern Room');
+        this.clearNavPanel();
+
         //we will need this rooms list loaded no matter what room
         this.onRouteViewportComponent('room',{
             xtype:'chatroomscontainer',
             reference: 'roomtabs',
             flex: 1,
+            title: 'Rooms',
             routeId: 'room'
         });
 
@@ -84,6 +104,20 @@ Ext.define('WebRTC.controller.Routes', {
             me.id = id;
             me.checkStoreAndDisplayRoom();
         }
+    },
+
+    onRouteUser: function(){
+        var navView = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0];
+
+        this.clearNavPanel();
+
+        navView.push({
+            xtype: 'settingsuser',
+            bind: {
+                title: 'Settings {user.name}'
+            },
+            flex: 1
+        });
     },
 
     checkStoreAndDisplayRoom: function(){

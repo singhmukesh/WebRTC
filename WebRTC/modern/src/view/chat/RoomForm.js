@@ -2,6 +2,8 @@ Ext.define('WebRTC.view.chat.RoomForm', {
     extend: 'Ext.form.Panel',
     xtype: 'chatroomform',
 
+    controller: 'chatroomform',
+
     bodyPadding: 10,
     autoScroll: true,
 
@@ -29,6 +31,11 @@ Ext.define('WebRTC.view.chat.RoomForm', {
                     label: 'Room Name',
                     name: 'name',
                     bind: '{theRoom.name}'
+                },{
+                    xtype:'textfield',
+                    label: 'Topic',
+                    name: 'topic',
+                    bind: '{theRoom.topic}'
                 },
                 {
                     xtype:'checkboxfield',
@@ -40,18 +47,19 @@ Ext.define('WebRTC.view.chat.RoomForm', {
             ]
         },{
             xtype:'textfield',
-            label: 'OpenTok SessionId',
+            fieldLabel: 'OpenTok SessionId',
             name: 'sessionId',
-            hidden: true,
             disabled: true,
-            bind: '{theRoom.id}'
+            bind: {
+                value: '{theRoom.id}',
+                hidden: '{!theRoom.id}'
+            }
         },{
             xtype: 'toolbar',
             docked: 'bottom',
             items: [{
                 iconCls: 'x-fa fa-thumbs-o-down',
-                action:'cancel',
-                hidden: true,
+                action:'onCancelTap',
                 text:'Cancel'
             },
                 {
@@ -59,7 +67,7 @@ Ext.define('WebRTC.view.chat.RoomForm', {
                 },{
                     iconCls: 'x-fa fa-thumbs-o-up',
                     reference: 'okButton',
-                    action:'ok',
+                    action:'onOkTap',
                     formBind: true,
                     text:'OK'
                 }]

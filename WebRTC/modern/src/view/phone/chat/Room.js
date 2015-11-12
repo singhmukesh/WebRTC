@@ -13,6 +13,19 @@ Ext.define('WebRTC.view.phone.chat.Room', {
         type: 'chatroom'
     },
 
+    header:{
+        itemPosition: 0,
+        titleAlign: 'center',
+        items:[{
+            xtype: 'button',
+            text:'Back',
+            listeners:{
+                tap: 'onBackTap'
+            }
+        }]
+    },
+
+
     items: [
         {
             xtype: 'chathistory',

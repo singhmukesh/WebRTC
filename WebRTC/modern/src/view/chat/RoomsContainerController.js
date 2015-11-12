@@ -97,65 +97,36 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
 
     onRoomAdd: function(button){
-        console.log('TODO: onRoomAdd');
-        // var window = Ext.create('Ext.window.Window', {
-        //     title: 'Add Room',
-        //     iconCls: 'x-fa fa-plus-square fa-lg',
-        //     height: 400,
-        //     width: 800,
-        //     layout: 'fit',
-        //     resizable: true,
-        //     modal: true,
-        //     autoShow: true,
-        //     viewModel:{
-        //         data:{
-        //             theRoom: {
-        //                 id: null,
-        //                 isPrivate: false
-        //             }
-        //         }
-        //     },
-        //     items: {
-        //         xtype: 'chatroomform',
-        //         border: false
-        //     }
-        // });
-        // button.up('chatroomscontainer').add(window);
-    },
+        var navView = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0];
 
-    onRoomEditTap: function(button, e){
-        console.log(button.getRecord());
-        console.log('clicked on share button of record '+button.getRecord().getId());
-        e.stopPropagation();
-        return false;
+        navView.push({
+            xtype: 'chatroomform',
+            viewModel:{
+                data:{
+                    theRoom: null
+                }
+            },
+            flex: 1
+        });
+
     },
 
     onRoomEdit: function(button){
-        console.log('TODO: onRoomEdit');
-        // var record = Ext.first('combobox[reference=roomscombo]').getSelection();
 
-        // var window = Ext.create('Ext.window.Window', {
-        //     title: 'Edit Room',
-        //     iconCls: 'x-fa fa-plus-square fa-lg',
-        //     height: 400,
-        //     width: 800,
-        //     layout: 'fit',
-        //     resizable: true,
-        //     modal: true,
-        //     autoShow: true,
-        //     viewModel:{
-        //         data:{
-        //             theRoom: record
-        //         }
-        //     },
-        //     items: {
-        //         xtype: 'chatroomform',
-        //         border: false
+        var navView = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0],
+            record  = button.getRecord(),
+            id = record.get('id');
 
-        //     }
-        // });
-        // button.up('chatroomscontainer').add(window);
-
+        navView.push({
+            xtype: 'chatroomform',
+            viewModel:{
+                data:{
+                    theRoom: record
+                }
+            },
+            routeId: 'room/' + id,
+            flex: 1
+        });
 
     },
 

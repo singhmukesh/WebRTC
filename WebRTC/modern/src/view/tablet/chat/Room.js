@@ -13,6 +13,18 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
         type: 'chatroom'
     },
 
+    header:{
+        itemPosition: 0,
+        titleAlign: 'center',
+        items:[{
+            xtype: 'button',
+            text:'Back',
+            listeners:{
+                tap: 'onBackTap'
+            }
+        }]
+    },
+
     items: [
         {
             layout: {
