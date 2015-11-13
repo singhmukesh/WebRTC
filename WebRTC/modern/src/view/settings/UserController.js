@@ -16,7 +16,8 @@ Ext.define('WebRTC.view.settings.UserController', {
             currentLeaveSound = settings.getById('leave-sound').get('value'),
             soundLeaveCombo = view.down('selectfield[name=leave-sound]'),
             currentLaunchRoom = settings.getById('launchroom').get('value'),
-            launchCombo = view.down('selectfield[name=launchroom]');
+            launchCombo = view.down('selectfield[name=launchroom]'),
+            user;
 
         soundChatCombo.setValue(currentChatSound);
         soundEnterCombo.setValue(currentEnterSound);
@@ -30,11 +31,34 @@ Ext.define('WebRTC.view.settings.UserController', {
         this.fireEvent('logout');
     },
 
+    onChangePassword: function(){
+        this.redirectTo('#newpassword');
+    },
+
+    onChangeEmail: function(){
+        this.redirectTo('#newemail');
+    },
+
     saveSettings: function () {
         var me=this,
             view = this.getView(),
             data = view.getValues(),
+            auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             settings = Ext.getStore('Settings');
+
+        auth.firebaseRef.child('users/' + data['id']).update({
+            fn: data['fn'],
+            location: data['location'],
+            status_msg: data['status_msg'],
+            // gender: data['gender'],
+            country: data['country'],
+            state: data['state'],
+            title: data['title'],
+            tel_work: data['tel_work'],
+            tel_cell: data['tel_cell'],
+            companany: data['company'],
+            name: data['fn']
+        });
 
         // saving only chat-sound so far
         var key = 'chat-sound';
@@ -49,6 +73,8 @@ Ext.define('WebRTC.view.settings.UserController', {
         key = 'launchroom';
         settings.getById(key).set('value', data[key]);
 
+        key = 'videolayout';
+        settings.getById(key).set('value', data[key]);
 
         me.redirectTo('room');
     }

@@ -6,7 +6,7 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
             action: 'onRouteHome'
         },
         'room': {
-            before: 'onRouteBeforeRoom',
+            before: 'onRouteBeforeDoAuth',
             action: 'onRouteRoom'
         },
         'room/:id': {
@@ -21,6 +21,7 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
             }
         },
         'user': {
+            before: 'onRouteBeforeDoAuth',
             action: 'onRouteUser'
         },
         'logout': {
@@ -107,14 +108,9 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
         }
     },
 
-
-    onRouteBeforeRoomId: function (id, action) {
-        this.onRouteBeforeRoom(action);
-    },
-
-    onRouteBeforeRoom: function (action) {
+    onRouteBeforeDoAuth: function (action) {
         var me = this;
-        WebRTC.util.Logger.log('Before Route Room');
+        WebRTC.util.Logger.log('Before Route DoAuth');
 
         me.fireEvent('isAuthReady', function (isReady) {
             me._authorizingRoute = {
@@ -123,6 +119,11 @@ Ext.define('WebRTC.controller.GlobalRoutes', {
             me.fireEvent('authorize');
         });
     },
+
+    onRouteBeforeRoomId: function (id, action) {
+        this.onRouteBeforeDoAuth(action);
+    },
+
 
     onRouteRoom: function (id) {
         var vm = Ext.ComponentQuery.query('app-main')[0].getViewModel();
