@@ -17,6 +17,8 @@ Ext.define('WebRTC.view.chat.RoomController', {
     },
 
     onBackTap: function(button){
+        //deselect so we can reselect.
+        this.redirectTo('#room');
         button.up('navigationview').pop();
     },
 

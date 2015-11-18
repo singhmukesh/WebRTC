@@ -46,12 +46,12 @@ Ext.define('WebRTC.ux.ListSlideActions', {
 
     onScrollEnd: function(){
         this.scrolling = false;
-        console.log('scrollend');
+        //console.log('scrollend');
     },
 
     onScrollStart: function(scroller, x, y){
         this.scrolling = true;
-        console.log('scrollstart');
+        //console.log('scrollstart');
         if(this.actualItem){
             this.removeButtons(false);
         }
@@ -200,6 +200,7 @@ Ext.define('WebRTC.ux.ListSlideActions', {
             button['flex'] = 1;
             button['style'] = 'height: 100%;border: none;box-shadow: none;z-index: auto;';
             button['record'] = me.actualRecord;
+            button['slideactions'] = me;
         });
         var panel = Ext.create('Ext.Panel', {
             layout: 'hbox',

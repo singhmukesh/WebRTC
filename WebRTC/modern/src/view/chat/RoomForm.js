@@ -4,22 +4,32 @@ Ext.define('WebRTC.view.chat.RoomForm', {
 
     controller: 'chatroomform',
 
+    title: 'Room Info',
     bodyPadding: 10,
     autoScroll: true,
 
     defaultFocus: 'textfield [name=name]',
     defaultButton: 'okButton',
+
     defaults:{
         anchor: '100%',
         labelWidth: 200
     },
-
     items: [
         {
-            xtype: 'fieldset',
-            title: 'Info',
+            // xtype: 'fieldset',
             defaults:{
-                anchor: '100%'
+                anchor: '100%',
+                plugins: 'responsive',
+                style: 'margin-bottom: 20px;',
+                responsiveConfig: {
+                    'phone || width < 600': {
+                        labelAlign: 'top'
+                    },
+                    'width >= 600': {
+                        labelAlign: 'left'
+                    }
+                }
             },
             items: [
                 {
@@ -43,33 +53,36 @@ Ext.define('WebRTC.view.chat.RoomForm', {
                     name      : 'private',
                     bind: '{theRoom.isPrivate}',
                     inputValue: '1'
+                },
+                {
+                    xtype:'textfield',
+                    fieldLabel: 'OpenTok SessionId',
+                    name: 'sessionId',
+                    disabled: true,
+                    bind: {
+                        value: '{theRoom.id}',
+                        hidden: '{!theRoom.id}'
+                    }
                 }
             ]
-        },{
-            xtype:'textfield',
-            fieldLabel: 'OpenTok SessionId',
-            name: 'sessionId',
-            disabled: true,
-            bind: {
-                value: '{theRoom.id}',
-                hidden: '{!theRoom.id}'
-            }
         },{
             xtype: 'toolbar',
             docked: 'bottom',
             items: [{
-                iconCls: 'x-fa fa-thumbs-o-down',
+                iconCls: 'x-fa fa-arrow-left',
                 action:'onCancelTap',
-                text:'Cancel'
+                // text:'Cancel',
+                handler: 'onCancelTap'
             },
                 {
                     xtype: 'spacer'
                 },{
-                    iconCls: 'x-fa fa-thumbs-o-up',
+                    iconCls: 'x-fa fa-check-circle',
                     reference: 'okButton',
+                    // text:'OK',
                     action:'onOkTap',
-                    formBind: true,
-                    text:'OK'
+                    handler: 'onOkTap',
+                    formBind: true
                 }]
         }
     ]

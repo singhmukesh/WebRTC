@@ -18,7 +18,8 @@ Ext.define('WebRTC.view.phone.chat.Room', {
         titleAlign: 'center',
         items:[{
             xtype: 'button',
-            text:'Back',
+            iconCls: 'x-fa fa-arrow-left',
+            // text:'Back',
             listeners:{
                 tap: 'onBackTap'
             }

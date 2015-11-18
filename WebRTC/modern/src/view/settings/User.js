@@ -8,6 +8,7 @@ Ext.define('WebRTC.view.settings.User', {
     scrollable: true,
     items:[
         {
+
         items:[
             {
                 xtype: 'fieldset',

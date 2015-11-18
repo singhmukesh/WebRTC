@@ -69,9 +69,10 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                         listeners: {
                             tap: function(button, e){
                                 var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                                button.slideactions.removeButtons();
                                 controller.onRoomEdit( button ); //send the record to the controller : button.getRecord()
                                 e.stopPropagation();
-                                return false;
+                                return true;
                             },
                             scope: this
                         }
@@ -82,7 +83,9 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                         ui: 'confirm',
                         listeners: {
                             tap: function(button, e){
+
                                 var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                                button.slideactions.removeButtons();
                                 controller.onRoomShare( button );
                                 e.stopPropagation();
                                 return false;
@@ -97,6 +100,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                         listeners: {
                             tap: function(button, e){
                                 var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                                button.slideactions.removeButtons();
                                 controller.onRoomRemove( button );
                                 e.stopPropagation();
                                 return false;
