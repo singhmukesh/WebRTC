@@ -6,8 +6,8 @@ Ext.define('WebRTC.store.NavigationTree', {
     autoLoad: true,
     autoSync: true,
 
-
-   proxy: {
+    /*
+    proxy: {
         type: 'ajax',
         url : '/data/navigation',
         reader: {
@@ -18,8 +18,7 @@ Ext.define('WebRTC.store.NavigationTree', {
             }
         }
     },
-
-/*
+    */
 
     proxy: {
         type: 'socketio',
@@ -38,15 +37,9 @@ Ext.define('WebRTC.store.NavigationTree', {
         }
     },
 
-*/
     fields: [{
         name: 'text'
     }],
-
-    /*root: {
-        expanded: true,
-        children :[]
-    },*/
 
     filters: [
         function(item) {
