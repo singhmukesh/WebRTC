@@ -70,7 +70,8 @@ Ext.define('WebRTC.view.chat.History', {
         },
         flex:1
     },{
-        iconCls: 'x-fa fa-smile-o',
+        iconCls: 'x-fa fa-comment',
+        // ui: 'bright-blue round',
         plain: true,
         listeners: {
             click: 'chatSend'

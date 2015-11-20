@@ -9,7 +9,8 @@ Ext.define('WebRTC.Application', {
 
     requires: [
         'WebRTC.*',
-        'Ext.Toast'
+        'Ext.Toast',
+        'Ext.MessageBox'
     ],
 
     profiles: [

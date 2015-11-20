@@ -111,7 +111,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
     },
 
-    onRoomEdit: function(button){
+    onRoomEditTap: function(button){
 
         var navView = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0],
             record  = button.getRecord(),
@@ -130,40 +130,87 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
     },
 
-    onRoomShare: function(){
-        var room = Ext.first('combobox[reference=roomscombo]').getSelection();
+
+    onRoomShareTap: function(button){
+        var me=this,
+            room = button.getRecord();
 
         if(room && room.get('isPrivate') ){
             Ext.Ajax.request({
                 url     : '/data/jwtsign/' + room.data.password,
-
                 params:  room.data,
-
                 success : function(response) {
                     var token = response.responseText, message,
-                        message = '<a target="_new" href="' + window.location.origin + '/#token/' + token + '">' + window.location.origin + '/#token/' + token + '</a> <br/> Password to enter room: ' + room.data.password ;
-                    Ext.Msg.alert('Private Room Token', message);
-
+                        message = '<a target="_new" href="' + window.location.origin + '?pwd=' + room.data.password + '#token/' + token + '">' + window.location.origin  + '?pwd=' + room.data.password + '#token/' + token + '</a>';
+                    me.showRoomShare(button,room,message,token)
                 },
                 failure : function() {
                 }
             });
         }else{
             var message = '<a href="' + window.location + '">' + window.location + '</a>';
-            Ext.Msg.alert('Public Room Link', message);
-
-            alert();
+            me.showRoomShare(button,room,message)
         }
 
     },
 
-    onRoomRemove: function(){
+    showRoomShare: function(button, room, message, token){
+
+        var navView = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0],
+            record  = button.getRecord(),
+            id = record.get('id');
+
+        navView.push({
+            xtype: 'chatroomshareform',
+            viewModel:{
+                data:{
+                    theRoom: record
+                }
+            },
+            routeId: 'room/' + id,
+            flex: 1
+        });
+
+
+/*
+        var window = Ext.create('Ext.window.Window', {
+            title: 'Share Room',
+            iconCls: 'x-fa fa-share fa-lg',
+            height: 400,
+            width: 800,
+            layout: 'fit',
+            resizable: true,
+            modal: true,
+            viewModel:{
+                data:{
+                    theRoom: room,
+                    theMessage: message,
+                    theToken: token
+                }
+            },
+            items: {
+                xtype: 'chatroomshareform',
+                border: false
+
+            },
+            listeners:{
+                blur: function(){this.close();}
+            }
+        });
+        window.show();
+
+    */
+
+
+    },
+
+    onRoomRemoveTap: function(){
         var record = Ext.first('combobox[reference=roomscombo]').getSelection();
 
         if(record){
             var store = this.getViewModel().getStore('rooms');
             this.getViewModel().getStore('rooms').remove(record);
-            Ext.Msg.wait('Removing', 'Removing room...');
+            Ext.Msg.alert('Removing', 'Removing room...');
             store.sync({
                 scope: this,
                 callback: this.onComplete

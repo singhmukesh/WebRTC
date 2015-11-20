@@ -18,9 +18,6 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
             iconCls:'x-fa fa-plus',
             ui: 'bright-blue round',
             userCls: 'pop-out',
-            bind: {
-                hidden: '{composing}'
-            },
             width: 50,
             height: 50,
 
@@ -28,6 +25,9 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
             bottom: 10,
             right: 10,
 
+            bind: {
+                hidden: '{composing}'
+            },
             handler: 'onRoomAdd',
             listeners: {
                 scope: 'controller',
@@ -70,7 +70,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                             tap: function(button, e){
                                 var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
                                 button.slideactions.removeButtons();
-                                controller.onRoomEdit( button ); //send the record to the controller : button.getRecord()
+                                controller.onRoomEditTap( button ); //send the record to the controller : button.getRecord()
                                 e.stopPropagation();
                                 return true;
                             },
@@ -86,7 +86,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
 
                                 var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
                                 button.slideactions.removeButtons();
-                                controller.onRoomShare( button );
+                                controller.onRoomShareTap( button );
                                 e.stopPropagation();
                                 return false;
                             },
@@ -101,7 +101,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                             tap: function(button, e){
                                 var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
                                 button.slideactions.removeButtons();
-                                controller.onRoomRemove( button );
+                                controller.onRoomRemoveTap( button );
                                 e.stopPropagation();
                                 return false;
                             },

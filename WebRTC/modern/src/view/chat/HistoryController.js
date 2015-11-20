@@ -44,15 +44,23 @@ Ext.define('WebRTC.view.chat.HistoryController', {
     },
 
     scrollToBottom: function(){
-        var list = this.getView().down('dataview[reference=historylist]'),
+        var me=this,
+            list = this.getView().down('dataview[reference=historylist]'),
             scroller, store;
         if(list) {
             scroller = list.getScrollable();
             store = list.getStore();
             if (scroller && store.isLoaded()){
-                scroller.scrollBy(null, Infinity, true);
+                Ext.Function.defer(function(){
+                    scroller.scrollBy(null, Infinity, true);
+                },500);
+
             } else {
-                store.on('load', function() {scroller.scrollBy(null, Infinity, true);}, this, {single: true});
+                //once loaded call ourself and the deferred function will run
+                store.on('load', function() {
+                    me.scrollToBottom();
+                }, this, {single: true}
+                );
             }
         }
     },

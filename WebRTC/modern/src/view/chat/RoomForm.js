@@ -5,6 +5,7 @@ Ext.define('WebRTC.view.chat.RoomForm', {
     controller: 'chatroomform',
 
     title: 'Room Info',
+    ui: 'soft-green',
     bodyPadding: 10,
     autoScroll: true,
 
