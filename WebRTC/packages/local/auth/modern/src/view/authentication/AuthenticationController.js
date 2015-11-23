@@ -46,6 +46,10 @@ Ext.define('auth.view.authentication.AuthenticationController', {
         this.redirectTo('register', btn,  true);
     },
 
+    onDone:  function(btn) {
+        this.fireEvent('done', btn, this.getViewModel()['data'] );
+    },
+
     onGuestShow:  function(btn) {
         this.redirectTo('guest', btn,  true);
     },

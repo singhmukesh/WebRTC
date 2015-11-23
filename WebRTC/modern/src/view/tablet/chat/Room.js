@@ -18,7 +18,9 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
         titleAlign: 'center',
         items:[{
             xtype: 'button',
+            left: 0,
             iconCls: 'x-fa fa-arrow-left',
+            userCls: 'subHeaderIcon',
             // text:'Back',
             listeners:{
                 tap: 'onBackTap'

@@ -9,10 +9,10 @@ Ext.define('auth.mixin.AuthViewRenderer', {
         'login': { xtype: 'login' },
         'register': { xtype: 'register' },
          'guest': { xtype: 'guest'},
-        // 'lock': { view: 'LockScreen'},
-        // 'denied': {view: 'DeniedScreen'},
-        // 'newpassword': {view: 'ChangePassword'},
-        // 'newemail': {view: 'ChangeEmail'},
+        // 'lock': { xtype: 'LockScreen'},
+        // 'denied': {xtype: 'DeniedScreen'},
+        'newpassword': {xtype: 'changepassword'},
+        'newemail': {xtype: 'changemail'},
         'passwordreset': {xtype: 'passwordreset'}
     },
 

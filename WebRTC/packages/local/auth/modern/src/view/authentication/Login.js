@@ -20,7 +20,8 @@ Ext.define('auth.view.authentication.Login', {
             defaults: {
                 margin: '0 0 10 0'
             },
-            items: [{
+            items: [
+            {
                 xtype: 'label',
                 reference: 'statusLabel',
                 cls: 'status-top-label',
@@ -94,7 +95,8 @@ Ext.define('auth.view.authentication.Login', {
                 listeners: {
                     tap: 'onNewAccount'
                 }
-            }]
+            }
+            ]
         }]
     }]
 

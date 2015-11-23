@@ -2,9 +2,6 @@ Ext.define('auth.view.authentication.Guest', {
     extend: 'auth.view.authentication.LockingWindow',
     xtype: 'guest',
 
-    requires: [
-        'auth.view.authentication.Dialog'
-    ],
 
 
     defaultFocus: 'authdialog', // Focus the Auth Form to force field focus as well
@@ -14,7 +11,7 @@ Ext.define('auth.view.authentication.Guest', {
 
     items: [{
         xtype: 'panel',
-
+        minWidth: 250,  //keeps sceen from jumping when x is added inside field
         items: [{
             padding: '20 0 0 20',
             html: 'What should we call you?'
@@ -34,10 +31,9 @@ Ext.define('auth.view.authentication.Guest', {
             },
             {
                 xtype: 'textfield',
-                cls: 'auth-textbox',
+                userCls: 'text-border',
                 name: 'fullName',
                 bind: '{fullName}',
-                height: 55,
                 hideLabel: true,
                 allowBlank : false,
                 placeHolder: 'nickname',
@@ -61,12 +57,5 @@ Ext.define('auth.view.authentication.Guest', {
                 }
             }]
         }]
-    }],
-
-
-
-    initComponent: function() {
-        this.addCls('user-login-register-container');
-        this.callParent(arguments);
-    }
+    }]
 });

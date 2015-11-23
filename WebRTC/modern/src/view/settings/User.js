@@ -172,7 +172,7 @@ Ext.define('WebRTC.view.settings.User', {
                         iconCls: 'x-fa fa-lock',
                         text: 'Change Password',
                         listeners: {
-                            click: 'onChangePassword'
+                            tap: 'onChangePassword'
                         }
                     }, {
                         xtype: 'spacer'
@@ -185,7 +185,7 @@ Ext.define('WebRTC.view.settings.User', {
                         iconCls: 'x-fa fa-envelope',
                         text: 'Change Email',
                         listeners: {
-                            click: 'onChangeEmail'
+                            tap: 'onChangeEmail'
                         }
                     }
                 ]

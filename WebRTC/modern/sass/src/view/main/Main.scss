@@ -46,9 +46,7 @@
     }
 }
 
-.x-input-el {
-    border: 1px solid $field-border-color;
-}
+
 
 //---------------------------------------------------------------------------
 
@@ -241,4 +239,14 @@ $logo-image-height: 26px;
 
 .x-form-soft-green .x-form-inner{
     background-color: lighten($base-color,30%);
+}
+
+.subHeaderIcon{
+    font-size: 0.95rem;
+    background-color: transparent;
+    border: none;
+    .x-button-icon{
+        color: #fff;
+        margin-top: -4px;
+    }
 }
