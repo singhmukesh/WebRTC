@@ -6,6 +6,7 @@ Ext.define('WebRTC.ux.ListSlideActions', {
     config: {
         list: null,
         buttons: [],
+        scrollTolerance :30,
         minDrag: 5,
         openPosition: 150,
         animation: {duration: 250, easing: {type: 'ease-out'}},
@@ -51,8 +52,8 @@ Ext.define('WebRTC.ux.ListSlideActions', {
 
     onScrollStart: function(scroller, x, y){
         this.scrolling = true;
-        //console.log('scrollstart');
-        if(this.actualItem){
+       // console.log('scrollstart -  x:' + x + ' y:' +y);
+        if(this.actualItem && y >= this.scrollTolerance){
             this.removeButtons(false);
         }
     },

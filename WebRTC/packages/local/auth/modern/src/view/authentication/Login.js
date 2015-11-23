@@ -61,6 +61,18 @@ Ext.define('auth.view.authentication.Login', {
                 listeners: {
                     tap: 'onLoginButton'
                 }
+            },
+
+            {
+                xtype: 'button',
+                scale: 'large',
+                // ui: 'gray',
+                iconAlign: 'right',
+                iconCls: 'x-fa fa-right',
+                text: 'Guest Access',
+                listeners: {
+                    tap: 'onGuestShow'
+                }
             }, {
                 xtype: 'button',
                 scale: 'large',

@@ -72,10 +72,10 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         var me=this,
             store = this.getViewModel().getStore('myrooms');
 
-        if(store){
+        if(store && user){
             store.filterBy(function (item) {
                 if (item) {
-                    var user = me.getViewModel().get('user');
+                    //var user = me.getViewModel().get('user');
                     if (item.get('isPublic')) {
                         return true;
                     } else if (user && user['name'] == 'admin' ) {

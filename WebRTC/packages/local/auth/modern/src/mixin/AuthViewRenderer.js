@@ -8,6 +8,7 @@ Ext.define('auth.mixin.AuthViewRenderer', {
     validViews: {
         'login': { xtype: 'login' },
         'register': { xtype: 'register' },
+         'guest': { xtype: 'guest'},
         // 'lock': { view: 'LockScreen'},
         // 'denied': {view: 'DeniedScreen'},
         // 'newpassword': {view: 'ChangePassword'},
