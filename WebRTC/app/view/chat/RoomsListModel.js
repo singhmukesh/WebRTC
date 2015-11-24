@@ -18,7 +18,27 @@ Ext.define('WebRTC.view.chat.RoomsListModel', {
             source: 'rooms',
             sorters: [{property: 'date', direction: 'ASC'}],
             autoLoad: true,
-            autosync: true
+            autosync: true,
+            filters: [
+                function(item) {
+                    if(!item) return false;
+
+                    //Since this store is defined in the viewModel we will need to query the view where the user data is.
+                    var user = Ext.ComponentQuery.query('app-main')[0].getViewModel().get('user');
+
+                    if (item.get('isPublic')) {
+                        return true;
+                    } else if (user && user['name'] == 'admin' ) {
+                        return true;
+                    } else if (user && user['id'] == item.get('owner') ) {
+                        return true;
+                    }  else if (user && user['id'] && !user['isTemp']) {
+                        return !item.get('isPrivate')
+                    }else {
+                        return false;
+                    }
+                }
+            ]
         }
     },
     formulas: {

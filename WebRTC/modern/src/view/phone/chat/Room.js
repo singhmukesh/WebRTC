@@ -18,6 +18,7 @@ Ext.define('WebRTC.view.phone.chat.Room', {
         titleAlign: 'center',
         items:[{
             xtype: 'button',
+            top: -10,
             left: 0,
             userCls: 'subHeaderIcon',
             iconCls: 'x-fa fa-arrow-left',

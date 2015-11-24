@@ -70,6 +70,21 @@ Ext.define('WebRTC.controller.Routes', {
         //}
     },
 
+    setNavigatonSelection: function (hashTag) {
+        hashTag = (hashTag || '').toLowerCase();
+
+        var appMain = Ext.ComponentQuery.query('app-main')[0],
+            vc = appMain.getController(),
+            mainCard = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0],
+            navigationTree = vc.navigationTree,
+            store = navigationTree.getStore(),
+            node = store.findNode('routeId', hashTag) ||
+                store.findNode('viewType', hashTag);
+
+        navigationTree.setSelection(node);
+
+    },
+
     //add or setActive component based on the route
     onRouteViewportComponent: function (hashTag, params) {
         var mainCard = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0],
@@ -104,10 +119,14 @@ Ext.define('WebRTC.controller.Routes', {
             me.id = id;
             me.checkStoreAndDisplayRoom();
         }
+
+
+        me.setNavigatonSelection('room');
     },
 
     onRouteUser: function(){
-        var navView = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0];
+        var me= this,
+            navView = Ext.ComponentQuery.query('navigationview[reference=mainCard]')[0];
 
         this.clearNavPanel();
 
@@ -118,6 +137,8 @@ Ext.define('WebRTC.controller.Routes', {
             },
             flex: 1
         });
+
+        me.setNavigatonSelection('user');
     },
 
     checkStoreAndDisplayRoom: function(){

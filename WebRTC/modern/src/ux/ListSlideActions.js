@@ -6,8 +6,9 @@ Ext.define('WebRTC.ux.ListSlideActions', {
     config: {
         list: null,
         buttons: [],
-        scrollTolerance :30,
-        minDrag: 5,
+        viewModel: {}, //per record view model (optional)
+        scrollTolerance :30, //Allow some scrolling when sliding out
+        minDrag: 5, //Ensure a little bit of drag before creating
         openPosition: 150,
         animation: {duration: 250, easing: {type: 'ease-out'}},
         actionsBackground: "#909090",
@@ -36,7 +37,6 @@ Ext.define('WebRTC.ux.ListSlideActions', {
             scope: me
         });
 
-     //   list.setBubbleEvents(true);
 
     },
 
@@ -71,7 +71,6 @@ Ext.define('WebRTC.ux.ListSlideActions', {
         var stop = this.actualItem != null && target.el.down('.x-innerhtml')  == this.actualItem.getElement();
 
         this.removeButtons();
-
         if(stop)
         {
             return false;
@@ -83,7 +82,7 @@ Ext.define('WebRTC.ux.ListSlideActions', {
         if(this.scrolling) return false;
 
 
-        var me = this;
+        var me = this;  //Pass in the viewModel if defined so slider items can use it.
 
         var element = target.el.down('.x-innerhtml') ;
 
@@ -96,11 +95,9 @@ Ext.define('WebRTC.ux.ListSlideActions', {
         if(!me.actualItem)
         {
             me.actualRecord = record;
-            me.actualActions = me.createButtonsDiv(target.el);
+            me.actualActions = me.createButtonsDiv(target, list);
             element.setStyle('background', me.config.itemBackground);
             element.setStyle('box-shadow', me.config.boxShadow);
-
-
 
             me.actualItem = new Ext.util.Draggable({
                 element: element,
@@ -192,10 +189,12 @@ Ext.define('WebRTC.ux.ListSlideActions', {
         }
     },
 
-    createButtonsDiv: function(element)
+    createButtonsDiv: function(target,list)
     {
-        var me = this;
-        var outer = Ext.DomHelper.insertFirst(element, '<div class="x-slide-action-outer" style="background: '+me.config.actionsBackground+'; position:absolute; width: 100%; height: 100%"></div>', true);
+        var me = this,
+            element = target.el,
+            viewModel = list.lookupViewModel(),
+            outer = Ext.DomHelper.insertFirst(element, '<div class="x-slide-action-outer" style="background: '+me.config.actionsBackground+'; position:absolute; width: 100%; height: 100%"></div>', true);
 
         Ext.Array.each(me.config.buttons, function(button){
             button['flex'] = 1;
@@ -203,10 +202,22 @@ Ext.define('WebRTC.ux.ListSlideActions', {
             button['record'] = me.actualRecord;
             button['slideactions'] = me;
         });
+
+        //attach the current record and parent VM chain to the panel
+        Ext.apply(me.config.viewModel,
+            {
+                data:{
+                    slideActionRecord: me.actualRecord
+                },
+                parent:viewModel
+            }
+        );
+
         var panel = Ext.create('Ext.Panel', {
             layout: 'hbox',
             width: me.config.openPosition,
             cls: 'x-slide-action-buttons-outer',
+            viewModel: me.config.viewModel,
             renderTo: outer,
             style: 'margin-left: auto;height: 100%;',
             items: me.config.buttons

@@ -59,13 +59,16 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                itemtap: 'onRoomSelect'
             },
             plugins:{
-                //NOTE: These buttons are added outside the component chain and so the controller scope needs to be a component lookup until a better method is worked out.
                 xclass: 'WebRTC.ux.ListSlideActions',
+                //NOTE: These buttons are added outside the component chain and so the controller scope needs to be a component lookup until a better method is worked out.
                 buttons: [
                     {
                         xtype: 'button',
                         iconCls:'x-fa fa-pencil',
                         ui: 'action',
+                        bind:{
+                            disabled: '{!isRoomActionByOwner}'
+                        },
                         listeners: {
                             tap: function(button, e){
                                 var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
@@ -108,7 +111,24 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                             scope: this
                         }
                     }
-                ]
+                ],
+                //These are the custom formulas that will have the record of the item being slid and the parent viewModel chain.
+                viewModel:{
+                    formulas: {
+                        isRoomActionByOwner: function (get) {
+                            var user = get('user'),
+                                record;
+                            if (user) {
+                                if(this.get('slideActionRecord')){
+                                    record = this.get('slideActionRecord');
+                                }
+                                return record != null && (user['id'] == record.get('owner') );    //edit allowed only when owner
+                            } else {
+                                return false
+                            }
+                        }
+                    }
+                }
             }
         }
     ]
