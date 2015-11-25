@@ -60,8 +60,25 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
             },
             plugins:{
                 xclass: 'WebRTC.ux.ListSlideActions',
+              leftButtons: [{
+                    xtype: 'button',
+                    iconCls:'x-fa fa-share',
+                    ui: 'confirm',
+                    listeners: {
+                        tap: function(button, e){
+
+                            var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                            button.slideactions.removeButtonPanel();
+                            controller.onRoomShareTap( button );
+                            e.stopPropagation();
+                            return false;
+                        },
+                        scope: this
+                    }
+                }
+                ],
                 //NOTE: These buttons are added outside the component chain and so the controller scope needs to be a component lookup until a better method is worked out.
-                buttons: [
+                rightButtons: [
                     {
                         xtype: 'button',
                         iconCls:'x-fa fa-pencil',
@@ -72,7 +89,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                         listeners: {
                             tap: function(button, e){
                                 var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
-                                button.slideactions.removeButtons();
+                                button.slideactions.removeButtonPanel();
                                 controller.onRoomEditTap( button ); //send the record to the controller : button.getRecord()
                                 e.stopPropagation();
                                 return true;
@@ -80,7 +97,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                             scope: this
                         }
                     },
-                    {
+                  /*  {
                         xtype: 'button',
                         iconCls:'x-fa fa-share',
                         ui: 'confirm',
@@ -88,14 +105,14 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                             tap: function(button, e){
 
                                 var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
-                                button.slideactions.removeButtons();
+                                button.slideactions.removeButtonPanel();
                                 controller.onRoomShareTap( button );
                                 e.stopPropagation();
                                 return false;
                             },
                             scope: this
                         }
-                    },
+                    },*/
                     {
                         xtype: 'button',
                         iconCls:'x-fa fa-trash',
@@ -103,7 +120,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                         listeners: {
                             tap: function(button, e){
                                 var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
-                                button.slideactions.removeButtons();
+                                button.slideactions.removeButtonPanel();
                                 controller.onRoomRemoveTap( button );
                                 e.stopPropagation();
                                 return false;

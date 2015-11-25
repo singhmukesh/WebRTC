@@ -5,11 +5,13 @@ Ext.define('WebRTC.ux.ListSlideActions', {
 
     config: {
         list: null,
-        buttons: [],
+        leftButtons: [],
+        rightButtons: [],
         viewModel: {}, //per record view model (optional)
         scrollTolerance :30, //Allow some scrolling when sliding out
         minDrag: 5, //Ensure a little bit of drag before creating
-        openPosition: 150,
+        openPositionRight: 150,
+        openPositionLeft: 50,
         animation: {duration: 250, easing: {type: 'ease-out'}},
         actionsBackground: "#909090",
         itemBackground: '#ffffff',
@@ -33,7 +35,7 @@ Ext.define('WebRTC.ux.ListSlideActions', {
             select: me.onTap,
             updatedata: me.updateData,
             itemtouchmove: me.onTouchMove,
-            hide: me.removeButtons,
+            hide: me.removeButtonPanel,
             scope: me
         });
 
@@ -54,7 +56,7 @@ Ext.define('WebRTC.ux.ListSlideActions', {
         this.scrolling = true;
        // console.log('scrollstart -  x:' + x + ' y:' +y);
         if(this.actualItem && y >= this.scrollTolerance){
-            this.removeButtons(false);
+            this.removeButtonPanel(false);
         }
     },
 
@@ -62,7 +64,7 @@ Ext.define('WebRTC.ux.ListSlideActions', {
     {
         if(this.actualItem)
         {
-            this.removeButtons();
+            this.removeButtonPanel();
         }
     },
 
@@ -70,7 +72,7 @@ Ext.define('WebRTC.ux.ListSlideActions', {
     {
         var stop = this.actualItem != null && target.el.down('.x-innerhtml')  == this.actualItem.getElement();
 
-        this.removeButtons();
+        this.removeButtonPanel();
         if(stop)
         {
             return false;
@@ -89,13 +91,13 @@ Ext.define('WebRTC.ux.ListSlideActions', {
         var initialOffset = {x: 0, y: 0};
 
         if(me.actualItem && me.actualItem.getElement() != element){
-            me.removeButtons();
+            me.removeButtonPanel();
         }
 
         if(!me.actualItem)
         {
             me.actualRecord = record;
-            me.actualActions = me.createButtonsDiv(target, list);
+            me.actualActions = me.createButtonsPanel(target, list);
             element.setStyle('background', me.config.itemBackground);
             element.setStyle('box-shadow', me.config.boxShadow);
 
@@ -105,14 +107,25 @@ Ext.define('WebRTC.ux.ListSlideActions', {
                 direction: 'horizontal',
                 listeners: {
                     dragstart: function( self, e, startX, startY ){
-                        if(self.getOffset().x == -1 * me.config.openPosition)
+                        if(self.getOffset().x == -1 * me.config.openPositionRight) //drag right
                         {
-                            initialOffset = {x: -1 * me.config.openPosition, y: 0};
+                            initialOffset = {x: -1 * me.config.openPositionRight, y: 0};
+                        }
+                        if(self.getOffset().x == 1 * me.config.openPositionLeft) //drag left
+                        {
+                            initialOffset = {x: 1 * me.config.openPositionLeft, y: 0};
                         }
                     },
                     drag: function( self, e, newX, newY ){
 
-                        if(self.getOffset().x > 0)
+                        // console.log(self.getOffset().x);
+                        // debugger;
+
+                        if(self.getOffset().x > 0  &&  me.config.leftButtons.length == 0) //only right buttons and drag left
+                        {
+                            self.setOffset(0, 0);
+                        }
+                        else if(self.getOffset().x < 0 &&  me.config.rightButtons.length == 0) //only left buttons and drag right
                         {
                             self.setOffset(0, 0);
                         }
@@ -129,8 +142,11 @@ Ext.define('WebRTC.ux.ListSlideActions', {
 
                     },
                     dragend: function( self, e, endX, endY ){
-                        if(self.getOffset().x < -1 * (me.config.openPosition / 2)){
-                            self.setOffset(-1 * me.config.openPosition, 0, me.config.animation);
+                        if(self.getOffset().x < -1 * (me.config.openPositionRight / 2)){
+                            self.setOffset(-1 * me.config.openPositionRight, 0, me.config.animation);
+                        }
+                        else if(self.getOffset().x > 1 * (me.config.openPositionLeft / 2)){
+                            self.setOffset(1 * me.config.openPositionLeft, 0, me.config.animation);
                         }
                         else{
                             self.setOffset(0, 0, me.config.animation);
@@ -150,7 +166,7 @@ Ext.define('WebRTC.ux.ListSlideActions', {
 
     },
 
-    removeButtons: function(timeout)
+    removeButtonPanel: function(timeout)
     {
         if(typeof timeout == 'undefined')
         {
@@ -189,14 +205,21 @@ Ext.define('WebRTC.ux.ListSlideActions', {
         }
     },
 
-    createButtonsDiv: function(target,list)
+    createButtonsPanel: function(target, list, buttons)
     {
         var me = this,
             element = target.el,
             viewModel = list.lookupViewModel(),
             outer = Ext.DomHelper.insertFirst(element, '<div class="x-slide-action-outer" style="background: '+me.config.actionsBackground+'; position:absolute; width: 100%; height: 100%"></div>', true);
 
-        Ext.Array.each(me.config.buttons, function(button){
+        Ext.Array.each(me.config.rightButtons, function(button){
+            button['flex'] = 1;
+            button['style'] = 'height: 100%;border: none;box-shadow: none;z-index: auto;';
+            button['record'] = me.actualRecord;
+            button['slideactions'] = me;
+        });
+
+        Ext.Array.each(me.config.leftButtons, function(button){
             button['flex'] = 1;
             button['style'] = 'height: 100%;border: none;box-shadow: none;z-index: auto;';
             button['record'] = me.actualRecord;
@@ -215,13 +238,32 @@ Ext.define('WebRTC.ux.ListSlideActions', {
 
         var panel = Ext.create('Ext.Panel', {
             layout: 'hbox',
-            width: me.config.openPosition,
+            style: 'height: 100%;',
+            border: false,
             cls: 'x-slide-action-buttons-outer',
             viewModel: me.config.viewModel,
             renderTo: outer,
-            style: 'margin-left: auto;height: 100%;',
-            items: me.config.buttons
+            items: [
+                {
+                    layout: 'hbox',
+                    style: 'height: 100%;',
+                    border: false,
+                    width: me.config.openPositionLeft,
+                    items:  me.config.leftButtons
+                },{
+                    flex:1
+                },
+                {
+                    layout: 'hbox',
+                    style: 'height: 100%;',
+                    border: false,
+                    cls: 'x-slide-action-buttons-outer',
+                    width: me.config.openPositionRight,
+                    items:  me.config.rightButtons
+                }
+            ]
         });
+
 
         return outer;
     }
