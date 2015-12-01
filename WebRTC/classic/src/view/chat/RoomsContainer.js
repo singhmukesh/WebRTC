@@ -81,31 +81,7 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
                     hidden: '{!isAdmin}'
                 },
                 handler: 'onGearClick'
-            },{
-                //This is left here on purpose to easily remove branding piece from project
-                style:'background-image: url(/static/images/TokBoxIcon.png) !important; background-size: 29px 29px; background-repeat: no-repeat; ',
-                hidden: true,
-                plain: true,
-                listeners: {
-                    click: function(){
-                        Ext.create('Ext.window.Window', {
-                            title: 'About',
-                            iconCls: 'x-fa fa-info-circle fa-lg',
-                            height: 640,
-                            width: 600,
-                            layout: 'fit',
-                            modal: true,
-                            items: {
-                                xtype: 'panel',
-                                html: '<a href="http://www.sencha.com/services/" target="_blank" ><img src="/static/images/About.png" border=0 ></a> ',
-                                border: false
-
-                            }
-                        }).show();
-                    }
-                }
             }
-
         ]
     }],
 
@@ -130,23 +106,10 @@ Ext.define('WebRTC.view.chat.RoomsContainer', {
             callback: 'onToggleFullScreen'
         },{
             type: 'help',
-            tooltip: 'About',
-            callback: function() {
-                Ext.create('Ext.window.Window', {
-                    title: 'About',
-                    iconCls: 'x-fa fa-info-circle fa-lg',
-                    height: 640,
-                    width: 600,
-                    layout: 'fit',
-                    modal: true,
-                    items: {
-                        xtype: 'panel',
-                        html: '<a href="http://www.sencha.com/services/" target="_blank" ><img src="/static/images/About.png" border=0 ></a> ',
-                        border: false
-
-                    }
-                }).show();
-            }
+            // bind:{
+            //    hidden: '{!isAdmin}'
+            //},
+            callback: 'onHelpClick'
         }
     ],
     items: [

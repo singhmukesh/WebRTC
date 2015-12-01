@@ -7,6 +7,9 @@ Ext.define('WebRTC.view.chat.RoomForm', {
 
     controller: 'chatroomform',
 
+    // This connects bound form fields to the associated model validators:
+    modelValidation: true,
+
     /*
      * Seek out the first enabled, focusable, empty textfield when the form is focused
      */

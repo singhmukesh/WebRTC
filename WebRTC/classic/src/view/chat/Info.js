@@ -8,6 +8,9 @@ Ext.define('WebRTC.view.chat.Info', {
             deep: true
         }
     },
+    listeners:{
+        focusenter: function(){alert('focused')}
+    },
 
     initComponent: function(){
         var me = this;

@@ -60,6 +60,9 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
                         type: 'vbox',
                         align: 'stretch'
                     },
+                    bind:{
+                        hidden: '{!isWebRTCSupported}'
+                    },
                     items: [
                         {
                             items:[

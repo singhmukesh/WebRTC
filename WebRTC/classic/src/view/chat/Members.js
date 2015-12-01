@@ -5,8 +5,34 @@ Ext.define('WebRTC.view.chat.Members', {
     bodyPadding: 10,
     layout:'fit',
 
+    dockedItems: [{
+        xtype: 'textfield',
+        reference: 'roommembersFilter',
+        dock: 'top',
+        emptyText: 'Search Members',
+        triggers: {
+            clear: {
+                cls: 'x-form-clear-trigger',
+                handler: 'onFilterClearTriggerClick',
+                hidden: true,
+                scope: 'controller'
+            },
+            search: {
+                cls: 'x-form-search-trigger',
+                weight: 1,
+                handler: 'onFilterSearchTriggerClick',
+                scope: 'controller'
+            }
+        },
+        listeners: {
+            change: 'onFilterFieldChange',
+            buffer: 300
+        }
+    }],
+
     items:[{
         xtype:'dataview',
+        reference: 'memberslist',
         autoScroll: true,
         loadMask: false,
         bind:{

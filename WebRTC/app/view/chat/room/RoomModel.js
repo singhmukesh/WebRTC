@@ -146,7 +146,7 @@ Ext.define('WebRTC.view.chat.room.RoomModel', {
             }
         },
         isWebRTCSupported: function (get) {
-            if (1==0 && Ext.browser.is.Safari || Ext.browser.is.IE) {
+            if (Ext.browser.is.Safari || Ext.browser.is.IE) {
                 return false;
             } else {
                 if (!!window.webkitRTCPeerConnection || !!window.mozRTCPeerConnection) {
