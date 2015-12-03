@@ -3,6 +3,33 @@ Ext.define('WebRTC.view.chat.History', {
     xtype: 'chathistory',
     controller: 'chathistory',
     layout:'fit',
+
+    dockedItems: [{
+        xtype: 'textfield',
+        reference: 'chatFilter',
+        dock: 'top',
+        margin: 10,
+        emptyText: 'Search Chat History',
+        triggers: {
+            clear: {
+                cls: 'x-form-clear-trigger',
+                handler: 'onFilterClearTriggerClick',
+                hidden: true,
+                scope: 'controller'
+            },
+            search: {
+                cls: 'x-form-search-trigger',
+                weight: 1,
+                handler: 'onFilterSearchTriggerClick',
+                scope: 'controller'
+            }
+        },
+        listeners: {
+            change: 'onFilterFieldChange',
+            buffer: 300
+        }
+    }],
+
     items: [{
         xtype: 'dataview',
         loadMask: false,
@@ -70,7 +97,8 @@ Ext.define('WebRTC.view.chat.History', {
         },
         flex:1
     },{
-        iconCls: 'x-fa fa-smile-o',
+        iconCls: 'x-fa fa-comment',
+        // ui: 'bright-blue round',
         plain: true,
         listeners: {
             click: 'chatSend'

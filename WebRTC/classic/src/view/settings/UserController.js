@@ -8,23 +8,26 @@ Ext.define('WebRTC.view.settings.UserController', {
 
     init: function () {
         var view = this.getView(),
-            settings = Ext.getStore('Settings'),
-            currentChatSound = settings.getById('chat-sound').get('value'),
-            soundChatCombo = view.down('combo[name=chat-sound]'),
-            currentEnterSound = settings.getById('enter-sound').get('value'),
-            soundEnterCombo = view.down('combo[name=enter-sound]'),
-            currentLeaveSound = settings.getById('leave-sound').get('value'),
-            soundLeaveCombo = view.down('combo[name=leave-sound]'),
-            currentLaunchRoom = settings.getById('launchroom').get('value'),
-            LaunchCombo = view.down('combo[name=launchroom]'),
-            currentVideoLayout = settings.getById('videolayout').get('value'),
-            videoLayout = this.lookupReference('videoLayout');
+            settings = Ext.getStore('Settings');
+        if(settings){
+            var currentChatSound = settings.getById('chat-sound').get('value'),
+                soundChatCombo = view.down('combo[name=chat-sound]'),
+                currentEnterSound = settings.getById('enter-sound').get('value'),
+                soundEnterCombo = view.down('combo[name=enter-sound]'),
+                currentLeaveSound = settings.getById('leave-sound').get('value'),
+                soundLeaveCombo = view.down('combo[name=leave-sound]'),
+                currentLaunchRoom = settings.getById('launchroom').get('value'),
+                LaunchCombo = view.down('combo[name=launchroom]'),
+                currentVideoLayout = settings.getById('videolayout').get('value'),
+                videoLayout = this.lookupReference('videoLayout');
 
-        soundChatCombo.setValue(currentChatSound);
-        soundEnterCombo.setValue(currentEnterSound);
-        soundLeaveCombo.setValue(currentLeaveSound);
-        LaunchCombo.setValue(currentLaunchRoom);
-        videoLayout.setValue({ videolayout: currentVideoLayout });
+            soundChatCombo.setValue(currentChatSound);
+            soundEnterCombo.setValue(currentEnterSound);
+            soundLeaveCombo.setValue(currentLeaveSound);
+            LaunchCombo.setValue(currentLaunchRoom);
+            videoLayout.setValue({ videolayout: currentVideoLayout });
+        }
+
     },
 
     signOut: function () {

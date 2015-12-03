@@ -16,6 +16,12 @@ Ext.define('auth.mixin.AuthViewRenderer', {
         var me=this,
             hash = hashtag || window.location.hash.substring(1);
 
+        if(hash == 'login'){
+            me.fireEvent('isAuthReady',function(isReady) {
+               me.fireEvent('authorize');
+            });
+        }
+
         if(me.currentView) {
             me.currentView.destroy();
         }

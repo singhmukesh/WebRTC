@@ -27,7 +27,7 @@ Ext.define('WebRTC.model.chat.Room', {
     ],
 
     hasMany:[
-  //      { model: 'WebRTC.model.chat.RoomMember', name: 'members' },
+  //    { model: 'WebRTC.model.chat.RoomMember', name: 'members' },
         { model: 'WebRTC.model.chat.Message', name: 'messages' }
     ],
     proxy: {
@@ -42,6 +42,12 @@ Ext.define('WebRTC.model.chat.Room', {
             type: 'json',
             rootProperty: 'data'
         }
-    }
+    },
+
+    //An array of validators for this model to be bound to the forms using bind.
+    validators: [
+        {field: 'name', type:'presence', message:'A Name is required'},
+        {owner: 'name', type:'presence', message:'An Owner is required'}
+    ]
 
 });

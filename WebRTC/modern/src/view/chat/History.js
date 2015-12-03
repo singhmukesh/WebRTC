@@ -18,6 +18,7 @@ Ext.define('WebRTC.view.chat.History', {
             loadMask: false,
             reference: 'historylist',
             autoScroll: true,
+            scrollToTopOnRefresh: false,
             flex:1,
             bind: {
                 store: '{messages}'
@@ -45,7 +46,13 @@ Ext.define('WebRTC.view.chat.History', {
                         return message.replace(matcher, anchorTag);
                     }
                 }
-            ]
+            ],
+            listeners: {
+                scope: 'controller',
+                painted:'scrollToBottom',
+                refresh:'scrollToBottom'
+
+            }
         },
         {
             xtype: 'toolbar',
@@ -54,6 +61,7 @@ Ext.define('WebRTC.view.chat.History', {
                 {
                     xtype:'textfield',
                     flex:1,
+                    style: 'margin-right:0px;',
                     name:'text',
                     reference: 'chattext'
                     // listeners: {
@@ -61,10 +69,11 @@ Ext.define('WebRTC.view.chat.History', {
                     // }
                 },{
                     xtype: 'button',
-                    iconCls: 'x-fa fa-smile-o',
-                    plain: true,
+                    iconCls: 'x-fa fa-comment',
+                    ui: 'bright-blue round',
+                    style:'margin-left:5px;',
                     handler: 'chatSend'
-                    
+
                 }
             ]
         }

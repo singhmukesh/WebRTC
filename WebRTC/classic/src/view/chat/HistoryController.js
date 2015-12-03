@@ -144,7 +144,7 @@ Ext.define('WebRTC.view.chat.HistoryController', {
     },
 
     setMemberTypingStatus: function(status){
-        var auth = WebRTC.app.getController('Auth'),
+        var auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             id = this.getViewModel().get('room')['id'],
             user = this.getViewModel().get('user');
 
@@ -152,6 +152,63 @@ Ext.define('WebRTC.view.chat.HistoryController', {
             var userId = user['id'],
                 membersRef = auth.firebaseRef.child('roommembers/' + id + '/' + userId);
             membersRef.update(status);
+        }
+    },
+
+
+    onFilterFieldChange: function(field, value) {
+        var me = this,
+            list = me.getReferences().historylist;
+
+        if (value) {
+            me.preFilterSelection = me.getViewModel().get('selectedView');
+            me.rendererRegExp = new RegExp( '(' + value + ')', "gi");
+            field.getTrigger('clear').show();
+            me.filterStore(value);
+        } else {
+            me.rendererRegExp = null;
+            list.store.clearFilter();
+            field.getTrigger('clear').hide();
+
+            // Ensure selection is still selected.
+            // It may have been evicted by the filter
+            if (me.preFilterSelection) {
+                list.ensureVisible(me.preFilterSelection, {
+                    select: true
+                });
+            }
+        }
+    },
+
+    onFilterClearTriggerClick: function() {
+        this.getReferences().chatFilter.setValue();
+    },
+
+    onFilterSearchTriggerClick: function() {
+        var field = this.getReferences().chatFilter;
+        this.onFilterFieldChange(field, field.getValue());
+    },
+
+    filterStore: function(value) {
+        var me = this,
+            list = me.getReferences().historylist,
+            store = list.getStore(),
+            selRec = list.getSelection();
+
+        store.clearFilter();
+
+        if (!Ext.isEmpty(value)) {
+            store.filterBy(function (rec) {
+                var data = rec.getData();
+
+                //If the string is found in the record show it.
+                return data['message'].toLowerCase().indexOf(value.toLowerCase()) > -1;
+            });
+
+            //Remove selection if selected record is not in the searched contact.
+            if (selRec.length > 0 && store.indexOf(selRec[0]) === -1) {
+                list.getSelectionModel().deselectAll();
+            }
         }
     }
 

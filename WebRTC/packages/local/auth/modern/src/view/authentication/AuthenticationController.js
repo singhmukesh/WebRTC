@@ -2,6 +2,14 @@ Ext.define('auth.view.authentication.AuthenticationController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.authentication',
 
+    updateStatus: function(text){
+        var statusLabel =  this.getView().down('[reference=statusLabel]');
+        if(statusLabel){
+            statusLabel.setHtml(text);
+            statusLabel.show();
+        }
+    },
+
     onNewEmail:  function(btn) {
         this.redirectTo('newemail', btn,  true);
     },
@@ -36,6 +44,18 @@ Ext.define('auth.view.authentication.AuthenticationController', {
 
     onNewAccount:  function(btn) {
         this.redirectTo('register', btn,  true);
+    },
+
+    onDone:  function(btn) {
+        this.fireEvent('done', btn, this.getViewModel()['data'] );
+    },
+
+    onGuestShow:  function(btn) {
+        this.redirectTo('guest', btn,  true);
+    },
+
+    onEnterButton:  function(btn) {
+       this.fireEvent('guest', btn, this.getViewModel()['data'] );
     },
 
     onSignupClick:  function(btn) {

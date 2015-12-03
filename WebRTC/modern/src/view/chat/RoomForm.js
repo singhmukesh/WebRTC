@@ -2,22 +2,36 @@ Ext.define('WebRTC.view.chat.RoomForm', {
     extend: 'Ext.form.Panel',
     xtype: 'chatroomform',
 
+    controller: 'chatroomform',
+
+    title: 'Room Info',
+    ui: 'soft-green',
     bodyPadding: 10,
     autoScroll: true,
 
+
     defaultFocus: 'textfield [name=name]',
     defaultButton: 'okButton',
+
     defaults:{
         anchor: '100%',
         labelWidth: 200
     },
-
     items: [
         {
-            xtype: 'fieldset',
-            title: 'Info',
+            // xtype: 'fieldset',
             defaults:{
-                anchor: '100%'
+                anchor: '100%',
+                plugins: 'responsive',
+                style: 'margin-bottom: 20px;',
+                responsiveConfig: {
+                    'phone || width < 600': {
+                        labelAlign: 'top'
+                    },
+                    'width >= 600': {
+                        labelAlign: 'left'
+                    }
+                }
             },
             items: [
                 {
@@ -29,6 +43,11 @@ Ext.define('WebRTC.view.chat.RoomForm', {
                     label: 'Room Name',
                     name: 'name',
                     bind: '{theRoom.name}'
+                },{
+                    xtype:'textfield',
+                    label: 'Topic',
+                    name: 'topic',
+                    bind: '{theRoom.topic}'
                 },
                 {
                     xtype:'checkboxfield',
@@ -36,32 +55,36 @@ Ext.define('WebRTC.view.chat.RoomForm', {
                     name      : 'private',
                     bind: '{theRoom.isPrivate}',
                     inputValue: '1'
+                },
+                {
+                    xtype:'textfield',
+                    fieldLabel: 'OpenTok SessionId',
+                    name: 'sessionId',
+                    disabled: true,
+                    bind: {
+                        value: '{theRoom.id}',
+                        hidden: '{!theRoom.id}'
+                    }
                 }
             ]
-        },{
-            xtype:'textfield',
-            label: 'OpenTok SessionId',
-            name: 'sessionId',
-            hidden: true,
-            disabled: true,
-            bind: '{theRoom.id}'
         },{
             xtype: 'toolbar',
             docked: 'bottom',
             items: [{
-                iconCls: 'x-fa fa-thumbs-o-down',
-                action:'cancel',
-                hidden: true,
-                text:'Cancel'
+                iconCls: 'x-fa fa-arrow-left',
+                action:'onCancelTap',
+                // text:'Cancel',
+                handler: 'onCancelTap'
             },
                 {
                     xtype: 'spacer'
                 },{
-                    iconCls: 'x-fa fa-thumbs-o-up',
+                    iconCls: 'x-fa fa-check-circle',
                     reference: 'okButton',
-                    action:'ok',
-                    formBind: true,
-                    text:'OK'
+                    // text:'OK',
+                    action:'onOkTap',
+                    handler: 'onOkTap',
+                    formBind: true
                 }]
         }
     ]

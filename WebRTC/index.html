@@ -34,9 +34,17 @@
             else if (s.match(/\bmaterial\-modern\b/)) {
                 profile = 'material-modern';
             }
+            else if (tags.desktop) {
+                profile = 'classic';
+            }
+            else if (tags.tablet) {
+                profile = 'modern';
+            }
+            else if (tags.phone) {
+                profile = 'modern';
+            }
             else {
-                profile = tags.desktop ? 'classic' : 'modern';  //typically desktop is classic but this app is all modern.
-                //profile = tags.phone ? 'modern' : 'classic';
+                profile = 'classic';
             }
             Ext.manifest = profile; // this name must match a build profile name
             // This function is called once the manifest is available but before
@@ -52,6 +60,7 @@
     <!-- The line below must be kept intact for Sencha Cmd to build your application -->
     <script id="microloader" data-app="2b952a57-508c-48f1-8814-7fe8853e6f99" type="text/javascript" src="bootstrap.js"></script>
 
+    <!-- This is here to ensure it's after the microloader. Also it's a known issue that space isn't SSL yet.sencha ap -->
     <script type="text/javascript" src="//space.sencha.io/space.js"></script>
 
 

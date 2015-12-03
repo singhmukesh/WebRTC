@@ -1,106 +1,151 @@
 Ext.define('WebRTC.view.chat.RoomsContainer', {
-    extend: 'Ext.Container',
+    extend: 'Ext.panel.Panel',
     xtype: 'chatroomscontainer',
 
-    requires: [
-        'WebRTC.view.chat.RoomsContainerController',
-        'WebRTC.view.chat.RoomsContainerModel',
-        'WebRTC.model.AdminSettings',
-        'Ext.Toolbar',
-        'Ext.MessageBox',
-        'Ext.Menu'
-    ],
+    requires: ['WebRTC.ux.ListSlideActions'],
 
     viewModel: {
-        type: 'chatroomscontainer'
+        type: 'chatroomslist'
     },
     controller: 'chatroomscontainer',
 
     layout: 'fit',
 
+
     items: [
         {
-            xtype : 'toolbar',
-            docked: 'top',
-            items:[
-                {
-                    iconCls: 'x-fa fa-plus-square',
-                    xtype: 'button',
-                    plain: true,
-                    listeners: {
-                        tap: 'onRoomAdd'
-                    }
-                },{
-                    iconCls: 'x-fa fa-pencil',
-                    xtype: 'button',
-                    plain: true,
-                    bind:{
-                     disabled: '{!isRoomSelected}'
-                    },
-                    listeners: {
-                        tap: 'onRoomEdit'
-                    }
-                },{
-                    iconCls: 'x-fa fa-trash-o',
-                    xtype: 'button',
-                    plain: true,
-                    bind:{
-                        disabled: '{!isRoomSelected}'
-                    },
-                    listeners: {
-                        tap: 'onRoomRemove'
-                    }
-                },{
-                    xtype: 'spacer'
-                },
-                {
-                    iconCls: 'x-fa fa-user',
-                    xtype: 'button',
-                    bind:{
-                     text: '{name}'
-                    },
-                    handler: 'onDisplayUserSettings'
-                },
-                {
-                    iconCls: 'x-fa fa-expand',
-                    xtype: 'button',
-                    bind:{
-                        hidden: '{!isDesktop}'
-                    },
-                    handler: 'onToggleFullScreen'
-                },{
-                    iconCls: 'x-fa fa-gear',
-                    xtype: 'button',
-                    bind:{
-                        hidden: '{isAdmin}'
-                    },
-                    handler: 'onSettingsAdminSelect'
-                },{
-                    iconCls: 'rtc-opentok-logo',
-                    xtype: 'button',
-                    plain: true,
-                    listeners: {
-                        tap: 'onLogoClick'
-                    }
-                }
-            ]
+            xtype: 'button',
+            iconCls:'x-fa fa-plus',
+            ui: 'bright-blue round',
+            userCls: 'pop-out',
+            width: 50,
+            height: 50,
+
+            // These cause the button to be floated / absolute positioned
+            bottom: 10,
+            right: 10,
+
+            bind: {
+                hidden: '{composing}'
+            },
+            handler: 'onRoomAdd',
+            listeners: {
+                scope: 'controller',
+                element: 'element',
+                longpress: 'onLongPressCompose'
+            }
         },
         {
-            xtype: 'dataview',
-            title: 'Rooms',
+            xtype: 'list',
             disableSelection: true,
             reference: 'roomsgrid',
             itemSelector: 'div.room-wrap',
             itemTpl: [
                 '<div class="room-wrap">',
-                '<span class="x-fa fa-comments fa-lg" title="{name}"> </span>{name}',
+                    '<div class="room-icon">',
+                        '<span class="x-fa fa-comments fa-lg" title="{name}"></span>',
+                    '</div>',
+                    '<div class="room-info">',
+                        '<span class="room-title" title="{name}"> {name}</span>',
+                        '<br><span class="room-topic" title="{topic}"> {topic}</span>',
+                    '</div>',
+                    '<div class="cleared"></div>',
                 '</div>'
             ],
             bind:{
-                store: '{rooms}'
+                store: '{myrooms}'
             },
             listeners: {
                itemtap: 'onRoomSelect'
+            },
+            plugins:{
+                xclass: 'WebRTC.ux.ListSlideActions',
+              leftButtons: [{
+                    xtype: 'button',
+                    iconCls:'x-fa fa-share',
+                    ui: 'confirm',
+                    listeners: {
+                        tap: function(button, e){
+
+                            var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                            button.slideactions.removeButtonPanel();
+                            controller.onRoomShareTap( button );
+                            e.stopPropagation();
+                            return false;
+                        },
+                        scope: this
+                    }
+                }
+                ],
+                //NOTE: These buttons are added outside the component chain and so the controller scope needs to be a component lookup until a better method is worked out.
+                rightButtons: [
+                    {
+                        xtype: 'button',
+                        iconCls:'x-fa fa-pencil',
+                        ui: 'action',
+                        bind:{
+                            disabled: '{!isRoomActionByOwner}'
+                        },
+                        listeners: {
+                            tap: function(button, e){
+                                var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                                button.slideactions.removeButtonPanel();
+                                controller.onRoomEditTap( button ); //send the record to the controller : button.getRecord()
+                                e.stopPropagation();
+                                return true;
+                            },
+                            scope: this
+                        }
+                    },
+                  /*  {
+                        xtype: 'button',
+                        iconCls:'x-fa fa-share',
+                        ui: 'confirm',
+                        listeners: {
+                            tap: function(button, e){
+
+                                var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                                button.slideactions.removeButtonPanel();
+                                controller.onRoomShareTap( button );
+                                e.stopPropagation();
+                                return false;
+                            },
+                            scope: this
+                        }
+                    },*/
+                    {
+                        xtype: 'button',
+                        iconCls:'x-fa fa-trash',
+                        ui: 'decline',
+                        listeners: {
+                            tap: function(button, e){
+                                var controller = Ext.ComponentQuery.query('chatroomscontainer')[0].getController();
+                                button.slideactions.removeButtonPanel();
+                                controller.onRoomRemoveTap( button );
+                                e.stopPropagation();
+                                return false;
+                            },
+                            scope: this
+                        }
+                    }
+                ],
+                //These are the custom formulas that will have the record of the item being slid and the parent viewModel chain.
+                viewModel:{
+                    formulas: {
+                        isRoomActionByOwner: function (get) {
+                            var user = get('user'),
+                                record;
+                            if (user) {
+                                if(this.get('slideActionRecord')){
+                                    record = this.get('slideActionRecord');
+                                }
+                                return record != null && (user['id'] == record.get('owner') );    //edit allowed only when owner
+                            } else {
+                                return false
+                            }
+                        }
+                    }
+                }
             }
         }
     ]

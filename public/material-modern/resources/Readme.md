@@ -1,4 +1,3 @@
-# WebRTC/resources
+# theme-material-modern/resources
 
-This folder contains resources (such as images) needed by the application. This file can
-be removed if not needed.
+This folder contains static resources (typically an `"images"` folder as well).

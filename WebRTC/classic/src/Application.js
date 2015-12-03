@@ -1,26 +1,33 @@
-
 Ext.define('WebRTC.Application', {
     extend: 'Ext.app.Application',
     name: 'WebRTC',
 
-    requires: ['WebRTC.*'],
+    requires: [
+        'WebRTC.*'
+    ],
 
-    //If no token then go home
+
     defaultToken : 'home',
 
     //Global Controllers
     controllers:[
         'opentok.controller.OpenTok',
         'soundlibrary.controller.SoundLibrary',
+        'help.controller.Help',
         'Auth',
-        'Navigation'
+        'Routes'
     ],
 
-    //Global Stores
+
+    //Startup view for classic
+    mainView: 'WebRTC.view.main.Main',
+
+
     stores:[
         'WebRTC.store.chat.Rooms',
-        'Settings',
+        'NavigationTree',
         'SecurityRoles',
+        'Settings',
         'Users'
     ],
 

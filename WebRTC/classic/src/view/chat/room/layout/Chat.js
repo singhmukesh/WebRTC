@@ -48,7 +48,6 @@ Ext.define('WebRTC.view.chat.room.layout.Chat', {
                         align: 'stretch'
                     },
                     minWidth: 250,
-                    resizable: true,
                     flex: 1,
                     items: [
                         {

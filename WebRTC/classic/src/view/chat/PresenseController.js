@@ -12,7 +12,7 @@ Ext.define('WebRTC.view.chat.PresenseController', {
     },
 
     onCloseRoom: function(tab, room, user){
-        var auth = WebRTC.app.getController('Auth'),
+        var auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             // user = this.getViewModel().get('user'),
             usersRef = auth.firebaseRef.child('users/' + user['id']);
 
@@ -27,7 +27,7 @@ Ext.define('WebRTC.view.chat.PresenseController', {
     },
 
     onJoinRoom: function(tab, room, user){
-        var auth = WebRTC.app.getController('Auth'),
+        var auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             // user = this.getViewModel().get('user'),
             usersRef = auth.firebaseRef.child('users/' + user['id']);
 

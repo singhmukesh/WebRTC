@@ -2,121 +2,102 @@ Ext.define('auth.view.authentication.Login', {
     extend: 'auth.view.authentication.LockingWindow',
     xtype: 'login',
 
-    requires: [
-        'auth.view.authentication.Dialog'
-    ],
 
-    requires: [
-        'auth.view.authentication.AuthenticationController',
-        'auth.view.authentication.AuthenticationModel'
-    ],
 
     viewModel: {
         type: 'authentication'
     },
-    
-    cls: 'user-login-register-container',
 
-    items: [
-        {
-            xtype: 'authdialog',
-            bodyPadding: '20 20',
-            defaults : {
-                margin : '5 0'
+    items: [{
+        xtype: 'panel',
+
+        items: [{
+            padding: '20 0 0 20',
+            html: 'Sign into your account'
+        }, {
+            xtype: 'container',
+            padding: 20,
+            defaults: {
+                margin: '0 0 10 0'
+            },
+            items: [
+            {
+                xtype: 'label',
+                reference: 'statusLabel',
+                cls: 'status-top-label',
+                hidden: true,
+                text: 'An error has occurred'
+            }, {
+                xtype: 'textfield',
+                placeHolder: 'Email',
+                name: 'userid',
+                bind: '{userid}',
+                userCls: 'text-border'
+            }, {
+                xtype: 'passwordfield',
+                placeHolder: 'Password',
+                name: 'password',
+                bind: '{password}',
+                userCls: 'text-border'
+            }, {
+                layout: 'hbox',
+                items: [{
+                    xtype: 'checkboxfield',
+                    bind: '{persist}'
+                }, {
+                    html: 'Remember Me',
+                    cls: 'checkbox-text-adjustment',
+                    style: 'marginRight:20px'
+                }, {
+                    html: '<a href="#passwordreset">Forgot Password</a>',
+                    cls: 'checkbox-text-adjustment'
+                }]
+            }, {
+                xtype: 'button',
+                scale: 'large',
+                text: 'Login',
+                iconAlign: 'right',
+                iconCls: 'x-fa fa-angle-right',
+                ui: 'soft-green',
+                listeners: {
+                    tap: 'onLoginButton'
+                }
             },
 
-            items: [
-                {
-                    xtype: 'titlebar',
-                    docked: 'top',
-                    title: 'Let\'s Log In'
-                },
-                {
-                    xtype: 'label',
-                    reference: 'statusLabel',
-                    cls: 'status-top-label',
-                    hidden: true,
-                    html: 'An error has occurred'
-                },                
-                {
-                    xtype: 'fieldset',
-                    title: 'Sign into your account',
-                    items: [
-                        {
-                            xtype: 'textfield',
-                            label: 'User',
-                            name: 'userid',
-                            bind: '{userid}'
-                        },
-                        {
-                            xtype: 'passwordfield',
-                            label: 'Password',
-                            name: 'password',
-                            bind: '{password}'
-                        },
-                        {
-                            xtype: 'checkboxfield',
-                            cls: 'form-panel-font-color rememberMeCheckbox',
-                            height: 30,
-                            bind: '{persist}',
-                            label: 'Remember me'
-                        }                
-                    ]            
-                },
-                {
-                    xtype: 'container',
-                    html: '<a href="#passwordreset" class="link-forgot-password"> Forgot Password ?</a>'
-                },
-                {
-                    xtype: 'button',
-                    reference: 'loginButton',
-                    scale: 'large',
-                    // ui: 'soft-green',
-                    iconAlign: 'top',
-                    iconCls: 'x-fa fa-angle-right',
-                    text: 'Login',
-                    // formBind: true,
-                    listeners: {
-                        tap: 'onLoginButton'
-                    }
-                },
-                {
-                    xtype: 'button',
-                    scale: 'large',
-                    hidden: true,
-                    // ui: 'facebook',
-                    iconAlign: 'right',
-                    iconCls: 'x-fa fa-facebook',
-                    text: 'Login with Facebook',
-                    listeners: {
-                        tap: 'onFaceBookLogin'
-                    }
-                },
-                {
-                    xtype: 'button',
-                    scale: 'large',
-                    hidden: true,
-                    // ui: 'facebook',
-                    iconAlign: 'right',
-                    iconCls: 'x-fa fa-github',
-                    text: 'Login with GitHub',
-                    listeners: {
-                        tap: 'onGitHubLogin'
-                    }
-                },
-                {
-                    xtype: 'button',
-                    scale: 'large',
-                    // ui: 'gray',
-                    iconAlign: 'top',
-                    iconCls: 'x-fa fa-user-plus',
-                    text: 'Create Account',
-                    listeners: {
-                        tap: 'onNewAccount'
-                    }
+            {
+                xtype: 'button',
+                scale: 'large',
+                // ui: 'gray',
+                iconAlign: 'right',
+                iconCls: 'x-fa fa-right',
+                text: 'Guest Access',
+                listeners: {
+                    tap: 'onGuestShow'
                 }
-            ]            
-        }
-    ]
+            }, {
+                xtype: 'button',
+                scale: 'large',
+                text: 'Login with Facebook',
+                hidden: true,
+                iconAlign: 'right',
+                iconCls: 'x-fa fa-facebook',
+                ui: 'facebook',
+                listeners: {
+                    tap: 'onFaceBookLogin'
+                }
+            }, {
+                xtype: 'button',
+                scale: 'large',
+                text: 'Create Account',
+                ui: 'gray-button',
+                iconAlign: 'right',
+                iconCls: 'x-fa fa-user-plus',
+                listeners: {
+                    tap: 'onNewAccount'
+                }
+            }
+            ]
+        }]
+    }]
 
 });

@@ -5,25 +5,45 @@
  */
 Ext.define('WebRTC.Application', {
     extend: 'Ext.app.Application',
-    
     name: 'WebRTC',
 
     requires: [
         'WebRTC.*',
-        'Ext.Toast'
+        'Ext.Toast',
+        'Ext.MessageBox'
     ],
+
+    profiles: [
+        'Phone',
+        'Tablet'
+    ],
+
 
     defaultToken : 'home',
 
     controllers: [
-        'Auth',
-        'OpenTok'
+        'opentok.controller.OpenTok',
+        'soundlibrary.controller.SoundLibrary',
+        'Routes',
+        'Auth'
     ],
 
+
+    //Startup view for modern
+    mainView: 'WebRTC.view.main.Main',
+
+
     stores:[
+        'WebRTC.store.chat.Rooms',
+        'NavigationTree',
+        'SecurityRoles',
         'Settings',
         'Users'
     ],
+
+    init: function(){
+        WebRTC.util.Logger.init();
+    },
 
     onAppUpdate: function () {
         Ext.Msg.confirm('Application Update', 'This application has an update, reload?',

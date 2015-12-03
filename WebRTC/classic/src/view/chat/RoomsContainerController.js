@@ -177,6 +177,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
     onRoomEdit: function(button){
         var record = Ext.first('combobox[reference=roomscombo]').getSelection();
 
+        // debugger;
         var window = Ext.create('Ext.window.Window', {
             title: 'Edit Room',
             iconCls: 'x-fa fa-plus-square fa-lg',
@@ -185,14 +186,14 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             layout: 'fit',
             resizable: true,
             modal: true,
-            viewModel:{
-                data:{
-                    theRoom: record
-                }
-            },
             items: {
                 xtype: 'chatroomform',
-                border: false
+                border: false,
+                viewModel:{
+                    data:{
+                        theRoom: record
+                    }
+                }
 
             }
         });
@@ -258,7 +259,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
     onRoomRemove: function(){
         var me= this,
             roomtabs = Ext.first('[reference=roomtabs]'),
-            auth = WebRTC.app.getController('Auth'),
+            auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             combo = Ext.first('combobox[reference=roomscombo]'),
             record = combo.getSelection();
 
@@ -311,11 +312,11 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             defaultContent = Ext.first('[defaultContent=true]'),
             id = record.get('id'),
             tab = me.getRoomTabById(id),
-            auth = WebRTC.app.getController('Auth'),
+            auth = WebRTC.app.getController('WebRTC.controller.Auth'),
             user = me.getViewModel().get('user'),
             userId = user['id'],
             name = user['fn'],
-            membersRef = auth.firebaseRef.child('roommembers/' + id + '/' + userId),
+            // membersRef = auth.firebaseRef.child('roommembers/' + id + '/' + userId),
             newroom;
 
 
@@ -348,7 +349,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
 
             //Set the viewmodel on the container as the room model will link to it.
             // tab.getViewModel().set('room', record);
-            this.getViewModel().set('room', record);
+            me.getViewModel().set('room', record);
 
             tab.getViewModel().getStore('messages').getProxy().setExtraParam('room',id);
             tab.getViewModel().getStore('messages').load();
@@ -360,7 +361,7 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
             me.fireEvent('joinroom', tab, record, user);
         }
 
-        this.redirectTo('room/' + id);
+       this.redirectTo('room/' + id);
 
     },
 
@@ -490,6 +491,17 @@ Ext.define('WebRTC.view.chat.RoomsContainerController', {
         });
         // button.up('chatroomscontainer').insert(0,window);
         window.show();
+    },
+
+    onHelpClick : function(button) {
+        var auth = WebRTC.app.getController('Auth'),
+            user = this.getViewModel().get('user'),
+            name = this.getViewModel().get('name'),
+            container = Ext.ComponentQuery.query('app-main')[0],
+            form;
+
+        //any component that fires initHelp will pass itself and the container to place the help.
+        this.fireViewEvent('initHelp',container);
     }
 
 });

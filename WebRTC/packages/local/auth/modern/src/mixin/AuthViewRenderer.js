@@ -8,10 +8,11 @@ Ext.define('auth.mixin.AuthViewRenderer', {
     validViews: {
         'login': { xtype: 'login' },
         'register': { xtype: 'register' },
-        // 'lock': { view: 'LockScreen'},
-        // 'denied': {view: 'DeniedScreen'},
-        // 'newpassword': {view: 'ChangePassword'},
-        // 'newemail': {view: 'ChangeEmail'},
+         'guest': { xtype: 'guest'},
+        // 'lock': { xtype: 'LockScreen'},
+        // 'denied': {xtype: 'DeniedScreen'},
+        'newpassword': {xtype: 'changepassword'},
+        'newemail': {xtype: 'changemail'},
         'passwordreset': {xtype: 'passwordreset'}
     },
 
@@ -19,6 +20,12 @@ Ext.define('auth.mixin.AuthViewRenderer', {
         var me = this,
             hash = hashtag || window.location.hash.substring(1),
             view, xtype;
+
+        if(hash == 'login'){
+            me.fireEvent('isAuthReady',function(isReady) {
+                me.fireEvent('authorize');
+            });
+        }
 
         if(me.currentView) {
             me.currentView.destroy();

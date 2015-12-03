@@ -40,12 +40,15 @@
     -->
 
     <target name="-after-build">
-        <copy todir="${app.output.base}/../static">
-            <fileset dir="${basedir}/static"/>
-        </copy>
         <delete dir="${basedir}/../public"/>
         <copy todir="${basedir}/../public">
             <fileset dir="${build.dir}"/>
+        </copy>
+        <copy todir="${app.output.base}/../static">
+            <fileset dir="${basedir}/static"/>
+        </copy>
+        <copy todir="${app.output.base}/../cms">
+            <fileset dir="${basedir}/cms"/>
         </copy>
     </target>
 </project>
