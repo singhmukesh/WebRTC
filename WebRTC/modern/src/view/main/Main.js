@@ -48,6 +48,7 @@ Ext.define('WebRTC.view.main.Main', {
             reference: 'mainCard',
             userCls: 'main-container',
             useTitleForBackButtonText: true,
+            showAnimation: 'fadeIn',
             navigationBar: false
         }
     ]

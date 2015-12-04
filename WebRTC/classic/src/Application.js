@@ -13,7 +13,7 @@ Ext.define('WebRTC.Application', {
     controllers:[
         'opentok.controller.OpenTok',
         'soundlibrary.controller.SoundLibrary',
-        'help.controller.Help',
+        'WebRTC.controller.GlobalHelp',
         'Auth',
         'Routes'
     ],

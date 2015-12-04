@@ -36,21 +36,28 @@ Ext.define('help.controller.Help', {
     },
 
 
+    //Stub needs to be overriden in app with viewmodel.
+    getAppViewModel: function(){
+        var myVM = Ext.create('Ext.app.ViewModel',{});
+        return myVM;
+    },
+
     setCurrentView: function () {
     },
 
     doInitHelp: function (eventView, desiredContainer) {
-        var helpPanel = Ext.ComponentQuery.query('panel[title=Help]')[0];
+        var helpPanel = Ext.ComponentQuery.query('panel[title=Help]')[0],
+            vm = this.getAppViewModel();
 
         if (!helpPanel) {
             desiredContainer.add({
                 xtype: 'helpfeedbackform',
-                cls: 'insetpanel',
+                cls: 'shadow',
                 region: 'east',
                 title: 'Help',
                 stateful: true,
                 stateId: 'helppanel.east',
-                // split: true,
+                viewModel: vm,
                 closable: true,
                 closeAction: 'hide',
                 collapsible: false,
