@@ -202,7 +202,7 @@ Ext.define('WebRTC.view.chat.HistoryController', {
                 var data = rec.getData();
 
                 //If the string is found in the record show it.
-                return data['message'].toLowerCase().indexOf(value.toLowerCase()) > -1;
+                return data['message'].toLowerCase().indexOf(value.toLowerCase()) > -1 || data['from'].toLowerCase().indexOf(value.toLowerCase()) > -1;
             });
 
             //Remove selection if selected record is not in the searched contact.

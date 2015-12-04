@@ -13,22 +13,6 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
         type: 'chatroom'
     },
 
-    header:{
-        itemPosition: 0,
-        titleAlign: 'center',
-        items:[{
-            xtype: 'button',
-            left: 0,
-            top: -10,
-            iconCls: 'x-fa fa-arrow-left',
-            userCls: 'subHeaderIcon',
-            // text:'Back',
-            listeners:{
-                tap: 'onBackTap'
-            }
-        }]
-    },
-
     items: [
         {
             layout: {
@@ -36,7 +20,7 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
                 align: 'stretch'
             },
             flex: 3,
-            items:[
+            items: [
                 {
                     layout: {
                         type: 'vbox',
@@ -51,6 +35,47 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
                         {
                             xtype: 'chathistory',
                             reference: 'chathistory',
+                            bind: {
+                                title: '{room.name}'
+                            },
+                            header: {
+                                itemPosition: 0,
+                                titleAlign: 'center',
+                                items: [{
+                                    xtype: 'button',
+                                    left: 0,
+                                    //top: -10,
+                                    iconCls: 'x-fa fa-arrow-left',
+                                    userCls: 'subHeaderIcon',
+                                    // text:'Back',
+                                    listeners: {
+                                        tap: 'onBackTap',
+                                        scope: 'controller'
+                                    }
+                                }, {
+                                    xtype: 'textfield',
+                                    reference: 'chatFilter',
+                                    placeHolder: 'Search Chat History',
+                                    triggers: {
+                                        clear: {
+                                            cls: 'x-form-clear-trigger',
+                                            handler: 'onFilterClearTriggerClick',
+                                            hidden: true,
+                                            scope: 'controller'
+                                        },
+                                        search: {
+                                            cls: 'x-form-search-trigger',
+                                            weight: 1,
+                                            handler: 'onFilterSearchTriggerClick',
+                                            scope: 'controller'
+                                        }
+                                    },
+                                    listeners: {
+                                        change: 'onFilterFieldChange',
+                                        buffer: 300
+                                    }
+                                }]
+                            },
                             flex: 2
                         }
                     ]
@@ -60,18 +85,18 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
                         type: 'vbox',
                         align: 'stretch'
                     },
-                    bind:{
+                    bind: {
                         hidden: '{!isWebRTCSupported}'
                     },
                     items: [
                         {
-                            items:[
+                            items: [
                                 {
                                     style: 'display: block; background-color:#eeeeee; background-image: url(https://static.opentok.com/webrtc/v2.6.0/images/rtc/audioonly-silhouette.svg); background-position: center bottom; background-repeat: no-repeat; background-size: auto 76%;',
                                     xtype: 'container',
                                     layout: 'fit',
                                     minHeight: 180,
-                                    bind:{
+                                    bind: {
                                         hidden: '{!isWebRTCSupported}'
                                     },
                                     reference: 'you'
@@ -79,7 +104,7 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
                                 {
                                     xtype: 'toolbar',
                                     docked: 'bottom',
-                                    bind:{
+                                    bind: {
                                         hidden: '{!isWebRTCSupported}'
                                     },
                                     items: [
@@ -134,7 +159,7 @@ Ext.define('WebRTC.view.tablet.chat.Room', {
                         {
                             xtype: 'chatmembers',
                             flex: 1,
-                            bind:{
+                            bind: {
                                 store: '{members}'
                             }
                         }

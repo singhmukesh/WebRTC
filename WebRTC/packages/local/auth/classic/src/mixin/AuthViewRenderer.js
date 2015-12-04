@@ -12,6 +12,12 @@ Ext.define('auth.mixin.AuthViewRenderer', {
         'passwordreset': {view: 'PasswordReset'}
     },
 
+    /**
+     * Creates and shows the authentication view with the provided hashtag
+     * @param {String} text The hashtag
+     * @param {Boolean} [encode=true] true for window pop-in. False for viewport as these are full screen modal windows
+     * @return none
+     */
     setCurrentView: function(hashtag, is_popup) {
         var me=this,
             hash = hashtag || window.location.hash.substring(1);

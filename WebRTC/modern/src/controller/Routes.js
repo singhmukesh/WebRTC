@@ -176,9 +176,9 @@ Ext.define('WebRTC.controller.Routes', {
             xtype: 'chatroom',
             // closable: true,
             // iconCls: 'x-fa fa-comments',
-            bind: {
-                title: '{room.name}'
-            },
+            // bind: {
+            //    title: '{room.name}'
+            // },
             roomId: id,
             routeId: 'room/' + id,
             flex: 1

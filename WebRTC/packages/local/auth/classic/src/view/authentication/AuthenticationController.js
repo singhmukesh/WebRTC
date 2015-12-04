@@ -10,6 +10,14 @@ Ext.define('auth.view.authentication.AuthenticationController', {
        }
     },
 
+    /**
+     * redirects URL Hashtag
+     * @param {Ext.button.Button} object The button clicked/tap.
+     * @param {Boolean} [encode=true] False to skip HTML-encoding the text when rendering it
+     * to the label. This might be useful if you want to include tags in the label's innerHTML rather
+     * than rendering them as string literals per the default logic.
+     * @return {Ext.form.Label} this
+     */
     onNewEmail:  function(btn) {
         this.redirectTo('newemail', btn,  true);
     },

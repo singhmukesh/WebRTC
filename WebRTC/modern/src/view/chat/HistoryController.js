@@ -11,6 +11,12 @@ Ext.define('WebRTC.view.chat.HistoryController', {
         }
     },
 
+    onBackTap: function(button){
+        //deselect so we can reselect.
+        this.redirectTo('#room');
+        button.up('navigationview').pop();
+    },
+
     chatSend: function(){
         var me = this,
             chat,
@@ -139,6 +145,62 @@ Ext.define('WebRTC.view.chat.HistoryController', {
         if (form.isValid()) {
             window.getViewModel().get('message').save();
         }
+    },
+
+
+    onFilterFieldChange: function(field, value) {
+        var me = this,
+            list = me.getReferences().historylist,
+            store = list.getStore();
+
+        if (value) {
+            me.preFilterSelection = me.getViewModel().get('selectedView');
+            me.rendererRegExp = new RegExp( '(' + value + ')', "gi");
+            // field.getTrigger('clear').show();
+            me.filterStore(value);
+        } else {
+            me.rendererRegExp = null;
+            store.clearFilter();
+            // field.getTrigger('clear').hide();
+
+            // Ensure selection is still selected.
+            // It may have been evicted by the filter
+            if (me.preFilterSelection) {
+                list.ensureVisible(me.preFilterSelection, {
+                    select: true
+                });
+            }
+        }
+    },
+
+    onFilterClearTriggerClick: function() {
+        this.getReferences().chatFilter.setValue();
+    },
+
+    onFilterSearchTriggerClick: function() {
+        var field = this.getReferences().chatFilter;
+        this.onFilterFieldChange(field, field.getValue());
+    },
+
+    filterStore: function(value) {
+        var me = this,
+            list = me.getReferences().historylist,
+            store = list.getStore();
+
+        store.clearFilter();
+
+        if (!Ext.isEmpty(value)) {
+            store.filterBy(function (rec) {
+                var data = rec.getData();
+
+                //If the string is found in the record show it.
+                return data['message'].toLowerCase().indexOf(value.toLowerCase()) > -1 || data['from'].toLowerCase().indexOf(value.toLowerCase()) > -1;
+            });
+
+        }
     }
+
+
+
 
 });

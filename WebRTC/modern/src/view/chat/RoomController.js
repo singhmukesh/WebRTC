@@ -173,6 +173,10 @@ Ext.define('WebRTC.view.chat.RoomController', {
         this.fireEvent('playsound','chat-sound');
     }
 
+
+
+
+
 });
 
 // Ext.define('WebRTC.view.chat.RoomController', {
