@@ -1,12 +1,12 @@
 Ext.define('WebRTC.profile.Tablet', {
     extend: 'Ext.app.Profile',
     requires: [
-        'WebRTC.view.tablet.*'
+        'videochat.view.tablet.*'
     ],
 
     // Map tablet/desktop profile views to generic xtype aliases:
     views: {
-        chatroom: 'WebRTC.view.tablet.chat.Room'
+        chatroom: 'videochat.view.tablet.chat.Room'
     },
 
     isActive: function () {

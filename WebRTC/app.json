@@ -61,7 +61,8 @@
         "opentok",
         "soundlibrary",
         "ux",
-        "help"
+        "help",
+        "videochat"
     ],
 
     /**

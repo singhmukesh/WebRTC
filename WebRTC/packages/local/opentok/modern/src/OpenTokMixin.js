@@ -25,7 +25,7 @@ Ext.define('opentok.OpenTokMixin', {
             name = chunks[1];
 
         if(room){
-            var member = Ext.create('WebRTC.model.chat.RoomMember',{
+            var member = Ext.create('videochat.model.chat.RoomMember',{
                 name: name,
                 id: event.connection.connectionId
             });

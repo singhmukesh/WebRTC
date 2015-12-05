@@ -34,7 +34,7 @@ Ext.define('WebRTC.Application', {
 
 
     stores:[
-        'WebRTC.store.chat.Rooms',
+        'videochat.store.chat.Rooms',
         'NavigationTree',
         'SecurityRoles',
         'Settings',

@@ -2,12 +2,12 @@ Ext.define('WebRTC.profile.Phone', {
     extend: 'Ext.app.Profile',
 
     requires: [
-        'WebRTC.view.phone.*'
+        'videochat.view.phone.*'
     ],
 
     // Map phone profile views to generic xtype aliases:
     views: {
-        chatroom: 'WebRTC.view.phone.chat.Room'
+        chatroom: 'videochat.view.phone.chat.Room'
     },
 
     isActive: function () {
