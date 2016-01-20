@@ -112,9 +112,6 @@ c.updatedAssets.push(b)):b.uncache()}catch(f){l("Error parsing delta patch for "
 b.cache()}c.notifyUpdateReady()},notifyUpdateReady:function(){if("checking"!==c.appCacheState&&c.updatedAssetsReady&&("updated"===c.appCacheState||c.updatedManifest))c.appUpdate={updated:!0,app:"updated"===c.appCacheState,manifest:c.updatedManifest&&c.updatedManifest.exportContent()},c.fireAppUpdate()},fireAppUpdate:function(){Ext.GlobalEvents&&Ext.defer(function(){Ext.GlobalEvents.fireEvent("appupdate",c.appUpdate)},100)},checksum:function(b,a){if(!b||!a)return!1;var c=!0,d=a.length,e=b.substring(0,
 1);"/"==e?b.substring(2,d+2)!==a&&(c=!1):"f"==e?b.substring(10,d+10)!==a&&(c=!1):"."==e&&b.substring(1,d+1)!==a&&(c=!1);return c},parseResult:function(b){var a={};(b.exception||0===b.status)&&!e.env.phantom?a.error=!0:200<=b.status&&300>b.status||304===b.status||e.env.phantom||0===b.status&&0<b.content.length?a.content=b.content:a.error=!0;return a}};return c}();Ext.manifest=Ext.manifest||"bootstrap";Ext.Microloader.run();</script>
 
-    <!-- This is here to ensure it's after the microloader. Also it's a known issue that space isn't SSL yet.sencha ap -->
-    <script type="text/javascript" src="//space.sencha.io/space.js"></script>
-
 
 </head>
 <body>
